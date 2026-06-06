@@ -1,22 +1,18 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
 import {
   ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird,
 } from '@lucide/astro';
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const experiences = await getCollection('experiences');
-  return experiences.map((exp) => ({
-    params: { slug: exp.id },
-    props: { exp },
-  }));
+const slug = Astro.params.slug as string;
+const exp = await getEntry('experiences', slug);
+if (!exp) {
+  return Astro.rewrite('/404');
 }
-
-const { exp } = Astro.props;
 const { Content } = await render(exp);
 
 const allTours = await getCollection('tours');

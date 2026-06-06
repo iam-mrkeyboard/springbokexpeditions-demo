@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
 import {
@@ -7,22 +7,17 @@ import {
   Users, Home, Sparkles, Star, Tent, Check, X, MountainSnow,
 } from '@lucide/astro';
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const routes = await getCollection('kilimanjaro');
-  const allTours = await getCollection('tours');
-  return routes.map((route) => {
-    const relatedTours = allTours.filter((t) => t.data.type === 'kilimanjaro').slice(0, 3);
-    return {
-      params: { route: route.id },
-      props: { route, relatedTours },
-    };
-  });
+const routeSlug = Astro.params.route as string;
+const route = await getEntry('kilimanjaro', routeSlug);
+if (!route) {
+  return Astro.rewrite('/404');
 }
-
-const { route, relatedTours } = Astro.props;
 const { Content } = await render(route);
+
+const allTours = await getCollection('tours');
+const relatedTours = allTours.filter((t) => t.data.type === 'kilimanjaro').slice(0, 3);
 
 const allRoutes = await getCollection('kilimanjaro');
 const relatedRoutes = allRoutes
