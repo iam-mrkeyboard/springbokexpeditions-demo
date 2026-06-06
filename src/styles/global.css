@@ -1,0 +1,373 @@
+@import 'tailwindcss';
+
+/* =============================================================================
+   SPRINGBOK EXPEDITIONS - PREMIUM SAFARI DESIGN SYSTEM
+   Tailwind CSS v4 - CSS-first @theme configuration
+   ============================================================================= */
+
+@theme {
+  /* ---------- Color: Safari (deep forest) ---------- */
+  --color-safari-50:  #E8EFE9;
+  --color-safari-100: #C5D4C7;
+  --color-safari-200: #8FAE94;
+  --color-safari-300: #5C8762;
+  --color-safari-400: #3E6B45;
+  --color-safari-500: #2E5436;
+  --color-safari-600: #234329;
+  --color-safari-700: #1F3D2B;
+  --color-safari-800: #152A1C;
+  --color-safari-900: #0F2A1C;
+  --color-safari-950: #08160E;
+
+  /* ---------- Color: Savannah (gold accent) ---------- */
+  --color-savannah-50:  #FBF5E6;
+  --color-savannah-100: #F4E7C2;
+  --color-savannah-200: #EBD495;
+  --color-savannah-300: #E2C684;
+  --color-savannah-400: #D5B45A;
+  --color-savannah-500: #C9A24A;
+  --color-savannah-600: #A8852F;
+  --color-savannah-700: #7E6320;
+  --color-savannah-800: #574416;
+  --color-savannah-900: #33270B;
+
+  /* ---------- Color: Sunset (orange CTA) ---------- */
+  --color-sunset-50:  #FDEEE6;
+  --color-sunset-100: #FAD3BF;
+  --color-sunset-200: #F4A47F;
+  --color-sunset-300: #ED7F4D;
+  --color-sunset-400: #E36B2C;
+  --color-sunset-500: #C8571F;
+  --color-sunset-600: #9F4317;
+  --color-sunset-700: #72300F;
+  --color-sunset-800: #481D08;
+  --color-sunset-900: #240E03;
+
+  /* ---------- Color: Dusk (warm neutrals) ---------- */
+  --color-dusk-50:  #FAF7F1;
+  --color-dusk-100: #F0EAD9;
+  --color-dusk-200: #E2D9C0;
+  --color-dusk-300: #C9BFA3;
+  --color-dusk-400: #A89F84;
+  --color-dusk-500: #857C66;
+  --color-dusk-600: #6B6258;
+  --color-dusk-700: #4F483F;
+  --color-dusk-800: #2E2A24;
+  --color-dusk-900: #1B1A17;
+
+  /* ---------- Typography ---------- */
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* ---------- Type scale (additions to Tailwind defaults) ---------- */
+  --text-display-sm: 2.5rem;
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.02em;
+
+  --text-display-md: 3.5rem;
+  --text-display-md--line-height: 1.05;
+  --text-display-md--letter-spacing: -0.025em;
+
+  --text-display-lg: 5rem;
+  --text-display-lg--line-height: 1.0;
+  --text-display-lg--letter-spacing: -0.03em;
+
+  --text-display-xl: 6.5rem;
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -0.035em;
+
+  --text-display-2xl: 8rem;
+  --text-display-2xl--line-height: 0.9;
+  --text-display-2xl--letter-spacing: -0.04em;
+
+  --text-display-3xl: 11rem;
+  --text-display-3xl--line-height: 0.85;
+  --text-display-3xl--letter-spacing: -0.045em;
+
+  /* ---------- Shadows (warm, soft) ---------- */
+  --shadow-soft: 0 1px 2px rgb(15 42 28 / 0.04), 0 4px 12px rgb(15 42 28 / 0.06);
+  --shadow-lifted: 0 4px 8px rgb(15 42 28 / 0.06), 0 16px 32px rgb(15 42 28 / 0.08);
+  --shadow-elevated: 0 8px 16px rgb(15 42 28 / 0.08), 0 24px 48px rgb(15 42 28 / 0.12);
+
+  /* ---------- Container ---------- */
+  --container-content: 72rem;       /* 1152px - default content */
+  --container-prose: 42rem;          /* 672px - readable prose */
+  --container-wide: 84rem;           /* 1344px - wide layouts */
+
+  /* ---------- Radii ---------- */
+  --radius-card: 0.75rem;
+  --radius-image: 0.5rem;
+  --radius-button: 9999px;
+}
+
+/* =============================================================================
+   BASE LAYER
+   ============================================================================= */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-dusk-50);
+    color: var(--color-dusk-900);
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-safari-900);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  /* Accessible focus */
+  :focus-visible {
+    outline: 2px solid var(--color-savannah-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-savannah-300);
+    color: var(--color-safari-900);
+  }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* =============================================================================
+   COMPONENT UTILITIES
+   ============================================================================= */
+@layer components {
+
+  /* Header: transparent at top of page, switches to solid white when scrolled.
+     The initial transparent state is set by Tailwind classes; .is-scrolled is
+     added by JS once the user scrolls past 60px. */
+  .site-header--transparent {
+    background-color: transparent;
+    backdrop-filter: none;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header--transparent a:not(.btn),
+  .site-header--transparent button:not(.btn) {
+    color: #ffffff;
+  }
+  .site-header--transparent .header-logo-img {
+    filter: brightness(0) invert(1);
+  }
+  .site-header--transparent.is-scrolled {
+    background-color: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--color-dusk-100);
+    box-shadow: 0 1px 3px rgba(15, 42, 28, 0.04);
+  }
+  .site-header--transparent.is-scrolled a:not(.btn),
+  .site-header--transparent.is-scrolled button:not(.btn) {
+    color: var(--color-dusk-900);
+  }
+  .site-header--transparent.is-scrolled .header-logo-img {
+    filter: none;
+  }
+  .site-header--transparent.is-scrolled .header-contact-link {
+    color: var(--color-dusk-700);
+  }
+  .site-header--transparent.is-scrolled .header-contact-link:hover {
+    color: var(--color-savannah-600);
+  }
+  .site-header--transparent.is-scrolled .header-contact-border {
+    border-color: var(--color-dusk-100);
+  }
+
+  /* Smooth transition for header components on scroll state change */
+  #site-header,
+  #site-header a,
+  #site-header button,
+  #site-header svg,
+  #site-header div,
+  #site-header span,
+  #site-header img {
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                filter 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .container-content {
+    width: 100%;
+    max-width: var(--container-content);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .container-wide {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .container-prose {
+    width: 100%;
+    max-width: var(--container-prose);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  /* Eyebrow label - small uppercase */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-savannah-700);
+  }
+
+  /* Hairline gold rule */
+  .gold-rule {
+    width: 3rem;
+    height: 2px;
+    background: var(--color-savannah-500);
+    border: none;
+    margin: 1.25rem 0;
+  }
+
+  /* Button base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-button);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-savannah-500);
+    color: var(--color-safari-900);
+  }
+  .btn-primary:hover {
+    background: var(--color-savannah-400);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lifted);
+  }
+
+  .btn-secondary {
+    background: var(--color-safari-700);
+    color: var(--color-dusk-50);
+  }
+  .btn-secondary:hover {
+    background: var(--color-safari-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lifted);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-safari-700);
+    border: 1px solid var(--color-safari-700);
+  }
+  .btn-ghost:hover {
+    background: var(--color-safari-700);
+    color: var(--color-dusk-50);
+  }
+
+  .btn-outline-light {
+    background: transparent;
+    color: var(--color-dusk-50);
+    border: 1px solid rgba(250, 247, 241, 0.4);
+  }
+  .btn-outline-light:hover {
+    background: var(--color-dusk-50);
+    color: var(--color-safari-900);
+  }
+
+  /* Card */
+  .card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Section spacing */
+  .section {
+    padding-block: 5rem;
+  }
+  @media (min-width: 768px) {
+    .section { padding-block: 7rem; }
+  }
+}
+
+/* =============================================================================
+   VIEW TRANSITIONS (Astro 6)
+   ============================================================================= */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+}
+
+/* =============================================================================
+   PROSE (blog & content)
+   ============================================================================= */
+.prose {
+  color: var(--color-dusk-800);
+  line-height: 1.75;
+}
+.prose h2 { font-size: 2rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+.prose h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.prose p { margin-bottom: 1.25rem; }
+.prose a {
+  color: var(--color-savannah-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose a:hover { color: var(--color-safari-700); }
+.prose ul, .prose ol { margin: 1.25rem 0; padding-left: 1.5rem; }
+.prose li { margin-bottom: 0.5rem; }
+.prose ul li { list-style: disc; }
+.prose ol li { list-style: decimal; }
+.prose blockquote {
+  border-left: 3px solid var(--color-savannah-500);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--color-dusk-700);
+}
+.prose img {
+  border-radius: var(--radius-image);
+  margin: 2rem 0;
+}
+.prose strong { color: var(--color-safari-900); font-weight: 600; }
