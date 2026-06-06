@@ -11,7 +11,7 @@ const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 export default defineConfig({
   site: 'https://springbokexpeditions.com',
   output: 'static',
-  trailingSlash: 'ignore',
+  trailingSlash: 'always',
   integrations: [
     mdx(),
     sitemap({
