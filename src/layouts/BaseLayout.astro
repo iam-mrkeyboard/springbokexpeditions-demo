@@ -1,0 +1,125 @@
+---
+import { SEO } from 'astro-seo';
+import { siteInfo, absoluteUrl } from '@/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  imageAlt?: string;
+}
+
+const {
+  title = `${siteInfo.name} | Premium Tanzania Safaris & Kilimanjaro Climbs`,
+  description = siteInfo.description,
+  ogImage = siteInfo.defaultOgImage,
+  canonical,
+  noindex = false,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author = siteInfo.name,
+  imageAlt = title,
+} = Astro.props;
+
+const fullTitle = title.includes(siteInfo.name) ? title : `${title} | ${siteInfo.name}`;
+const canonicalUrl = canonical || new URL(Astro.url.pathname, siteInfo.url).toString();
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : absoluteUrl(ogImage);
+
+// Same default image used for both OG and Twitter
+const ogImageAlt = imageAlt;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={siteInfo.themeColor} />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="geo.region" content={siteInfo.address.countryCode} />
+    <meta name="geo.placename" content={siteInfo.address.city} />
+
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Preload critical fonts (display font + body font) -->
+    <link
+      rel="preload"
+      href="/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <SEO
+      title={fullTitle}
+      description={description}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title: fullTitle,
+          type: type,
+          image: ogImageUrl,
+          url: canonicalUrl,
+        },
+        image: {
+          alt: ogImageAlt,
+        },
+        optional: {
+          description: description,
+          siteName: siteInfo.name,
+          locale: 'en_US',
+          ...(publishedTime && { publishedTime: publishedTime.toISOString() }),
+          ...(modifiedTime && { modifiedTime: modifiedTime.toISOString() }),
+          ...(author && { author }),
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        site: '@springbokexped',
+        creator: '@springbokexped',
+        title: fullTitle,
+        description: description,
+        image: ogImageUrl,
+        imageAlt: ogImageAlt,
+      }}
+      extend={{
+        link: [
+          { rel: 'preconnect', href: 'https://images.unsplash.com' },
+          { rel: 'preconnect', href: 'https://res.cloudinary.com' },
+          { rel: 'dns-prefetch', href: 'https://res.cloudinary.com' },
+        ],
+        meta: [
+          { name: 'author', content: author },
+        ],
+      }}
+    />
+
+    <!-- View Transitions -->
+    <slot name="head" />
+
+    <!-- Plausible (disabled in static build) -->
+  </head>
+  <body class="bg-dusk-50 text-dusk-900 antialiased">
+    <slot />
+  </body>
+</html>
