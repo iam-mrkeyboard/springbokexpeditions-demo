@@ -1,20 +1,24 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowLeft, MapPin, Calendar, Sparkles, Plane, Star, Trees, Mountain, Umbrella, TreePalm } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
-export const prerender = false;
 
-const slug = Astro.params.slug as string;
-const destination = await getEntry('destinations', slug);
-if (!destination) {
-  return Astro.rewrite('/404');
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  const allTours = await getCollection('tours');
+  return destinations.map((dest) => {
+    const relatedTours = allTours.filter((t) => t.data.destinations.includes(dest.id));
+    return {
+      params: { slug: dest.id },
+      props: { destination: dest, relatedTours },
+    };
+  });
 }
-const { Content } = await render(destination);
 
-const allTours = await getCollection('tours');
-const relatedTours = allTours.filter((t) => t.data.destinations.includes(destination.id));
+const { destination, relatedTours } = Astro.props;
+const { Content } = await render(destination);
 
 const regionIcons: Record<string, typeof TreePalm> = {
   'Northern Circuit': TreePalm,

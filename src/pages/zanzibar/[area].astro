@@ -7,13 +7,15 @@ import {
   ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship, Check,
 } from '@lucide/astro';
 
-export const prerender = false;
 
-const areaSlug = Astro.params.area as string;
-const area = zanzibarAreaBySlug(areaSlug);
-if (!area) {
-  return Astro.rewrite('/404');
+export async function getStaticPaths() {
+  return zanzibarAreas.map((area) => ({
+    params: { area: area.slug },
+    props: { area },
+  }));
 }
+
+const { area } = Astro.props;
 const allTours = await getCollection('tours');
 const relatedTours = allTours.filter((t) => t.data.type === 'zanzibar' || t.data.destinations.includes('zanzibar-archipelago')).slice(0, 3);
 
