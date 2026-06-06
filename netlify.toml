@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Strip trailing slashes (except root)
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
