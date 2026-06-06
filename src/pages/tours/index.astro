@@ -1,0 +1,165 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { getCollection } from 'astro:content';
+import { MapPin, Calendar, ListFilter } from '@lucide/astro';
+
+const tours = await getCollection('tours');
+const sortedTours = tours.sort((a, b) =>
+  new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
+
+const typeLabels: Record<string, string> = {
+  safari: 'Wildlife Safari',
+  kilimanjaro: 'Kilimanjaro',
+  meru: 'Mount Meru',
+  zanzibar: 'Zanzibar',
+  'day-trip': 'Day Trip',
+  honeymoon: 'Honeymoon',
+  family: 'Family',
+  cultural: 'Cultural',
+  migration: 'Migration',
+};
+---
+
+<PublicLayout
+  title="All Safaris & Tours"
+  description="Browse our complete collection of Tanzania safaris, Kilimanjaro climbs, Zanzibar holidays, and cultural experiences. Find the perfect itinerary for your trip."
+  ogImage="/og/tours.png"
+  transparentHeader={true}
+>
+  <!-- Page header -->
+  <section class="bg-safari-900 text-white py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+      <img
+        src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
+        alt=""
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="container-content relative">
+      <p class="eyebrow text-savannah-300 mb-4">Tanzania Tours & Safaris</p>
+      <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight mb-5 max-w-3xl">
+        Find your perfect Tanzanian journey
+      </h1>
+      <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed">
+        From a 3-day Tarangire safari to a 10-day Kilimanjaro climb and Zanzibar honeymoon, every itinerary below is hand-crafted by us — or use them as inspiration for your own bespoke journey.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="bg-white border-b border-dusk-100 sticky top-0 z-30">
+    <div class="container-content py-4 flex flex-wrap items-center gap-3">
+      <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
+        <ListFilter size={16} /> Filter:
+      </span>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-filter="all">
+        All ({sortedTours.length})
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="safari">
+        Safaris
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="kilimanjaro">
+        Kilimanjaro
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="meru">
+        Mt. Meru
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="migration">
+        Migration
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="zanzibar">
+        Zanzibar
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="cultural">
+        Cultural
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="honeymoon">
+        Honeymoon
+      </button>
+      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="family">
+        Family
+      </button>
+    </div>
+  </section>
+
+  <!-- Tour grid -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedTours.map((tour) => (
+          <a
+            href={`/tours/${tour.id}`}
+            class="card card-hover group block tour-card"
+            data-type={tour.data.type}
+          >
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img
+                src={tour.data.hero}
+                alt={tour.data.title}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute top-3 left-3 bg-safari-900/90 backdrop-blur text-white text-xs font-medium px-3 py-1.5 rounded-full">
+                From ${tour.data.priceFromUSD.toLocaleString()}
+              </div>
+              <div class="absolute top-3 right-3 bg-savannah-500/95 backdrop-blur text-safari-900 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full">
+                {typeLabels[tour.data.type] || tour.data.type}
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-display text-xl font-medium text-safari-900 mb-2 group-hover:text-savannah-700 transition-colors">
+                {tour.data.title}
+              </h3>
+              <p class="text-sm text-dusk-700 leading-relaxed mb-4 line-clamp-2">{tour.data.excerpt}</p>
+              <div class="flex items-center gap-4 text-xs text-dusk-600">
+                <span class="flex items-center gap-1.5">
+                  <Calendar size={13} />
+                  {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
+                </span>
+                <span class="flex items-center gap-1.5 capitalize">
+                  <MapPin size={13} />
+                  {tour.data.styles[0].replace('-', ' ')}
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-safari-900 text-white py-20">
+    <div class="container-content text-center max-w-2xl mx-auto">
+      <h2 class="text-display-sm font-display font-medium mb-4">Don't see exactly what you want?</h2>
+      <p class="text-dusk-200 text-lg mb-8">We design custom safaris every week. Tell us your vision, and we'll build the perfect Tanzania trip around you.</p>
+      <a href="/contact" class="btn btn-primary">Plan Your Custom Safari</a>
+    </div>
+  </section>
+</PublicLayout>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tour-filter');
+  const cards = document.querySelectorAll<HTMLElement>('.tour-card');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-safari-700', 'text-white');
+        b.classList.add('bg-dusk-100', 'text-dusk-700');
+      });
+      btn.classList.add('bg-safari-700', 'text-white');
+      btn.classList.remove('bg-dusk-100', 'text-dusk-700');
+
+      cards.forEach((card) => {
+        if (filter === 'all' || card.dataset.type === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

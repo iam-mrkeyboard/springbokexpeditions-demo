@@ -1,0 +1,190 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { getCollection } from 'astro:content';
+import { ArrowRight, BookOpen, Calendar, Clock, Tag } from '@lucide/astro';
+
+export const prerender = true;
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const [featured, ...rest] = posts;
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<PublicLayout
+  title="Safari Blog — Tanzania Travel Stories & Practical Guides"
+  description="Practical guides and stories about safari in Tanzania — the Great Migration, Kilimanjaro, Zanzibar, when to go, what to expect, and how to plan."
+  ogImage="/og/blog.png"
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[70vh] min-h-[480px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1920&q=80&auto=format&fit=crop"
+      alt="Safari at dusk"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">Stories, guides, and field notes</p>
+
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          The Springbok<br />
+          <span class="italic font-normal text-savannah-300">journal.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light">
+          Practical guides and field notes from our team in Arusha. When to come, what to expect, how to plan, and the things we wish someone had told us before our first safari.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  {featured && (
+    <section class="section bg-dusk-50">
+      <div class="container-content">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-3">Featured</div>
+        <a
+          href={`/blog/${featured.id}`}
+          class="group grid lg:grid-cols-12 gap-8 lg:gap-12 bg-white rounded-3xl border border-dusk-100 overflow-hidden hover:shadow-lifted transition-shadow"
+        >
+          <div class="lg:col-span-7 aspect-[16/10] lg:aspect-auto overflow-hidden bg-dusk-200">
+            <img
+              src={featured.data.hero}
+              alt={featured.data.title}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              loading="eager"
+            />
+          </div>
+          <div class="lg:col-span-5 p-8 md:p-10 flex flex-col justify-center">
+            <div class="flex flex-wrap items-center gap-3 text-xs text-dusk-500 mb-4">
+              <span class="flex items-center gap-1.5"><Calendar size={12} /> {formatDate(featured.data.publishedAt)}</span>
+              {featured.data.readingTime && (
+                <span class="flex items-center gap-1.5"><Clock size={12} /> {featured.data.readingTime} min read</span>
+              )}
+            </div>
+            <h2 class="font-display text-3xl md:text-4xl text-safari-900 mb-4 group-hover:text-safari-700 transition-colors">
+              {featured.data.title}
+            </h2>
+            <p class="text-dusk-700 leading-relaxed mb-6">
+              {featured.data.excerpt}
+            </p>
+            <span class="inline-flex items-center gap-1.5 text-safari-700 group-hover:text-safari-900 font-medium">
+              Read the article
+              <ArrowRight size={16} />
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- All posts -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="eyebrow text-safari-600 mb-3">All articles</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+            From the journal
+          </h2>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {rest.map((post) => (
+          <a
+            href={`/blog/${post.id}`}
+            class="group bg-white rounded-2xl border border-dusk-100 overflow-hidden hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
+          >
+            <div class="aspect-[5/3] overflow-hidden bg-dusk-200">
+              <img
+                src={post.data.hero}
+                alt={post.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="flex flex-wrap items-center gap-3 text-xs text-dusk-500 mb-3">
+                <span class="flex items-center gap-1.5"><Calendar size={12} /> {formatDate(post.data.publishedAt)}</span>
+                {post.data.readingTime && (
+                  <span class="flex items-center gap-1.5"><Clock size={12} /> {post.data.readingTime} min</span>
+                )}
+              </div>
+              <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors line-clamp-2">
+                {post.data.title}
+              </h3>
+              <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-3 flex-1">
+                {post.data.excerpt}
+              </p>
+              {post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 pt-4 border-t border-dusk-100">
+                  {post.data.tags.slice(0, 2).map((t) => (
+                    <span class="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-safari-700 bg-safari-50 px-2 py-0.5 rounded">
+                      <Tag size={9} />
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tags -->
+  {allTags.length > 0 && (
+    <section class="section bg-dusk-50">
+      <div class="container-content">
+        <div class="text-center max-w-2xl mx-auto">
+          <p class="eyebrow text-safari-600 mb-3">Browse by topic</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
+            What you want to read about
+          </h2>
+          <div class="flex flex-wrap justify-center gap-2">
+            {allTags.map((t) => (
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-dusk-200 text-sm text-safari-800">
+                <Tag size={12} />
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Ready to start planning?</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Get a draft itinerary
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          Tell us when you want to travel, who is coming, and what you want to see. We will send a draft within 24 hours, with prices, lodges, and a map.
+        </p>
+        <a href="/contact" class="btn btn-primary px-8 py-3.5">
+          Get a draft itinerary
+          <ArrowRight size={16} />
+        </a>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

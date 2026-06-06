@@ -1,0 +1,455 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { Mail, Phone, MapPin, MessageCircle, Clock, Send, Calendar, Heart, Compass, Check } from '@lucide/astro';
+
+const contactMethods = [
+  {
+    icon: MessageCircle,
+    label: 'WhatsApp',
+    value: '+255 764 908 272',
+    href: 'https://wa.me/255764908272',
+    note: 'Fastest. Usually replies in 1-2 hours during Tanzania business hours.',
+    color: 'sunset',
+  },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'info@springbokexpeditions.com',
+    href: 'mailto:info@springbokexpeditions.com',
+    note: 'For detailed enquiries and trip planning. Replies within 24 hours.',
+    color: 'safari',
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+255 784 136 616',
+    href: 'tel:+255784136616',
+    note: 'Mon-Sat, 8am-7pm East Africa Time (GMT+3).',
+    color: 'savannah',
+  },
+  {
+    icon: MapPin,
+    label: 'Office',
+    value: 'Sokoine Drive, Arusha, Tanzania',
+    href: 'https://maps.google.com/?q=Sokoine+Drive+Arusha+Tanzania',
+    note: 'Open weekdays for walk-ins. Call first if travelling from out of town.',
+    color: 'dusk',
+  },
+];
+
+const beforeYouWrite = [
+  {
+    icon: Calendar,
+    title: 'When are you thinking?',
+    body: 'We don\'t need exact dates yet — a month or season is enough to start. Peak season is July-October (Migration) and December-March (calving).',
+  },
+  {
+    icon: Heart,
+    title: 'What kind of trip?',
+    body: 'Wildlife safari, Kilimanjaro climb, Zanzibar beach, or a mix? We\'ll design it around what you actually want to see and do.',
+  },
+  {
+    icon: Compass,
+    title: 'Group size',
+    body: 'Solo, couple, family, or a private group of friends? Each works a little differently for vehicle capacity and lodge pricing.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'How quickly do you reply?',
+    a: 'WhatsApp messages usually get a reply within 1-2 hours during Tanzania business hours. Email enquiries are answered within 24 hours, often faster.',
+  },
+  {
+    q: 'Do you charge for trip planning?',
+    a: 'No. Every quote, itinerary, and revision is free. You only pay when you confirm a booking, and the deposit is fully refundable up to 60 days before travel.',
+  },
+  {
+    q: 'Can you design a custom itinerary?',
+    a: 'Yes — that\'s most of what we do. Tell us what you want to see, your travel style, and your budget range, and we\'ll design something for you.',
+  },
+  {
+    q: 'What\'s the booking process?',
+    a: '1) You tell us what you want. 2) We send a free quote. 3) You approve it and pay a 30% deposit. 4) We book everything and send you a full trip dossier. 5) Balance is due 60 days before travel.',
+  },
+  {
+    q: 'Are payments secure?',
+    a: 'Yes. Bank transfers go to our Tanzanian business account (details on the quote). Credit cards accepted via Stripe for an additional 3% processing fee.',
+  },
+  {
+    q: 'Do I need travel insurance?',
+    a: 'Yes — we require proof of comprehensive travel insurance covering medical evacuation, trip cancellation, and (for Kilimanjaro) high-altitude trekking up to 5,895m.',
+  },
+];
+---
+
+<PublicLayout
+  title="Contact Springbok Expeditions | Plan Your Tanzania Trip"
+  description="Get in touch with our Arusha team via WhatsApp, email, phone, or our contact form. Free trip planning, 24-hour response time, no booking fees."
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative bg-safari-900 text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=1920&q=80&auto=format&fit=crop"
+        alt="Mount Kilimanjaro at sunset"
+        class="w-full h-full object-cover opacity-40"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-br from-safari-900/85 via-safari-900/60 to-safari-900/85"></div>
+    </div>
+
+    <div class="container-content relative z-10 py-20 md:py-28">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-savannah-500/20 border border-savannah-500/30 text-savannah-300 px-3.5 py-1.5 rounded-full text-sm font-medium mb-6">
+          <MessageCircle size={14} /> Let's Plan Something
+        </div>
+        <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white mb-6">
+          Tell us what you have in mind
+        </h1>
+        <p class="text-xl text-dusk-200 leading-relaxed max-w-2xl">
+          Every trip starts with a conversation. Send us a message on WhatsApp, drop us an email, or fill in the form below.
+          We reply to every enquiry — usually within a few hours.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact methods -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {contactMethods.map(({ icon: Icon, label, value, href, note, color }) => {
+          const isWhatsApp = color === 'sunset' || color === 'whatsapp';
+          const borderHoverClass = isWhatsApp ? 'hover:border-[#25D366]' : 'hover:border-savannah-500';
+          const iconHoverClass = isWhatsApp ? 'group-hover:bg-[#25D366] group-hover:text-white' : 'group-hover:bg-savannah-500 group-hover:text-safari-900';
+
+          return (
+            <a
+              href={href}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel={href.startsWith('http') ? 'noopener' : undefined}
+              class:list={[
+                "group bg-dusk-50 hover:bg-white rounded-2xl p-6 border border-dusk-100 hover:shadow-soft transition-all",
+                borderHoverClass
+              ]}
+            >
+              <div class:list={[
+                "w-11 h-11 rounded-xl bg-safari-700 text-safari-50 flex items-center justify-center mb-4 transition-colors",
+                iconHoverClass
+              ]}>
+                <Icon size={20} />
+              </div>
+              <p class="text-xs font-semibold tracking-wider uppercase text-safari-700 mb-1">{label}</p>
+              <p class="font-display text-lg font-medium text-safari-900 mb-2">{value}</p>
+              <p class="text-sm text-dusk-600 leading-relaxed">{note}</p>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Form + sidebar -->
+  <section class="py-16 md:py-20 bg-dusk-50">
+    <div class="container-content">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Form -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl p-7 md:p-10 border border-dusk-100 shadow-soft">
+            <h2 class="text-display-sm font-display font-medium text-safari-900 mb-2">
+              Send us a message
+            </h2>
+            <p class="text-dusk-600 mb-8">
+              Fill in what you know — even rough ideas are useful. The more you tell us, the more useful our first reply can be.
+            </p>
+
+            <form id="contact-form" class="space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    Full name <span class="text-sunset-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    autocomplete="name"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="Jane Smith"
+                  />
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    Email <span class="text-sunset-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="jane@example.com"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="phone" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    Phone or WhatsApp <span class="text-dusk-400 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    autocomplete="tel"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="+1 555 123 4567"
+                  />
+                </div>
+                <div>
+                  <label for="country" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    Country <span class="text-dusk-400 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    autocomplete="country-name"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="United States"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="trip-type" class="block text-sm font-medium text-safari-900 mb-1.5">
+                  What kind of trip?
+                </label>
+                <select
+                  id="trip-type"
+                  name="tripType"
+                  class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                >
+                  <option value="">Not sure yet — help me decide</option>
+                  <option value="wildlife-safari">Wildlife safari</option>
+                  <option value="kilimanjaro">Kilimanjaro climb</option>
+                  <option value="meru">Mount Meru climb</option>
+                  <option value="zanzibar">Zanzibar holiday</option>
+                  <option value="mixed">Mixed itinerary (safari + beach or safari + climb)</option>
+                  <option value="cultural">Cultural / community-based tour</option>
+                  <option value="day-trip">Day trip (already in Tanzania)</option>
+                  <option value="other">Something else</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="travelers" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    How many travelers?
+                  </label>
+                  <input
+                    type="number"
+                    id="travelers"
+                    name="travelers"
+                    min="1"
+                    max="50"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="2"
+                  />
+                </div>
+                <div>
+                  <label for="when" class="block text-sm font-medium text-safari-900 mb-1.5">
+                    When are you thinking?
+                  </label>
+                  <input
+                    type="text"
+                    id="when"
+                    name="when"
+                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
+                    placeholder="July 2026, or 'flexible'"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="message" class="block text-sm font-medium text-safari-900 mb-1.5">
+                  Tell us more <span class="text-sunset-500">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows="5"
+                  class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition resize-y"
+                  placeholder="What do you want to see? Any must-dos? Budget range? Travel style (luxury, mid-range, adventurous)?"
+                ></textarea>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="newsletter"
+                  name="newsletter"
+                  class="mt-1 w-4 h-4 text-savannah-500 border-dusk-300 rounded focus:ring-savannah-500"
+                />
+                <label for="newsletter" class="text-sm text-dusk-600">
+                  Send me the occasional Tanzania travel guide and trip deals (no spam, unsubscribe anytime).
+                </label>
+              </div>
+
+              <!-- Honeypot: CSS-hidden field that only bots fill in -->
+              <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+                <label for="website">Website (leave empty)</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <!-- Time-trap: timestamp set on render; bots submit too fast -->
+              <input type="hidden" id="_ts" name="_ts" value="" />
+
+              <!-- Turnstile placeholder - real widget loads once PUBLIC_TURNSTILE_SITE_KEY is set -->
+              <div id="turnstile-widget" class="hidden"></div>
+
+              <button
+                type="submit"
+                class="btn btn-primary w-full sm:w-auto justify-center"
+              >
+                <Send size={16} />
+                Send Enquiry
+              </button>
+
+              <p id="form-status" class="text-sm text-dusk-600 hidden"></p>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sidebar: "before you write" -->
+        <aside class="space-y-6">
+          <div class="bg-safari-50 rounded-2xl p-6 border border-safari-100">
+            <h3 class="font-display text-lg font-medium text-safari-900 mb-2 flex items-center gap-2">
+              <Clock size={18} class="text-savannah-700" />
+              Office hours
+            </h3>
+            <dl class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <dt class="text-dusk-600">Mon - Fri</dt>
+                <dd class="text-safari-900 font-medium">8:00 - 19:00</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-dusk-600">Saturday</dt>
+                <dd class="text-safari-900 font-medium">9:00 - 17:00</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-dusk-600">Sunday</dt>
+                <dd class="text-dusk-500">WhatsApp only</dd>
+              </div>
+            </dl>
+            <p class="text-xs text-dusk-500 mt-3 pt-3 border-t border-safari-100">
+              All times East Africa Time (GMT+3). We monitor WhatsApp outside hours for urgent enquiries.
+            </p>
+          </div>
+
+          <div class="bg-safari-50 rounded-2xl p-6 border border-safari-100">
+            <h3 class="font-display text-lg font-medium text-safari-900 mb-4">
+              Before you write — it'll help if you know:
+            </h3>
+            <ul class="space-y-4">
+              {beforeYouWrite.map(({ icon: Icon, title, body }) => (
+                <li class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-white text-savannah-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Icon size={15} />
+                  </div>
+                  <div>
+                    <p class="font-medium text-safari-900 text-sm mb-0.5">{title}</p>
+                    <p class="text-xs text-dusk-600 leading-relaxed">{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container-content max-w-3xl">
+      <div class="text-center mb-10">
+        <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-3">
+          Frequently asked
+        </h2>
+        <p class="text-lg text-dusk-600">
+          Don't see your question? Just ask — we love the detailed ones.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        {faqs.map((faq) => (
+          <details class="group bg-dusk-50 hover:bg-white rounded-xl border border-dusk-100 hover:border-savannah-500/50 transition-all">
+            <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none">
+              <h3 class="font-display text-base font-medium text-safari-900">{faq.q}</h3>
+              <span class="w-7 h-7 rounded-full bg-safari-100 group-open:bg-savannah-500 text-safari-700 group-open:text-safari-900 flex items-center justify-center transition-colors shrink-0">
+                <span class="block group-open:hidden text-lg leading-none">+</span>
+                <Check size={14} class="hidden group-open:block" stroke-width={3} />
+              </span>
+            </summary>
+            <div class="px-5 pb-5 -mt-1 text-dusk-700 leading-relaxed text-sm">
+              {faq.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Map / location -->
+  <section class="py-16 md:py-20 bg-dusk-50">
+    <div class="container-content">
+      <div class="text-center mb-8">
+        <h2 class="text-display-sm font-display font-medium text-safari-900 mb-3">
+          Find us in Arusha
+        </h2>
+        <p class="text-dusk-600">We're on Sokoine Drive, the main street through the city center.</p>
+      </div>
+      <div class="rounded-2xl overflow-hidden border border-dusk-100 shadow-soft aspect-[21/9] bg-dusk-200">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=36.673%2C-3.395%2C36.713%2C-3.365&layer=mapnik&marker=-3.380%2C36.693"
+          class="w-full h-full"
+          title="Springbok Expeditions office location in Arusha"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</PublicLayout>
+
+<script>
+  // Stamp form with render time for honeypot time-trap
+  const tsField = document.getElementById('_ts') as HTMLInputElement | null;
+  if (tsField) tsField.value = String(Date.now());
+
+  // Contact form handler - static build directs users to WhatsApp/email
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status') as HTMLParagraphElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !status) return;
+
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-pulse">Redirecting…</span>';
+    }
+    status.classList.remove('hidden');
+    status.className = 'text-sm text-safari-700 font-medium';
+    status.innerHTML = '✓ Thanks for your interest! To ensure the fastest reply, please send your enquiry via <a href="https://wa.me/255764908272" class="underline font-semibold">WhatsApp</a> or <a href="mailto:info@springbokexpeditions.com" class="underline font-semibold">email</a>. We reply within a few hours.';
+    form.reset();
+    if (submitBtn) submitBtn.disabled = false;
+  });
+</script>

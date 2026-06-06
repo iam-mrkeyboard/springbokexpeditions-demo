@@ -1,0 +1,149 @@
+---
+import { getCollection, render } from 'astro:content';
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import TourHero from '@/components/tours/TourHero.astro';
+import TourHighlights from '@/components/tours/TourHighlights.astro';
+import TourItinerary from '@/components/tours/TourItinerary.astro';
+import TourIncludes from '@/components/tours/TourIncludes.astro';
+import TourBookingCTA from '@/components/tours/TourBookingCTA.astro';
+import TourGallery from '@/components/tours/TourGallery.astro';
+import { ArrowLeft, Calendar, MapPin, Users } from '@lucide/astro';
+import { withPublisher } from '@/lib/jsonld';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const tours = await getCollection('tours');
+  return tours.map((tour) => ({
+    params: { slug: tour.id },
+    props: { tour },
+  }));
+}
+
+const { tour } = Astro.props;
+const { Content } = await render(tour);
+
+const typeLabels: Record<string, string> = {
+  safari: 'Wildlife Safari',
+  kilimanjaro: 'Kilimanjaro Climb',
+  meru: 'Mount Meru',
+  zanzibar: 'Zanzibar Holiday',
+  'day-trip': 'Day Trip',
+  honeymoon: 'Honeymoon',
+  family: 'Family',
+  cultural: 'Cultural',
+  migration: 'Migration Safari',
+};
+---
+
+<PublicLayout
+  title={tour.data.seo?.title || tour.data.title}
+  description={tour.data.seo?.description || tour.data.excerpt}
+  ogImage={tour.id === 'signature-northern-circuit' ? '/og/tours/signature-northern-circuit.png' : undefined}
+  transparentHeader={true}
+>
+  <TourHero tour={tour} typeLabel={typeLabels[tour.data.type] || tour.data.type} />
+
+  <!-- Quick info bar -->
+  <section class="bg-safari-700 text-white">
+    <div class="container-content py-5 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm">
+      <div class="flex items-center gap-2">
+        <Calendar size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">Duration:</span>
+        <strong>{tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}</strong>
+      </div>
+      <div class="flex items-center gap-2">
+        <MapPin size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">From:</span>
+        <strong>${tour.data.priceFromUSD.toLocaleString()} per person</strong>
+      </div>
+      <div class="flex items-center gap-2">
+        <Users size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">Style:</span>
+        <strong class="capitalize">{tour.data.styles.join(' · ').replace(/-/g, ' ')}</strong>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-dusk-200">Difficulty:</span>
+        <strong class="capitalize">{tour.data.difficulty}</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main column -->
+        <div class="lg:col-span-2 space-y-12">
+          <!-- Introduction -->
+          <div>
+            <p class="eyebrow mb-3">Tour Overview</p>
+            <p class="text-lg text-dusk-800 leading-relaxed mb-4">{tour.data.summary}</p>
+            <div class="prose">
+              <Content />
+            </div>
+          </div>
+
+          <!-- Highlights -->
+          <TourHighlights highlights={tour.data.highlights} />
+
+          <!-- Itinerary -->
+          <TourItinerary itinerary={tour.data.itinerary} />
+
+          <!-- Gallery -->
+          {tour.data.gallery.length > 0 && (
+            <TourGallery images={tour.data.gallery} title={tour.data.title} />
+          )}
+
+          <!-- Includes/Excludes -->
+          <TourIncludes inclusions={tour.data.inclusions} exclusions={tour.data.exclusions} />
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1">
+          <div class="sticky top-24 space-y-6">
+            <TourBookingCTA tour={tour} />
+
+            <!-- Best season -->
+            <div class="bg-dusk-50 rounded-2xl p-6">
+              <h3 class="font-display text-lg font-medium text-safari-900 mb-3">Best Time to Go</h3>
+              <ul class="space-y-2 text-sm text-dusk-700">
+                {tour.data.bestSeason.map((s) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-savannah-500 mt-0.5">•</span>
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Back link -->
+            <a href="/tours" class="inline-flex items-center gap-2 text-sm text-dusk-700 hover:text-savannah-700 transition-colors">
+              <ArrowLeft size={14} /> Back to all safaris
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD for TouristTrip -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: tour.data.title,
+    description: tour.data.excerpt,
+    image: tour.data.hero,
+    offers: {
+      '@type': 'Offer',
+      price: tour.data.priceFromUSD,
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+    },
+    provider: {
+      '@type': 'Organization',
+      name: 'Springbok Expeditions',
+      url: 'https://springbokexpeditions.com',
+    },
+  }))} />
+</PublicLayout>

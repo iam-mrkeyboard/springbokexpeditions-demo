@@ -1,0 +1,314 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { Compass, Heart, Users, Globe, MapPin, Calendar, ArrowRight, Shield, Sparkles } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+const tours = await getCollection('tours');
+const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
+
+const stats = [
+  { value: '15+', label: 'Years Guiding', sublabel: 'In Tanzania since 2010' },
+  { value: '2,400+', label: 'Happy Travelers', sublabel: 'From 60+ countries' },
+  { value: '98%', label: '5-Star Reviews', sublabel: 'On TripAdvisor & Google' },
+  { value: '100%', label: 'Local-Owned', sublabel: 'Arusha-headquartered' },
+];
+
+const values = [
+  {
+    icon: Heart,
+    title: 'Travel That Gives Back',
+    body: 'A portion of every booking supports local schools, anti-poaching units, and Maasai community projects. We don\'t just visit — we contribute.',
+  },
+  {
+    icon: Users,
+    title: 'Real Local Guides',
+    body: 'Our guides grew up here. Many hold advanced certifications from the Kenya/Tanzania Professional Safari Guides Association, and all speak English, Swahili, and at least one other language.',
+  },
+  {
+    icon: Shield,
+    title: 'Fair Pricing, No Gimmicks',
+    body: 'Quoted prices are final. No "park fees added later" surprises, no commission-loaded commissions. The price you see is the price you pay.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Tailored, Not Templated',
+    body: 'Every itinerary is a starting point. Tell us your travel style, pace, and dreams, and we\'ll reshape any tour to fit you — at no extra design fee.',
+  },
+];
+
+const team = [
+  { name: 'Daniel Mwakikoti', role: 'Founder & Lead Guide', bio: 'Born and raised in Arusha. 18 years guiding across the Serengeti, Ngorongoro, and Kilimanjaro.' },
+  { name: 'Grace Mwangi', role: 'Operations Director', bio: 'Keeps every booking running smoothly. Former lodge manager at Tarangire Tented Camps.' },
+  { name: 'Joseph Laizer', role: 'Senior Mountain Guide', bio: 'Led 200+ Kilimanjaro summits. Wilderness First Responder and UIAGM certified.' },
+  { name: 'Amina Hassan', role: 'Cultural Tours Coordinator', bio: 'Maasai heritage and community-based tourism specialist. Builds our village visits from the ground up.' },
+];
+---
+
+<PublicLayout
+  title="About Springbok Expeditions | Local Tanzanian Safari Operator"
+  description="Meet the locally-owned Arusha tour operator behind Springbok Expeditions. 15+ years guiding safaris, Kilimanjaro climbs, and Zanzibar holidays with fair pricing and real local guides."
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative bg-safari-900 text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
+        alt="Sunrise over the Serengeti"
+        class="w-full h-full object-cover opacity-50"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-br from-safari-900/85 via-safari-900/65 to-safari-900/85"></div>
+    </div>
+
+    <div class="container-content relative z-10 py-20 md:py-28">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-savannah-500/20 border border-savannah-500/30 text-savannah-300 px-3.5 py-1.5 rounded-full text-sm font-medium mb-6">
+          <Compass size={14} /> About Us
+        </div>
+        <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white mb-6">
+          A Tanzanian-owned safari company, based in Arusha since 2010
+        </h1>
+        <p class="text-xl text-dusk-200 leading-relaxed max-w-2xl">
+          We design and run safaris, Kilimanjaro climbs, and Zanzibar holidays for travelers from around the world —
+          and we do it the way we'd want to travel ourselves: small groups, fair prices, and guides who treat the land like home.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-12 md:py-16 bg-white border-b border-dusk-100">
+    <div class="container-content">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {stats.map((stat) => (
+          <div class="text-center md:text-left">
+            <p class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-1">
+              {stat.value}
+            </p>
+            <p class="font-medium text-safari-700">{stat.label}</p>
+            <p class="text-sm text-dusk-500">{stat.sublabel}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Our story -->
+  <section class="py-16 md:py-20">
+    <div class="container-content">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 text-savannah-700 text-sm font-semibold tracking-wider uppercase mb-3">
+            <span class="w-8 h-px bg-savannah-500"></span> Our Story
+          </div>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-6">
+            Built one traveler at a time
+          </h2>
+          <div class="prose prose-lg max-w-none text-dusk-700 space-y-4">
+            <p>
+              Springbok Expeditions started in 2010 with a single Land Cruiser, three friends from Arusha, and a simple idea:
+              show travelers the Tanzania we grew up in — not the version made for cruise-ship day trips.
+            </p>
+            <p>
+              Word travels fast in this business. Within five years we were running fifteen vehicles and a small office near
+              the Arusha clock tower. By ten years we'd guided travelers from more than sixty countries, and our reviews
+              on TripAdvisor and Google crossed 2,000.
+            </p>
+            <p>
+              Today we're still locally owned. Still based in Arusha. Still answering our own emails and answering our own
+              phones. We've grown, but we haven't lost the part that matters: every booking gets a real human reply, usually
+              within a few hours, from someone who has walked the trails you're asking about.
+            </p>
+          </div>
+        </div>
+        <div class="relative">
+          <img
+            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1200&q=80&auto=format&fit=crop"
+            alt="Safari vehicle on the plains at golden hour"
+            class="rounded-2xl shadow-soft w-full aspect-[4/5] object-cover"
+            loading="lazy"
+          />
+          <div class="absolute -bottom-6 -left-6 bg-savannah-500 text-safari-900 rounded-2xl p-6 shadow-soft max-w-xs hidden md:block">
+            <p class="font-display text-2xl font-medium mb-1">2010</p>
+            <p class="text-sm font-medium">The year it all started, with one Land Cruiser and three friends from Arusha.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="py-16 md:py-20 bg-safari-50">
+    <div class="container-content">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="inline-flex items-center gap-2 text-savannah-700 text-sm font-semibold tracking-wider uppercase mb-3">
+          <span class="w-8 h-px bg-savannah-500"></span> What We Stand For
+        </div>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
+          Four things we won't compromise on
+        </h2>
+        <p class="text-lg text-dusk-600">
+          These aren't slogans. They shape how we price, plan, and run every trip.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {values.map(({ icon: Icon, title, body }) => (
+          <div class="bg-white rounded-2xl p-7 border border-dusk-100 hover:border-savannah-500/50 hover:shadow-soft transition-all">
+            <div class="w-12 h-12 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
+              <Icon size={22} />
+            </div>
+            <h3 class="font-display text-xl font-medium text-safari-900 mb-2">{title}</h3>
+            <p class="text-dusk-700 leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="py-16 md:py-20">
+    <div class="container-content">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="inline-flex items-center gap-2 text-savannah-700 text-sm font-semibold tracking-wider uppercase mb-3">
+          <span class="w-8 h-px bg-savannah-500"></span> The Team
+        </div>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
+          The people behind your safari
+        </h2>
+        <p class="text-lg text-dusk-600">
+          A small core team, plus a wider network of 20+ guides, drivers, and lodge staff who help make every trip work.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((member) => (
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 text-center">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-safari-700 to-safari-500 text-safari-100 flex items-center justify-center font-display text-2xl font-medium mx-auto mb-4">
+              {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+            </div>
+            <h3 class="font-display text-lg font-medium text-safari-900 mb-1">{member.name}</h3>
+            <p class="text-sm text-savannah-700 font-medium mb-3">{member.role}</p>
+            <p class="text-sm text-dusk-600 leading-relaxed">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Where we operate -->
+  <section class="py-16 md:py-20 bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 text-savannah-300 text-sm font-semibold tracking-wider uppercase mb-3">
+            <Globe size={14} /> Where We Operate
+          </div>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium text-white mb-6">
+            Tanzania — and only Tanzania
+          </h2>
+          <p class="text-lg text-dusk-200 leading-relaxed mb-6">
+            We don't do Kenya, Botswana, or South Africa. We do Tanzania, and we do it deeply. Every guide has worked the
+            Serengeti, climbed Kilimanjaro, and traveled the back roads of Zanzibar. That focus is the whole reason we can
+            deliver what bigger operators can't.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {['Serengeti', 'Ngorongoro', 'Tarangire', 'Lake Manyara', 'Kilimanjaro', 'Mount Meru', 'Zanzibar', 'Pemba', 'Mahale', 'Selous', 'Ruaha', 'Katavi'].map((place) => (
+              <span class="bg-safari-800/60 border border-safari-700 text-dusk-200 px-3 py-1 rounded-full text-sm">
+                {place}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div class="bg-safari-800/50 rounded-2xl p-8 border border-safari-700">
+          <h3 class="font-display text-2xl font-medium text-white mb-6">Quick Facts</h3>
+          <dl class="space-y-4">
+            {[
+              { dt: 'Founded', dd: '2010, Arusha, Tanzania' },
+              { dt: 'Headquarters', dd: 'Sokoine Drive, Arusha' },
+              { dt: 'Registration', dd: 'TATO member · TZ tourism licensed' },
+              { dt: 'Insurance', dd: 'Fully insured vehicles + AMREF Flying Doctors evacuation cover on every safari' },
+              { dt: 'Languages', dd: 'English, Swahili, French, German, Spanish, Italian' },
+              { dt: 'Vehicles', dd: 'Toyota Land Cruisers (4x4) with pop-top roofs' },
+            ].map((row) => (
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-3 border-b border-safari-700 last:border-0 last:pb-0">
+                <dt class="text-dusk-400 text-sm font-medium">{row.dt}</dt>
+                <dd class="text-dusk-100 sm:col-span-2">{row.dd}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured tours CTA -->
+  {featuredTours.length > 0 && (
+    <section class="py-16 md:py-20 bg-white">
+      <div class="container-content">
+        <div class="text-center mb-10">
+          <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-3">
+            Ready to travel with us?
+          </h2>
+          <p class="text-lg text-dusk-600 max-w-2xl mx-auto">
+            Start with one of our most-loved safaris, or design your own from scratch.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {featuredTours.map((tour) => (
+            <a href={`/tours/${tour.id}`} class="group bg-white rounded-2xl overflow-hidden border border-dusk-100 hover:shadow-soft transition-all">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src={tour.data.hero}
+                  alt={tour.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+              <div class="p-5">
+                <h3 class="font-display text-lg font-medium text-safari-900 group-hover:text-savannah-700 transition-colors mb-2">
+                  {tour.data.title}
+                </h3>
+                <p class="text-sm text-dusk-600 line-clamp-2 mb-3">{tour.data.excerpt}</p>
+                <p class="text-safari-900 font-semibold">
+                  From ${tour.data.priceFromUSD.toLocaleString()}
+                  <span class="text-dusk-500 text-sm font-normal"> · {tour.data.durationDays} days</span>
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center">
+          <a href="/contact" class="btn btn-primary">
+            <Calendar size={16} />
+            Plan Your Trip With Us
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Contact CTA -->
+  <section class="py-16 md:py-20 bg-dusk-50">
+    <div class="container-content text-center">
+      <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
+        Got a question? Want to design your trip?
+      </h2>
+      <p class="text-lg text-dusk-600 max-w-2xl mx-auto mb-8">
+        Send us a message, or chat on WhatsApp. We reply to every enquiry — usually within a few hours.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/contact" class="btn btn-primary">
+          <MapPin size={16} />
+          Contact Us
+        </a>
+        <a href="/tours" class="btn btn-outline">
+          Browse All Safaris
+          <ArrowRight size={16} />
+        </a>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

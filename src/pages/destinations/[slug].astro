@@ -1,0 +1,361 @@
+---
+import { getCollection, render } from 'astro:content';
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { ArrowLeft, MapPin, Calendar, Sparkles, Plane, Star, Trees, Mountain, Umbrella, TreePalm } from '@lucide/astro';
+import { withPublisher } from '@/lib/jsonld';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  const allTours = await getCollection('tours');
+  return destinations.map((dest) => {
+    const relatedTours = allTours.filter((t) => t.data.destinations.includes(dest.id));
+    return {
+      params: { slug: dest.id },
+      props: { destination: dest, relatedTours },
+    };
+  });
+}
+
+const { destination, relatedTours } = Astro.props;
+const { Content } = await render(destination);
+
+const regionIcons: Record<string, typeof TreePalm> = {
+  'Northern Circuit': TreePalm,
+  'Southern Circuit': TreePalm,
+  'Western Circuit': Mountain,
+  Coastal: Umbrella,
+  Mountain: Mountain,
+};
+const RegionIcon = regionIcons[destination.data.region] ?? TreePalm;
+
+const highMonths = destination.data.bestTime.filter((m) => m.rating === 'high');
+const medMonths = destination.data.bestTime.filter((m) => m.rating === 'med');
+const allDests = await getCollection('destinations');
+const relatedRegionDests = allDests
+  .filter((d) => d.id !== destination.id && d.data.region === destination.data.region)
+  .slice(0, 3);
+
+const monthOrder = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monthMap = Object.fromEntries(monthOrder.map((m, i) => [m, monthShort[i]]));
+const bestTimeOrdered = monthOrder.map((m) => {
+  const found = destination.data.bestTime.find((bt) => bt.month === m);
+  return { month: m, short: monthShort[monthOrder.indexOf(m)], rating: found?.rating ?? 'low' };
+});
+---
+
+<PublicLayout
+  title={destination.data.seo?.title || `${destination.data.name} | Tanzania Destination`}
+  description={destination.data.seo?.description || destination.data.summary}
+  ogImage={destination.id === 'serengeti-national-park' ? '/og/destinations/serengeti-national-park.png' : undefined}
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
+    <img
+      src={destination.data.hero}
+      alt={destination.data.name}
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/60 to-safari-900/30"></div>
+    <div class="container-content relative h-full flex flex-col justify-end pb-12 md:pb-16">
+      <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 text-white px-3 py-1.5 rounded-full text-xs font-medium mb-4 self-start">
+        <RegionIcon size={12} />
+        {destination.data.region}
+      </div>
+      <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white mb-4 max-w-3xl">
+        {destination.data.name}
+      </h1>
+      <p class="text-lg md:text-xl text-dusk-100/95 max-w-2xl leading-relaxed">
+        {destination.data.summary}
+      </p>
+    </div>
+  </section>
+
+  <!-- Quick info bar -->
+  <section class="bg-safari-700 text-white">
+    <div class="container-content py-5 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
+      <div class="flex items-center gap-2">
+        <MapPin size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">Region:</span>
+        <strong>{destination.data.region}</strong>
+      </div>
+      <div class="flex items-center gap-2">
+        <Sparkles size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">Wildlife:</span>
+        <strong>{destination.data.wildlife.length} key species</strong>
+      </div>
+      <div class="flex items-center gap-2">
+        <Calendar size={16} class="text-savannah-500" />
+        <span class="text-dusk-200">Peak months:</span>
+        <strong>{highMonths.length === 0 ? 'Year-round' : highMonths.map((m) => monthMap[m.month] ?? m.month).join(', ')}</strong>
+      </div>
+      {destination.data.attractions.length > 0 && (
+        <div class="flex items-center gap-2">
+          <Star size={16} class="text-savannah-500" />
+          <span class="text-dusk-200">Highlights:</span>
+          <strong>{destination.data.attractions.length} main attractions</strong>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main column -->
+        <div class="lg:col-span-2 space-y-12">
+          <!-- Introduction -->
+          <div>
+            <p class="eyebrow mb-3">About {destination.data.name}</p>
+            <p class="text-lg text-dusk-800 leading-relaxed mb-4 font-display">
+              {destination.data.summary}
+            </p>
+            <div class="prose">
+              <Content />
+            </div>
+          </div>
+
+          <!-- Wildlife -->
+          {destination.data.wildlife.length > 0 && (
+            <div>
+              <p class="eyebrow mb-3">Wildlife & Animals</p>
+              <h2 class="text-display-sm font-display font-medium text-safari-900 mb-6">
+                What you'll see
+              </h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {destination.data.wildlife.map((w) => (
+                  <div class="bg-dusk-50 rounded-xl p-5 border border-dusk-100">
+                    <h3 class="font-display text-base font-medium text-safari-900 mb-1.5">{w.name}</h3>
+                    <p class="text-sm text-dusk-700 leading-relaxed">{w.fact}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Best time -->
+          {destination.data.bestTime.length > 0 && (
+            <div>
+              <p class="eyebrow mb-3">When to go</p>
+              <h2 class="text-display-sm font-display font-medium text-safari-900 mb-4">
+                Best time to visit
+              </h2>
+              <p class="text-dusk-700 mb-6">
+                {highMonths.length > 0 ? (
+                  <>
+                    <strong class="text-safari-900">Peak season:</strong> {highMonths.map((m) => m.month).join(', ')}. {medMonths.length > 0 && <>Good shoulder months: {medMonths.map((m) => m.month).join(', ')}.</>}
+                  </>
+                ) : (
+                  <>This destination can be visited year-round. The dry season generally offers better wildlife viewing; the wet season is greener and quieter.
+                </>
+                )}
+              </p>
+              <div class="grid grid-cols-12 gap-1.5">
+                {bestTimeOrdered.map((m) => (
+                  <div class="text-center">
+                    <div
+                      class:list={[
+                        'h-20 rounded-md flex items-center justify-center mb-1.5',
+                        m.rating === 'high' ? 'bg-savannah-500' : '',
+                        m.rating === 'med' ? 'bg-savannah-200' : '',
+                        m.rating === 'low' ? 'bg-dusk-100' : '',
+                      ]}
+                    >
+                      <span
+                        class:list={[
+                          'text-xs font-semibold',
+                          m.rating === 'high' ? 'text-safari-900' : 'text-dusk-500',
+                        ]}
+                      >
+                        {m.rating === 'high' ? 'Peak' : m.rating === 'med' ? 'Good' : 'Low'}
+                      </span>
+                    </div>
+                    <span class="text-[10px] uppercase tracking-wider text-dusk-600 font-medium">{m.short}</span>
+                  </div>
+                ))}
+              </div>
+              <div class="flex items-center gap-4 mt-4 text-xs text-dusk-600">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-savannah-500"></span> Peak</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-savannah-200"></span> Shoulder</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-dusk-100"></span> Off-season</span>
+              </div>
+            </div>
+          )}
+
+          <!-- Attractions -->
+          {destination.data.attractions.length > 0 && (
+            <div>
+              <p class="eyebrow mb-3">Highlights</p>
+              <h2 class="text-display-sm font-display font-medium text-safari-900 mb-6">
+                What to do here
+              </h2>
+              <ul class="space-y-3">
+                {destination.data.attractions.map((a) => (
+                  <li class="flex items-start gap-3 text-dusk-800">
+                    <span class="w-1.5 h-1.5 rounded-full bg-savannah-500 mt-2.5 shrink-0"></span>
+                    <span class="leading-relaxed">{a}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Getting there -->
+          {destination.data.gettingThere && (
+            <div>
+              <p class="eyebrow mb-3">Practical info</p>
+              <h2 class="text-display-sm font-display font-medium text-safari-900 mb-4">
+                Getting there
+              </h2>
+              <div class="bg-dusk-50 rounded-xl p-5 border border-dusk-100 flex items-start gap-3">
+                <Plane size={18} class="text-savannah-700 mt-0.5 shrink-0" />
+                <p class="text-dusk-800 leading-relaxed">{destination.data.gettingThere}</p>
+              </div>
+            </div>
+          )}
+
+          <!-- Gallery -->
+          {destination.data.gallery.length > 0 && (
+            <div>
+              <p class="eyebrow mb-3">Photos</p>
+              <h2 class="text-display-sm font-display font-medium text-safari-900 mb-6">
+                {destination.data.name} in pictures
+              </h2>
+              <div class="grid grid-cols-2 gap-3">
+                {destination.data.gallery.map((img) => (
+                  <a href={img} target="_blank" rel="noopener" class="block aspect-[4/3] overflow-hidden rounded-xl group">
+                    <img
+                      src={img}
+                      alt={destination.data.name}
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1">
+          <div class="sticky top-24 space-y-6">
+            <!-- Related tours -->
+            {relatedTours.length > 0 && (
+              <div class="bg-safari-50 rounded-2xl p-6 border border-safari-100">
+                <h3 class="font-display text-lg font-medium text-safari-900 mb-3 flex items-center gap-2">
+                  <Trees size={18} class="text-savannah-700" />
+                  Tours that include {destination.data.name}
+                </h3>
+                <ul class="space-y-3">
+                  {relatedTours.slice(0, 4).map((tour) => (
+                    <li>
+                      <a
+                        href={`/tours/${tour.id}`}
+                        class="block group"
+                      >
+                        <p class="font-medium text-safari-900 group-hover:text-savannah-700 transition-colors text-sm leading-snug mb-1">
+                          {tour.data.title}
+                        </p>
+                        <p class="text-xs text-dusk-600">
+                          {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'} · from ${tour.data.priceFromUSD.toLocaleString()}
+                        </p>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="/tours"
+                  class="mt-4 inline-flex items-center text-sm text-savannah-700 hover:text-savannah-900 font-medium"
+                >
+                  See all safaris →
+                </a>
+              </div>
+            )}
+
+            <!-- CTA -->
+            <div class="bg-safari-900 text-white rounded-2xl p-6">
+              <h3 class="font-display text-lg font-medium mb-2">Plan a trip here</h3>
+              <p class="text-sm text-dusk-200 mb-5">
+                Tell us your travel dates and what you want to see. We'll design an itinerary that includes {destination.data.name}.
+              </p>
+              <a
+                href="/contact"
+                class="block text-center bg-savannah-500 hover:bg-savannah-400 text-safari-900 font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm"
+              >
+                Get a free quote
+              </a>
+              <a
+                href="https://wa.me/255764908272"
+                target="_blank"
+                rel="noopener"
+                class="block text-center mt-2 bg-white/10 hover:bg-white/20 text-white font-medium px-5 py-2.5 rounded-lg transition-colors text-sm"
+              >
+                WhatsApp us
+              </a>
+            </div>
+
+            <!-- Related destinations in same region -->
+            {relatedRegionDests.length > 0 && (
+              <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+                <h3 class="font-display text-lg font-medium text-safari-900 mb-3">
+                  Other {destination.data.region} destinations
+                </h3>
+                <ul class="space-y-2">
+                  {relatedRegionDests.map((d) => (
+                    <li>
+                      <a
+                        href={`/destinations/${d.id}`}
+                        class="text-dusk-800 hover:text-savannah-700 text-sm leading-snug"
+                      >
+                        → {d.data.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <!-- Back link -->
+            <a
+              href="/destinations"
+              class="inline-flex items-center gap-2 text-sm text-dusk-700 hover:text-savannah-700 transition-colors"
+            >
+              <ArrowLeft size={14} /> All destinations
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD for TouristDestination -->
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(withPublisher({
+      '@context': 'https://schema.org',
+      '@type': 'TouristDestination',
+      name: destination.data.name,
+      description: destination.data.summary,
+      image: destination.data.hero,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'TZ',
+        addressRegion: destination.data.region,
+      },
+      includesAttraction: destination.data.attractions.map((a) => ({
+        '@type': 'TouristAttraction',
+        name: a,
+      })),
+    }))}
+  />
+</PublicLayout>

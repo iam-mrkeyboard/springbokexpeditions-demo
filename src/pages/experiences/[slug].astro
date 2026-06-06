@@ -1,0 +1,442 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { withPublisher } from '@/lib/jsonld';
+import {
+  ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird,
+} from '@lucide/astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const experiences = await getCollection('experiences');
+  return experiences.map((exp) => ({
+    params: { slug: exp.id },
+    props: { exp },
+  }));
+}
+
+const { exp } = Astro.props;
+const { Content } = await render(exp);
+
+const allTours = await getCollection('tours');
+const allExperiences = await getCollection('experiences');
+
+const relatedTours = exp.data.relatedTours
+  .map((slug) => allTours.find((t) => t.id === slug))
+  .filter((t): t is typeof allTours[number] => Boolean(t));
+
+const otherExperiences = allExperiences
+  .filter((e) => e.id !== exp.id)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const iconMap: Record<string, typeof Heart> = {
+  Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird,
+};
+const ExpIcon = iconMap[exp.data.icon ?? ''] ?? Sparkles;
+
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const bestTimeOrdered = monthNames.map((m) => ({
+  month: m,
+  short: monthShort[monthNames.indexOf(m)],
+  rating: exp.data.bestMonths.includes(m) ? 'high' as const : 'low' as const,
+}));
+
+const ratingColorMap: Record<'high' | 'low', string> = {
+  high: 'bg-safari-600 text-white border-safari-700',
+  low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
+};
+---
+
+<PublicLayout
+  title={`${exp.data.name} — Tanzania Safari Experience`}
+  description={exp.data.summary}
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src={exp.data.hero}
+      alt={exp.data.name}
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <a href="/experiences" class="inline-flex items-center gap-2 text-savannah-300 hover:text-savannah-200 text-xs uppercase tracking-[0.18em] mb-5 md:mb-6 transition-colors">
+          <ArrowLeft size={14} />
+          All experiences
+        </a>
+
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-xs uppercase tracking-wider mb-4">
+          <ExpIcon size={12} />
+          {exp.data.durationDays}-day experience
+        </div>
+
+        <h1 class="font-display text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6">
+          {exp.data.name}
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light">
+          {exp.data.tagline}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick info bar -->
+  <section class="bg-safari-900 text-white border-b border-white/10">
+    <div class="container-content">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+        <div class="px-4 md:px-6 py-5 md:py-6 border-l-0">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Duration</p>
+          <p class="font-display text-xl md:text-2xl text-white">{exp.data.durationDays} days</p>
+        </div>
+        {exp.data.priceFromUSD && (
+          <div class="px-4 md:px-6 py-5 md:py-6">
+            <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">From</p>
+            <p class="font-display text-xl md:text-2xl text-white">${exp.data.priceFromUSD.toLocaleString()}</p>
+          </div>
+        )}
+        <div class="px-4 md:px-6 py-5 md:py-6">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Best months</p>
+          <p class="text-sm md:text-base text-white">{exp.data.bestMonths.slice(0, 3).join(', ')}{exp.data.bestMonths.length > 3 ? '…' : ''}</p>
+        </div>
+        <div class="px-4 md:px-6 py-5 md:py-6">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Group size</p>
+          <p class="text-sm md:text-base text-white">From 2 travellers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-7">
+          <p class="eyebrow text-safari-600 mb-4">About this experience</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
+            {exp.data.tagline}
+          </h2>
+          <div class="prose prose-lg max-w-none text-dusk-700 leading-relaxed space-y-5">
+            {exp.data.description ? (
+              <p class="text-lg whitespace-pre-line">{exp.data.description}</p>
+            ) : (
+              <p class="text-lg">{exp.data.summary}</p>
+            )}
+            <Content />
+          </div>
+        </div>
+
+        <aside class="lg:col-span-5 space-y-6">
+          <div class="bg-white rounded-2xl border border-dusk-100 shadow-soft p-6 md:p-8">
+            <p class="eyebrow text-savannah-700 mb-3">Plan this trip</p>
+            <p class="text-dusk-700 leading-relaxed mb-6">
+              Send us a few lines — when you want to travel, who is coming, and what you want to see. We will send a full quote within 24 hours, with lodges, transfers, and the route on a map.
+            </p>
+
+            <a href={`/contact?subject=experience&slug=${exp.id}`} class="btn btn-primary w-full justify-center">
+              Plan a {exp.data.name.toLowerCase()} trip
+              <ArrowRight size={16} />
+            </a>
+            <a href="/tours" class="btn btn-outline w-full justify-center mt-3">
+              See ready-made tours
+            </a>
+
+            {exp.data.priceNote && (
+              <div class="border-t border-dusk-100 mt-6 pt-6">
+                <p class="text-xs text-dusk-500 leading-relaxed">{exp.data.priceNote}</p>
+              </div>
+            )}
+          </div>
+
+          {exp.data.relatedLinks.length > 0 && (
+            <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6">
+              <p class="eyebrow text-safari-700 mb-4">Related</p>
+              <div class="space-y-3">
+                {exp.data.relatedLinks.map((l) => (
+                  <a
+                    href={l.href}
+                    class="group flex items-start gap-3 p-3 rounded-lg hover:bg-white transition-colors"
+                  >
+                    <span class="w-8 h-8 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
+                      <MapPin size={14} />
+                    </span>
+                    <div class="flex-1 min-w-0">
+                      <p class="font-medium text-safari-900 group-hover:text-safari-700 transition-colors">{l.label}</p>
+                      {l.description && (
+                        <p class="text-xs text-dusk-600 mt-0.5">{l.description}</p>
+                      )}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best time -->
+  <section class="section bg-white">
+    <div class="container-content max-w-4xl">
+      <p class="eyebrow text-safari-600 mb-3 text-center">When to go</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-10 text-center">
+        Best time for a {exp.data.name.toLowerCase()}
+      </h2>
+
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-4">
+        {bestTimeOrdered.map((m) => (
+          <div class={`rounded-xl border p-3 text-center ${ratingColorMap[m.rating]}`}>
+            <p class="text-xs font-semibold uppercase tracking-wider">{m.short}</p>
+            <p class="text-[10px] mt-1 uppercase tracking-wider opacity-80">
+              {m.rating === 'high' ? 'Peak' : 'Off'}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-dusk-600">
+        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-safari-600"></span>Best months</span>
+        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-dusk-200"></span>Other months</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">What's included</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+          What makes this trip different
+        </h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {exp.data.highlights.map((highlight) => (
+          <div class="flex items-start gap-3 p-5 rounded-xl bg-white border border-dusk-100">
+            <span class="w-8 h-8 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
+              <Check size={16} />
+            </span>
+            <p class="text-dusk-800 leading-relaxed">{highlight}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample itinerary -->
+  {exp.data.sampleItinerary && exp.data.sampleItinerary.length > 0 && (
+    <section class="section bg-white">
+      <div class="container-content max-w-4xl">
+        <div class="text-center mb-12">
+          <p class="eyebrow text-safari-600 mb-3">Sample itinerary</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+            How the days could look
+          </h2>
+          <p class="text-dusk-700 leading-relaxed max-w-2xl mx-auto">
+            This is one possible version of a {exp.data.durationDays}-day {exp.data.name.toLowerCase()}. Most of our clients change something — a Zanzibar extension, a Kilimanjaro climb, an extra night at one of the lodges.
+          </p>
+        </div>
+
+        <ol class="relative border-l-2 border-safari-200 ml-3 md:ml-6 space-y-8">
+          {exp.data.sampleItinerary.map((day) => (
+            <li class="ml-6 md:ml-10 relative">
+              <span class="absolute -left-[34px] md:-left-[46px] top-1.5 w-6 h-6 rounded-full bg-safari-600 text-white flex items-center justify-center text-[10px] font-semibold">
+                {day.day}
+              </span>
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-1">
+                  Day {day.day}{day.location ? ` · ${day.location}` : ''}
+                </p>
+                <h3 class="font-display text-xl text-safari-900 mb-2">{day.title}</h3>
+                <p class="text-dusk-700 leading-relaxed">{day.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  <!-- Related tours -->
+  {relatedTours.length > 0 && (
+    <section class="section bg-dusk-50">
+      <div class="container-content">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <p class="eyebrow text-safari-600 mb-3">Ready-made trips</p>
+            <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+              Tours that fit this experience
+            </h2>
+          </div>
+          <a href="/tours" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+            See all tours
+            <ArrowRight size={16} />
+          </a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {relatedTours.map((tour) => (
+            <a
+              href={`/tours/${tour.id}`}
+              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
+            >
+              <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
+                <img
+                  src={tour.data.hero}
+                  alt={tour.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="p-5">
+                <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{tour.data.title}</h3>
+                <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
+                <div class="flex items-center gap-3 text-xs text-dusk-500">
+                  <span>{tour.data.durationDays} days</span>
+                  <span>·</span>
+                  <span>From ${tour.data.priceFromUSD.toLocaleString()}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQs -->
+  {exp.data.faqs.length > 0 && (
+    <section class="section bg-white">
+      <div class="container-content max-w-3xl">
+        <div class="text-center mb-12">
+          <p class="eyebrow text-safari-600 mb-3">Common questions</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+            Booking {exp.data.name.toLowerCase()}
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          {exp.data.faqs.map((f) => (
+            <details class="group bg-dusk-50 rounded-xl border border-dusk-100 overflow-hidden">
+              <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-5 hover:bg-dusk-100 transition-colors">
+                <h3 class="font-display text-base md:text-lg text-safari-900">{f.q}</h3>
+                <span class="w-7 h-7 rounded-full bg-white border border-dusk-200 flex items-center justify-center flex-shrink-0 transition-transform group-open:rotate-45">
+                  <span class="w-3 h-3 relative block">
+                    <span class="absolute top-1/2 left-0 w-full h-px bg-safari-900 -translate-y-1/2"></span>
+                    <span class="absolute top-0 left-1/2 h-full w-px bg-safari-900 -translate-x-1/2"></span>
+                  </span>
+                </span>
+              </summary>
+              <div class="px-5 pb-5 text-dusk-700 leading-relaxed">
+                {f.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Other experiences -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="eyebrow text-safari-600 mb-3">Compare</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+            Other Tanzania experiences
+          </h2>
+        </div>
+        <a href="/experiences" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+          See all 6
+          <ArrowRight size={16} />
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {otherExperiences.map((e) => {
+          const OtherIcon = iconMap[e.data.icon ?? ''] ?? Sparkles;
+          return (
+            <a
+              href={`/experiences/${e.id}`}
+              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
+            >
+              <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
+                <img
+                  src={e.data.hero}
+                  alt={e.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="p-5">
+                <div class="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">
+                  <OtherIcon size={11} />
+                  {e.data.durationDays} days
+                </div>
+                <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{e.data.name}</h3>
+                <p class="text-sm text-dusk-600 leading-relaxed line-clamp-2">{e.data.tagline}</p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Ready to start?</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Plan your {exp.data.name.toLowerCase()}
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          Tell us your dates, your group, and what you want from the trip. We will send a draft itinerary within 24 hours.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href={`/contact?subject=experience&slug=${exp.id}`} class="btn btn-primary px-8 py-3.5">
+            Get a custom quote
+            <ArrowRight size={16} />
+          </a>
+          <a href="/experiences" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Compare experiences
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(withPublisher({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: exp.data.name,
+    description: exp.data.summary,
+    provider: {
+      '@type': 'Organization',
+      name: 'Springbok Expeditions',
+      url: 'https://springbokexpeditions.com',
+    },
+    areaServed: {
+      '@type': 'Place',
+      name: 'Tanzania',
+    },
+    offers: exp.data.priceFromUSD ? {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: exp.data.priceFromUSD,
+      availability: 'https://schema.org/InStock',
+    } : undefined,
+  }))} />
+</PublicLayout>

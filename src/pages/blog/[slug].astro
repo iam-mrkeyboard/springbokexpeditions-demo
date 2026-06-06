@@ -1,0 +1,182 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { ArrowRight, ArrowLeft, Calendar, Clock, Tag, User } from '@lucide/astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = await getCollection('blog');
+const otherPosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<PublicLayout
+  title={post.data.title}
+  description={post.data.excerpt}
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[60vh] min-h-[420px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src={post.data.hero}
+      alt={post.data.title}
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16 pt-32">
+      <div class="max-w-3xl">
+        <a href="/blog" class="inline-flex items-center gap-2 text-savannah-300 hover:text-savannah-200 text-xs uppercase tracking-[0.18em] mb-5 md:mb-6 transition-colors">
+          <ArrowLeft size={14} />
+          The journal
+        </a>
+
+        <div class="flex flex-wrap items-center gap-3 text-xs text-dusk-100/90 mb-4">
+          <span class="flex items-center gap-1.5"><Calendar size={12} /> {formatDate(post.data.publishedAt)}</span>
+          {post.data.readingTime && (
+            <span class="flex items-center gap-1.5"><Clock size={12} /> {post.data.readingTime} min read</span>
+          )}
+          <span class="flex items-center gap-1.5"><User size={12} /> {post.data.author}</span>
+        </div>
+
+        <h1 class="font-display text-3xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white">
+          {post.data.title}
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Article -->
+  <section class="section bg-dusk-50">
+    <div class="container-content max-w-3xl">
+      <article class="bg-white rounded-2xl border border-dusk-100 p-8 md:p-12">
+        <div class="prose prose-lg max-w-none text-dusk-800 leading-relaxed space-y-6">
+          <p class="text-xl text-dusk-600 italic border-l-4 border-savannah-300 pl-5 mb-8">
+            {post.data.excerpt}
+          </p>
+          <Content />
+        </div>
+
+        {post.data.tags.length > 0 && (
+          <div class="border-t border-dusk-100 mt-12 pt-6">
+            <p class="text-xs uppercase tracking-wider text-dusk-500 mb-3">Tagged</p>
+            <div class="flex flex-wrap gap-2">
+              {post.data.tags.map((t) => (
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-50 border border-safari-100 text-xs text-safari-800">
+                  <Tag size={11} />
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+
+      <!-- Author + share -->
+      <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6 md:p-8 mt-8">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-full bg-safari-700 text-white flex items-center justify-center font-display text-lg flex-shrink-0">
+            S
+          </div>
+          <div>
+            <p class="font-display text-lg text-safari-900">{post.data.author}</p>
+            <p class="text-sm text-dusk-700 leading-relaxed mt-1">
+              We're a small team based in Arusha, Tanzania. We've planned thousands of safaris and treks over the last decade. The journal is where we share what we've learned.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related -->
+  {otherPosts.length > 0 && (
+    <section class="section bg-white">
+      <div class="container-content">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="eyebrow text-safari-600 mb-3">Keep reading</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+            More from the journal
+          </h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {otherPosts.map((p) => (
+            <a
+              href={`/blog/${p.id}`}
+              class="group bg-white rounded-2xl border border-dusk-100 overflow-hidden hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
+            >
+              <div class="aspect-[5/3] overflow-hidden bg-dusk-200">
+                <img
+                  src={p.data.hero}
+                  alt={p.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <div class="flex items-center gap-3 text-xs text-dusk-500 mb-2">
+                  <span class="flex items-center gap-1.5"><Calendar size={11} /> {formatDate(p.data.publishedAt)}</span>
+                  {p.data.readingTime && (
+                    <span class="flex items-center gap-1.5"><Clock size={11} /> {p.data.readingTime} min</span>
+                  )}
+                </div>
+                <h3 class="font-display text-lg text-safari-900 mb-2 group-hover:text-safari-700 transition-colors line-clamp-2">
+                  {p.data.title}
+                </h3>
+                <p class="text-sm text-dusk-600 leading-relaxed line-clamp-2 flex-1">
+                  {p.data.excerpt}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Ready to start?</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Plan your Tanzania trip
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          We build every itinerary from scratch. Tell us what you want, and we'll send a draft within 24 hours.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact" class="btn btn-primary px-8 py-3.5">
+            Get a draft itinerary
+            <ArrowRight size={16} />
+          </a>
+          <a href="/tours" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            See ready-made tours
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

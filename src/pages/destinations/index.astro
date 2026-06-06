@@ -1,0 +1,199 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { getCollection } from 'astro:content';
+import { MapPin, ListFilter, TreePalm, Mountain, Sparkles, Umbrella } from '@lucide/astro';
+
+const destinations = await getCollection('destinations');
+const sorted = destinations.sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
+
+const regionIcons: Record<string, typeof TreePalm> = {
+  'Northern Circuit': TreePalm,
+  'Southern Circuit': TreePalm,
+  'Western Circuit': Mountain,
+  Coastal: Umbrella,
+  Mountain: Mountain,
+};
+
+const regions = ['All', 'Northern Circuit', 'Southern Circuit', 'Western Circuit', 'Coastal', 'Mountain'];
+const regionCount: Record<string, number> = { All: sorted.length };
+for (const r of regions.slice(1)) {
+  regionCount[r] = sorted.filter((d) => d.data.region === r).length;
+}
+---
+
+<PublicLayout
+  title="All Destinations in Tanzania | National Parks, Islands & Mountains"
+  description="Browse every major Tanzania destination — Serengeti, Ngorongoro, Zanzibar, Kilimanjaro, Selous, and more. Wildlife, best time to visit, how to get there, and safari ideas."
+  ogImage="/og/destinations.png"
+  transparentHeader={true}
+>
+  <!-- Page header -->
+  <section class="bg-safari-900 text-white py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-25">
+      <img
+        src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=1920&q=80&auto=format&fit=crop"
+        alt=""
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-br from-safari-900/70 via-safari-900/40 to-safari-900/70"></div>
+    <div class="container-content relative">
+      <p class="eyebrow text-savannah-300 mb-4">Tanzania Destinations</p>
+      <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight mb-5 max-w-3xl">
+        Where will Tanzania take you?
+      </h1>
+      <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed">
+        From the open plains of the Serengeti to the alleys of Stone Town, the glaciers of Kilimanjaro to the forests of Gombe — these are the parks, islands, and mountains that make Tanzania what it is.
+      </p>
+    </div>
+  </section>
+
+  <!-- Region filter -->
+  <section class="bg-white border-b border-dusk-100 sticky top-0 z-30">
+    <div class="container-content py-4 flex flex-wrap items-center gap-3">
+      <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
+        <ListFilter size={16} /> Region:
+      </span>
+      {regions.map((r) => (
+        <button
+          class:list={[
+            'dest-filter px-3 py-1.5 text-sm rounded-full transition-colors',
+            r === 'All'
+              ? 'bg-safari-700 text-white'
+              : 'bg-dusk-100 text-dusk-700 hover:bg-dusk-200',
+          ]}
+          data-filter={r}
+        >
+          {r} ({regionCount[r]})
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <!-- Destination grid -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sorted.map((dest) => {
+          const Icon = regionIcons[dest.data.region] ?? Sparkles;
+          return (
+            <a
+              href={`/destinations/${dest.id}`}
+              class="card card-hover group block dest-card"
+              data-region={dest.data.region}
+            >
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={dest.data.hero}
+                  alt={dest.data.name}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-safari-900/85 via-safari-900/20 to-transparent"></div>
+                <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-white/95 backdrop-blur text-safari-900 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full">
+                  <Icon size={11} />
+                  {dest.data.region}
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 class="font-display text-xl md:text-2xl font-medium text-white mb-1.5 group-hover:text-savannah-300 transition-colors">
+                    {dest.data.name}
+                  </h3>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-sm text-dusk-700 leading-relaxed mb-4 line-clamp-3">
+                  {dest.data.summary}
+                </p>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-dusk-600">
+                  <span class="inline-flex items-center gap-1.5">
+                    <MapPin size={12} />
+                    {dest.data.region}
+                  </span>
+                  {dest.data.wildlife.length > 0 && (
+                    <span class="inline-flex items-center gap-1.5">
+                      <Sparkles size={12} />
+                      {dest.data.wildlife.length} key species
+                    </span>
+                  )}
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Tanzania -->
+  <section class="section bg-white">
+    <div class="container-content max-w-4xl">
+      <div class="text-center mb-12">
+        <p class="eyebrow mb-3">Why Tanzania</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
+          One small country, an entire continent of wildlife
+        </h2>
+        <p class="text-lg text-dusk-700 leading-relaxed">
+          Tanzania is home to roughly a third of Africa's large mammal species, plus an Indian Ocean coastline and the highest mountain in Africa. The destinations below are the places we know best.
+        </p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="text-center">
+          <p class="font-display text-3xl font-medium text-savannah-700">22</p>
+          <p class="text-sm text-dusk-600 mt-1">National parks</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-3xl font-medium text-savannah-700">1.5M</p>
+          <p class="text-sm text-dusk-600 mt-1">Migrating wildebeest</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-3xl font-medium text-savannah-700">5,895m</p>
+          <p class="text-sm text-dusk-600 mt-1">Kilimanjaro summit</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-3xl font-medium text-savannah-700">1,400+</p>
+          <p class="text-sm text-dusk-600 mt-1">Bird species</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-safari-900 text-white py-20">
+    <div class="container-content text-center max-w-2xl mx-auto">
+      <h2 class="text-display-sm font-display font-medium mb-4">
+        Not sure where to start?
+      </h2>
+      <p class="text-dusk-200 text-lg mb-8">
+        Tell us what you want to see, and we'll suggest a trip that includes the right destinations.
+      </p>
+      <a href="/contact" class="btn btn-primary">Plan Your Trip</a>
+    </div>
+  </section>
+</PublicLayout>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.dest-filter');
+  const cards = document.querySelectorAll<HTMLElement>('.dest-card');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-safari-700', 'text-white');
+        b.classList.add('bg-dusk-100', 'text-dusk-700');
+      });
+      btn.classList.add('bg-safari-700', 'text-white');
+      btn.classList.remove('bg-dusk-100', 'text-dusk-700');
+
+      cards.forEach((card) => {
+        if (filter === 'All' || card.dataset.region === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

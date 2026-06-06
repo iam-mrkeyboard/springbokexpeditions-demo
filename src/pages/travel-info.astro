@@ -1,0 +1,666 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { ArrowRight, Calendar, Plane, Heart, Wallet, Globe, BookOpen, Briefcase, Shield, ThermometerSun, Droplet, Sun, AlertTriangle, Check, Stethoscope, MapPin } from '@lucide/astro';
+
+export const prerender = true;
+
+const sections = [
+  { id: 'when-to-go', label: 'When to go', icon: Calendar },
+  { id: 'visas', label: 'Visas & entry', icon: Plane },
+  { id: 'flights', label: 'Flights', icon: Plane },
+  { id: 'health', label: 'Health', icon: Stethoscope },
+  { id: 'money', label: 'Money', icon: Wallet },
+  { id: 'language', label: 'Language', icon: Globe },
+  { id: 'culture', label: 'Culture & customs', icon: Heart },
+  { id: 'packing', label: 'Packing', icon: Briefcase },
+  { id: 'safety', label: 'Safety', icon: Shield },
+  { id: 'faqs', label: 'FAQs', icon: BookOpen },
+];
+
+const monthOrder = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const monthRating: Record<string, 'high' | 'med' | 'low'> = {
+  January: 'high', February: 'high', March: 'med',
+  April: 'low', May: 'low',
+  June: 'high', July: 'high', August: 'high', September: 'high', October: 'high',
+  November: 'med', December: 'high',
+};
+const ratingColor: Record<'high' | 'med' | 'low', string> = {
+  high: 'bg-safari-600 text-white border-safari-700',
+  med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
+  low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
+};
+const ratingLabel: Record<'high' | 'med' | 'low', string> = {
+  high: 'Peak',
+  med: 'Shoulder',
+  low: 'Wet',
+};
+
+const visasByNationality = [
+  { country: 'USA', requirement: 'eVisa required', cost: '$100', notes: 'Multiple-entry available' },
+  { country: 'UK', requirement: 'eVisa required', cost: '$50', notes: 'Multiple-entry available' },
+  { country: 'EU', requirement: 'eVisa required', cost: '$50', notes: 'Multiple-entry available' },
+  { country: 'Canada', requirement: 'eVisa required', cost: '$100', notes: 'Multiple-entry available' },
+  { country: 'Australia', requirement: 'eVisa required', cost: '$50', notes: 'Multiple-entry available' },
+  { country: 'Most others', requirement: 'eVisa required', cost: '$50', notes: 'Check visa.immigration.go.tz' },
+  { country: 'East Africa (KE, UG, RW)', requirement: 'Visa-free', cost: 'Free', notes: 'ID card sufficient' },
+  { country: 'SADC members', requirement: 'Visa-free', cost: 'Free', notes: 'Passport required' },
+];
+
+const airlines = [
+  { name: 'KLM', route: 'Amsterdam (AMS) → Kilimanjaro (JRO)', notes: 'Daily, via Amsterdam, no connection change' },
+  { name: 'Qatar Airways', route: 'Doha (DOH) → Kilimanjaro (JRO)', notes: 'Daily, via Doha' },
+  { name: 'Turkish Airlines', route: 'Istanbul (IST) → Kilimanjaro (JRO)', notes: 'Daily, via Istanbul' },
+  { name: 'Emirates', route: 'Dubai (DXB) → Dar es Salaam (DAR)', notes: 'Daily, via Dubai' },
+  { name: 'Ethiopian Airlines', route: 'Addis Ababa (ADD) → Kilimanjaro (JRO)', notes: 'Daily, via Addis Ababa' },
+  { name: 'Kenya Airways', route: 'Nairobi (NBO) → Kilimanjaro (JRO)', notes: 'Multiple daily, via Nairobi' },
+  { name: 'South African Airways', route: 'Johannesburg (JNB) → Kilimanjaro (JRO)', notes: 'Several per week' },
+];
+
+const swahiliBasics = [
+  { english: 'Hello', swahili: 'Jambo / Habari', pronunciation: 'JAHM-bo / hah-BAH-ree' },
+  { english: 'Thank you', swahili: 'Asante', pronunciation: 'ah-SAHN-teh' },
+  { english: 'Please', swahili: 'Tafadhali', pronunciation: 'tah-fah-DAH-lee' },
+  { english: 'Yes / No', swahili: 'Ndiyo / Hapana', pronunciation: 'NDEE-yo / hah-PAH-nah' },
+  { english: 'How much?', swahili: 'Bei gani?', pronunciation: 'bay GAH-nee' },
+  { english: 'Good morning', swahili: 'Habari za asubuhi', pronunciation: 'hah-BAH-ree zah ah-soo-BOO-hee' },
+  { english: 'Goodbye', swahili: 'Kwaheri', pronunciation: 'kwah-HEH-ree' },
+  { english: 'Excuse me / Sorry', swahili: 'Samahani', pronunciation: 'sah-mah-HAH-nee' },
+  { english: 'I don\'t understand', swahili: 'Sielewi', pronunciation: 'see-eh-LEH-wee' },
+  { english: 'Water', swahili: 'Maji', pronunciation: 'MAH-jee' },
+  { english: 'Delicious!', swahili: 'Tamu sana!', pronunciation: 'TAH-moo SAH-nah' },
+  { english: 'Help!', swahili: 'Saidia!', pronunciation: 'sah-EE-dee-ah' },
+];
+
+const safariPacking = [
+  { category: 'Clothing', items: [
+    'Neutral-coloured shirts and trousers (khaki, olive, beige — no white, no bright colours)',
+    'A fleece or warm jumper for early-morning game drives (June–August)',
+    'A light waterproof jacket (long rains March–May, short rains November)',
+    'Comfortable walking shoes or hiking boots',
+    'Sandals for camp and the lodge',
+    'Sun hat and sunglasses',
+  ]},
+  { category: 'Health & safety', items: [
+    'High-SPF sunscreen (reapply often)',
+    'Insect repellent with DEET (20–30%)',
+    'Anti-malarial medication (consult your doctor)',
+    'Personal first-aid kit',
+    'Hand sanitiser and wet wipes',
+    'Any prescription medication in original packaging',
+  ]},
+  { category: 'Camera & tech', items: [
+    'Camera with extra batteries and memory cards',
+    'Binoculars (essential — we have spare pairs if you forget)',
+    'Power bank and universal adapter (Type G, British-style)',
+    'Headlamp or small torch (for tented camps)',
+    'Phone with offline maps downloaded',
+  ]},
+  { category: 'Documents', items: [
+    'Passport (valid 6+ months, 2+ blank pages)',
+    'Visa (printed confirmation)',
+    'Yellow fever certificate (if coming from an endemic country)',
+    'Travel insurance details',
+    'Photocopies of all documents (kept separately)',
+  ]},
+];
+
+const cultureTips = [
+  { title: 'Dress', body: 'Tanzania is a conservative country, especially on Zanzibar. Cover shoulders and knees in Stone Town, villages, and mosques. On safari, neutral colours are the norm.' },
+  { title: 'Greetings', body: 'Take your time greeting people. A handshake is the standard, and using someone\'s name after "Jambo" is appreciated. Rushing past a greeting is considered rude.' },
+  { title: 'Photography', body: 'Always ask before photographing people, especially in Maasai villages and markets. Don\'t fly drones without a permit — most national parks ban them outright.' },
+  { title: 'Bargaining', body: 'Bargaining is expected in markets, but keep it light and friendly. The first price quoted is usually 30–50% above the real price. Smile, walk away if you have to.' },
+  { title: 'Tipping', body: 'Tipping is not compulsory but is a meaningful addition to guide and camp-staff wages. We include tipping guidelines in your trip folder — $20–25/day per guide is the standard.' },
+  { title: 'Religion & culture', body: 'Tanzania is roughly 60% Christian, 35% Muslim (95%+ on Zanzibar), and the rest a mix of traditional beliefs. Respect prayer times, and don\'t walk into a mosque without an invitation.' },
+];
+
+const safetyTips = [
+  { title: 'Wildlife', body: 'Always follow your guide\'s instructions during game drives. Don\'t stand up in the vehicle, don\'t get out except where indicated, and never approach an animal on foot unless your guide is with you.' },
+  { title: 'Towns & cities', body: 'Tanzania is generally safe, but use common sense in cities — don\'t flash cash or phones, and use a guide or registered taxi at night in Arusha and Dar es Salaam.' },
+  { title: 'Health', body: 'Don\'t drink tap water. Use bottled or filtered water, including for brushing teeth. Avoid ice from unknown sources. Stick to hot, cooked food and fruit you peel yourself.' },
+  { title: 'Connectivity', body: 'Mobile coverage is good in cities and most safari areas. WiFi at lodges is usually slow and patchy. Get a local Vodacom or Airtel SIM at the airport for data.' },
+  { title: 'Travel insurance', body: 'We strongly recommend travel insurance that covers medical evacuation — flying from a remote safari camp to Nairobi or Dar es Salaam is expensive. We can recommend providers.' },
+  { title: 'Emergency contacts', body: 'We are reachable 24/7 while you are travelling. You will have our office number, your guide\'s mobile, and the lodge manager\'s contact in your trip folder.' },
+];
+
+const faqs = [
+  { q: 'Do I need a visa for Tanzania?', a: 'Most visitors need an eVisa, which can be applied for online at visa.immigration.go.tz. The cost is $50 for most nationalities (US and Canadian passports are $100). Visas are typically processed within 5–10 business days.' },
+  { q: 'When is the best time to visit?', a: 'June to October is the dry season — best for wildlife viewing and the Great Migration. January to February is also excellent (calving season in the southern Serengeti). March to May is the long rains; some lodges close.' },
+  { q: 'Is Tanzania safe for tourists?', a: 'Yes. Tanzania is politically stable and the safari and beach circuit is well-trodden. The main risks are road accidents and malaria, both of which can be mitigated with sensible precautions.' },
+  { q: 'Do I need malaria medication?', a: 'Yes, for the safari areas below 1,800m (most of the northern circuit). Consult your doctor 6–8 weeks before travel. Zanzibar and the highland areas (Ngorongoro crater rim) are lower-risk.' },
+  { q: 'Can I use my phone / credit cards?', a: 'Yes. Major hotels and lodges accept Visa and Mastercard. ATMs in Arusha and Stone Town dispense Tanzanian shillings. Buy a local SIM (Vodacom or Airtel) at the airport for data and local calls.' },
+  { q: 'How do I get from the airport to the safari?', a: 'We include all transfers in your itinerary. A driver will be waiting at Kilimanjaro (JRO) or Zanzibar (ZNZ) with your name on a sign. For internal flights, we book and check you in.' },
+  { q: 'What about tipping?', a: 'Tipping is appreciated but not compulsory. We include tipping guidelines in your trip folder. The typical range is $20–25/day for your guide, split among the camp staff at the end.' },
+  { q: 'Can I drink the water?', a: 'No. Stick to bottled or filtered water — your lodges will provide this freely. Avoid ice from unknown sources and brush your teeth with bottled water as a precaution.' },
+  { q: 'Do I need a yellow fever certificate?', a: 'Only if you are arriving from a country with risk of yellow fever transmission (most of sub-Saharan Africa and South America). If you are flying direct from Europe, North America, or Asia, you do not need one.' },
+  { q: 'What if I need help while I\'m travelling?', a: 'We are reachable 24/7 by phone, WhatsApp, and email. You will have your guide\'s mobile, our office number, and emergency contacts in your trip folder.' },
+];
+---
+
+<PublicLayout
+  title="Tanzania Travel Info — Visas, Health, Money, Flights & More"
+  description="Everything you need to know before travelling to Tanzania: visas, flights, health, money, language, culture, packing, and safety. Up to date for 2026."
+  ogImage="/og/travel-info.png"
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[70vh] min-h-[480px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.unsplash.com/photo-1504432842672-1a79f78e4084?w=1920&q=80&auto=format&fit=crop"
+      alt="Tanzania landscape"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">Practical information · 2026</p>
+
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          Travel info.<br />
+          <span class="italic font-normal text-savannah-300">Everything you need to know.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light">
+          Visas, flights, health, money, language, packing, and safety — the practical information that makes a Tanzania trip go smoothly. Updated for 2026.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick nav -->
+  <section class="bg-safari-900 text-white border-t border-white/10 sticky top-20 z-30 backdrop-blur">
+    <div class="container-content">
+      <div class="overflow-x-auto -mx-4 px-4">
+        <nav class="flex gap-1 py-3 min-w-max md:flex-wrap">
+          {sections.map((s) => {
+            const Icon = s.icon;
+            return (
+              <a href={`#${s.id}`} class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-dusk-200 hover:bg-white/10 hover:text-white transition-colors">
+                <Icon size={12} />
+                {s.label}
+              </a>
+            );
+          })}
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- When to go -->
+  <section id="when-to-go" class="section bg-dusk-50 scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">01</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          When to go
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Tanzania works year-round, but the timing changes what you will see. The dry season (June to October) is best for big game and the Great Migration; the wet season (November to April) is best for birding, the calving, and lower prices.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-5">
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">
+            {monthOrder.map((m, i) => (
+              <div class={`rounded-xl border p-3 text-center ${ratingColor[monthRating[m]]}`}>
+                <p class="text-xs font-semibold uppercase tracking-wider">{monthShort[i]}</p>
+                <p class="text-[10px] mt-1 uppercase tracking-wider opacity-80">{ratingLabel[monthRating[m]]}</p>
+              </div>
+            ))}
+          </div>
+          <div class="flex flex-wrap gap-3 text-xs text-dusk-600">
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-safari-600"></span>Peak season</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-savannah-300"></span>Shoulder season</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-dusk-200"></span>Wet season</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+            <div class="flex items-start gap-3">
+              <span class="w-10 h-10 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                <Sun size={20} />
+              </span>
+              <div>
+                <h3 class="font-display text-lg text-safari-900 mb-2">June to October — dry season</h3>
+                <p class="text-sm text-dusk-700 leading-relaxed">The classic safari months. Wildlife concentrates around permanent water, vegetation is thin, and the Great Migration is in the northern Serengeti (Mara River crossings, July–October). Warm days (25–30°C), cool nights, almost no rain. Book well in advance — peak season.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+            <div class="flex items-start gap-3">
+              <span class="w-10 h-10 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
+                <ThermometerSun size={20} />
+              </span>
+              <div>
+                <h3 class="font-display text-lg text-safari-900 mb-2">January to February — calving season</h3>
+                <p class="text-sm text-dusk-700 leading-relaxed">The southern Serengeti is the stage for the wildebeest calving — about 500,000 calves are born over a few weeks, and the predator action is the best of the year. Warm but not too hot, mostly dry. Excellent for photography.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+            <div class="flex items-start gap-3">
+              <span class="w-10 h-10 rounded-lg bg-dusk-100 text-dusk-700 flex items-center justify-center flex-shrink-0">
+                <Droplet size={20} />
+              </span>
+              <div>
+                <h3 class="font-display text-lg text-safari-900 mb-2">March to May — long rains</h3>
+                <p class="text-sm text-dusk-700 leading-relaxed">The low season. Afternoon showers, lush green landscapes, fewer visitors, and the lowest prices of the year. Some lodges close in April. Best for birding and budget travel. We don't recommend the safari in April — but the southern parks are magical.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visas -->
+  <section id="visas" class="section bg-white scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">02</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Visas and entry
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Most visitors need an eVisa, applied for online before travel. East African passports (Kenya, Uganda, Rwanda) and most SADC members are visa-free. Your passport must be valid for 6+ months with at least 2 blank pages.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto -mx-6 px-6">
+        <table class="w-full min-w-[640px] text-sm">
+          <thead>
+            <tr class="border-b border-dusk-200">
+              <th class="text-left py-3 px-4 text-xs uppercase tracking-wider text-dusk-500 font-semibold">Nationality</th>
+              <th class="text-left py-3 px-4 text-xs uppercase tracking-wider text-dusk-500 font-semibold">Requirement</th>
+              <th class="text-left py-3 px-4 text-xs uppercase tracking-wider text-dusk-500 font-semibold">Cost</th>
+              <th class="text-left py-3 px-4 text-xs uppercase tracking-wider text-dusk-500 font-semibold">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visasByNationality.map((v) => (
+              <tr class="border-b border-dusk-100">
+                <td class="py-4 px-4 font-medium text-safari-900">{v.country}</td>
+                <td class="py-4 px-4 text-dusk-700">{v.requirement}</td>
+                <td class="py-4 px-4 text-dusk-700">{v.cost}</td>
+                <td class="py-4 px-4 text-dusk-600 text-xs">{v.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-8 bg-safari-50 border border-safari-100 rounded-2xl p-6">
+        <div class="flex items-start gap-3">
+          <span class="w-10 h-10 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+            <AlertTriangle size={20} />
+          </span>
+          <div>
+            <h3 class="font-display text-lg text-safari-900 mb-2">A few practical notes</h3>
+            <ul class="text-sm text-dusk-700 space-y-2">
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>Apply at least 2 weeks before travel at <a href="https://visa.immigration.go.tz" class="text-safari-700 underline hover:text-safari-900">visa.immigration.go.tz</a>. Avoid third-party sites that add a fee.</li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>The US$100 visa for US and Canadian passports is the multiple-entry tourist visa — well worth it if you plan to combine with Kenya.</li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>A visa-on-arrival option exists, but we recommend the eVisa — it's faster, cheaper, and avoids the queue at JRO.</li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>Yellow fever certificate is required only if arriving from a country with risk of transmission.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flights -->
+  <section id="flights" class="section bg-dusk-50 scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">03</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Flights
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Most international flights arrive at Kilimanjaro International Airport (JRO) for the safari circuit, or Abeid Amani Karume (ZNZ) for Zanzibar direct. Dar es Salaam (DAR) is the main hub for the southern parks and the coast.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {airlines.map((a) => (
+          <div class="bg-white rounded-2xl border border-dusk-100 p-5">
+            <p class="font-display text-lg text-safari-900 mb-1">{a.name}</p>
+            <p class="text-sm text-dusk-600 mb-2">{a.route}</p>
+            <p class="text-xs text-dusk-500">{a.notes}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 bg-safari-900 text-white rounded-2xl p-6 md:p-8">
+        <p class="eyebrow text-savannah-300 mb-3">Internal flights</p>
+        <h3 class="font-display text-xl mb-3">Getting around Tanzania</h3>
+        <p class="text-dusk-100/90 leading-relaxed text-sm mb-4">
+          Most safari itineraries use small aircraft (Cessna Caravan, 12-seater) for transfers between parks. These are bookable as part of your safari package. The two main operators are Auric Air and Coastal Aviation — both safe, both bookable through us.
+        </p>
+        <p class="text-dusk-100/90 leading-relaxed text-sm">
+          Baggage limit on internal flights is 15kg in a soft bag. Hard suitcases are not accepted.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Health -->
+  <section id="health" class="section bg-white scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">04</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Health
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Visit a travel doctor 6–8 weeks before departure. Malaria is the main health concern below 1,800m. Medical facilities outside Arusha and Dar es Salaam are limited — your travel insurance should cover evacuation.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="bg-dusk-50 rounded-2xl border border-dusk-100 p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-10 h-10 rounded-lg bg-red-100 text-red-700 flex items-center justify-center flex-shrink-0">
+              <Stethoscope size={20} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900">Vaccinations</h3>
+          </div>
+          <ul class="text-sm text-dusk-700 space-y-2">
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Yellow fever (required if arriving from an endemic country)</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Hepatitis A and B</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Typhoid</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Tetanus, diphtheria, polio (routine boosters)</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Rabies (recommended for longer trips or off-the-beaten-track travel)</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Influenza (seasonal)</span></li>
+          </ul>
+        </div>
+
+        <div class="bg-dusk-50 rounded-2xl border border-dusk-100 p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
+              <Droplet size={20} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900">Malaria</h3>
+          </div>
+          <ul class="text-sm text-dusk-700 space-y-2">
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Present in all safari areas below 1,800m</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Take anti-malarial prophylaxis (consult your doctor — common options: Malarone, doxycycline, Lariam)</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Use DEET-based repellent on exposed skin, especially at dawn and dusk</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Sleep under mosquito nets (provided at all safari lodges)</span></li>
+            <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Cover up at dawn and dusk with long sleeves and trousers</span></li>
+          </ul>
+        </div>
+
+        <div class="bg-dusk-50 rounded-2xl border border-dusk-100 p-6 sm:col-span-2">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-10 h-10 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+              <Heart size={20} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900">Food, water, and medical care</h3>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-6">
+            <ul class="text-sm text-dusk-700 space-y-2">
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Stick to bottled or filtered water — provided at every lodge</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Hot, cooked food is safe; avoid salads washed in tap water</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Fruit you can peel is fine</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Carry a small first-aid kit: rehydration salts, plasters, antiseptic, painkillers</span></li>
+            </ul>
+            <ul class="text-sm text-dusk-700 space-y-2">
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>The Aga Khan Hospital in Dar es Salaam is the best private hospital in East Africa</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Arusha Lutheran Medical Centre handles most safari-area emergencies</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Evacuation by air to Nairobi is the standard for serious cases — make sure insurance covers it</span></li>
+              <li class="flex items-start gap-2"><Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" /><span>Pharmacies in Arusha and Stone Town stock most common medications</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Money -->
+  <section id="money" class="section bg-dusk-50 scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">05</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Money and tipping
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          The Tanzanian shilling (TZS) is the local currency. USD is widely accepted at lodges and for tips, but you need shillings for small purchases, taxis, and markets. ATMs are reliable in cities.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+          <h3 class="font-display text-lg text-safari-900 mb-4">Payment methods</h3>
+          <ul class="space-y-3 text-sm text-dusk-700">
+            <li class="flex items-start gap-3">
+              <span class="w-2 h-2 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>
+              <div>
+                <p class="font-medium text-safari-900">Cash (USD or TZS)</p>
+                <p class="text-xs text-dusk-500">Bring USD bills in good condition (post-2013, no tears or marks). Most lodges accept cash as a backup.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-2 h-2 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>
+              <div>
+                <p class="font-medium text-safari-900">Credit cards (Visa, Mastercard)</p>
+                <p class="text-xs text-dusk-500">Widely accepted at lodges, larger restaurants, and shops. Surcharges of 2–5% are common.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-2 h-2 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>
+              <div>
+                <p class="font-medium text-safari-900">ATMs (CRDB, NMB, Barclays)</p>
+                <p class="text-xs text-dusk-500">Found in Arusha, Moshi, Stone Town, and Dar. Max withdrawal is usually TZS 500,000 (~$200) per transaction.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-2 h-2 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>
+              <div>
+                <p class="font-medium text-safari-900">Mobile money (M-Pesa, Tigo Pesa)</p>
+                <p class="text-xs text-dusk-500">Useful for small vendors and tipping. Requires a local SIM.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+          <h3 class="font-display text-lg text-safari-900 mb-4">Tipping guidelines</h3>
+          <ul class="space-y-3 text-sm text-dusk-700">
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Safari guide</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">$20–25 / day</span>
+            </li>
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Camp/lodge staff (combined)</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">$10–15 / day</span>
+            </li>
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Kilimanjaro crew (per climber)</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">$300–400 total</span>
+            </li>
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Zanzibar driver/guide</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">$15–20 / day</span>
+            </li>
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Restaurant service</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">5–10% (often added)</span>
+            </li>
+            <li class="flex items-start justify-between gap-3">
+              <span class="text-safari-900">Hotel porter</span>
+              <span class="text-dusk-600 text-xs whitespace-nowrap">$1–2 per bag</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Language -->
+  <section id="language" class="section bg-white scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">06</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Language
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          The national language is Swahili, and English is widely spoken in the safari and beach areas. Learning a few Swahili phrases goes a long way — people genuinely appreciate the effort.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {swahiliBasics.map((s) => (
+          <div class="bg-dusk-50 rounded-xl border border-dusk-100 p-4">
+            <p class="text-xs uppercase tracking-wider text-dusk-500 mb-1">{s.english}</p>
+            <p class="font-display text-lg text-safari-900 mb-1">{s.swahili}</p>
+            <p class="text-xs text-dusk-600 italic">{s.pronunciation}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Culture -->
+  <section id="culture" class="section bg-dusk-50 scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">07</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Culture and customs
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Tanzania is home to 120+ ethnic groups, with Swahili as the unifying language. The country is roughly 60% Christian, 35% Muslim (95%+ on Zanzibar), and the rest a mix of traditional beliefs. A few practical notes will help you get along well.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {cultureTips.map((c) => (
+          <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+            <h3 class="font-display text-lg text-safari-900 mb-3">{c.title}</h3>
+            <p class="text-sm text-dusk-700 leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Packing -->
+  <section id="packing" class="section bg-white scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">08</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          What to pack
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Neutral colours are the key — khaki, olive, beige, stone. Avoid white (shows every speck of dust), bright colours, and camouflage print (illegal in some East African countries). Most safari vehicles have a power inverter and storage for your bag.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5">
+        {safariPacking.map((p) => (
+          <div class="bg-dusk-50 rounded-2xl border border-dusk-100 p-6">
+            <h3 class="font-display text-lg text-safari-900 mb-4">{p.category}</h3>
+            <ul class="space-y-2">
+              {p.items.map((item) => (
+                <li class="flex items-start gap-2 text-sm text-dusk-700">
+                  <Check size={14} class="text-safari-600 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Safety -->
+  <section id="safety" class="section bg-dusk-50 scroll-mt-32">
+    <div class="container-content">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow text-safari-600 mb-3">09</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Safety
+        </h2>
+        <p class="text-dusk-700 leading-relaxed text-lg">
+          Tanzania is one of the safest countries in East Africa. Sensible precautions — like in any destination — are usually all you need. The bigger risks are road accidents and malaria, both of which can be mitigated.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {safetyTips.map((s) => (
+          <div class="bg-white rounded-2xl border border-dusk-100 p-6">
+            <h3 class="font-display text-lg text-safari-900 mb-3">{s.title}</h3>
+            <p class="text-sm text-dusk-700 leading-relaxed">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section id="faqs" class="section bg-white scroll-mt-32">
+    <div class="container-content max-w-3xl">
+      <div class="text-center mb-12">
+        <p class="eyebrow text-safari-600 mb-3">10</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+          Frequently asked questions
+        </h2>
+      </div>
+
+      <div class="space-y-3">
+        {faqs.map((f) => (
+          <details class="group bg-dusk-50 rounded-xl border border-dusk-100 overflow-hidden">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-5 hover:bg-dusk-100 transition-colors">
+              <h3 class="font-display text-base md:text-lg text-safari-900">{f.q}</h3>
+              <span class="w-7 h-7 rounded-full bg-white border border-dusk-200 flex items-center justify-center flex-shrink-0 transition-transform group-open:rotate-45">
+                <span class="w-3 h-3 relative block">
+                  <span class="absolute top-1/2 left-0 w-full h-px bg-safari-900 -translate-y-1/2"></span>
+                  <span class="absolute top-0 left-1/2 h-full w-px bg-safari-900 -translate-x-1/2"></span>
+                </span>
+              </span>
+            </summary>
+            <div class="px-5 pb-5 text-dusk-700 leading-relaxed">
+              {f.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Ready to start?</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Tell us what you want from the trip
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          Send us a few lines — when you want to travel, who is coming, and what you are hoping to see. We will send a draft itinerary within 24 hours.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact" class="btn btn-primary px-8 py-3.5">
+            Get a draft itinerary
+            <ArrowRight size={16} />
+          </a>
+          <a href="/tours" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            See ready-made tours
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

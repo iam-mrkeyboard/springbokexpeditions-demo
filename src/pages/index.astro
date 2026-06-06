@@ -1,0 +1,129 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Features from '../components/home/Features.astro';
+import FeaturedTours from '../components/home/FeaturedTours.astro';
+import Destinations from '../components/home/Destinations.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import WhyUs from '../components/home/WhyUs.astro';
+import Seasons from '../components/home/Seasons.astro';
+import { siteInfo, absoluteUrl } from '../lib/site';
+import { organizationJsonLd, websiteId, organizationId } from '../lib/jsonld';
+
+const orgGraph = {
+  ...organizationJsonLd(),
+  '@graph': [
+    ...organizationJsonLd()['@graph'],
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: absoluteUrl('/'),
+      name: siteInfo.name,
+      inLanguage: 'en',
+      publisher: { '@id': organizationId },
+    },
+    {
+      '@type': 'LocalBusiness',
+      '@id': absoluteUrl('/#localbusiness'),
+      name: siteInfo.name,
+      image: absoluteUrl('/logo.png'),
+      telephone: siteInfo.phone,
+      email: siteInfo.email,
+      priceRange: '$$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: siteInfo.address.street,
+        addressLocality: siteInfo.address.city,
+        addressCountry: siteInfo.address.countryCode,
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: siteInfo.geo.latitude,
+        longitude: siteInfo.geo.longitude,
+      },
+      parentOrganization: { '@id': organizationId },
+    },
+  ],
+};
+
+// Featured tours - sample data; later these come from DB
+const featuredTours = [
+  {
+    slug: 'signature-northern-circuit',
+    title: 'Signature Northern Circuit',
+    durationDays: 7,
+    priceFromUsd: 3450,
+    summary: 'Tarangire, Serengeti, Ngorongoro, and Lake Manyara in one unforgettable week. Our most popular safari.',
+    hero: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=900&q=80&auto=format&fit=crop',
+    destination: 'Northern Tanzania',
+    type: 'Signature',
+  },
+  {
+    slug: 'great-migration-calving',
+    title: 'Great Migration Calving Safari',
+    durationDays: 5,
+    priceFromUsd: 2890,
+    summary: 'Witness over 500,000 wildebeest calves being born on the Ndutu Plains — nature at its most raw.',
+    hero: 'https://images.unsplash.com/photo-1535083783855-76ae62b2914e?w=900&q=80&auto=format&fit=crop',
+    destination: 'Ndutu, Serengeti',
+    type: 'Migration',
+  },
+  {
+    slug: 'kilimanjaro-machame',
+    title: 'Kilimanjaro · Machame Route',
+    durationDays: 7,
+    priceFromUsd: 2450,
+    summary: 'The "Whiskey Route" — the most scenic path to Uhuru Peak. 7 days, 95% summit success.',
+    hero: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=900&q=80&auto=format&fit=crop',
+    destination: 'Mount Kilimanjaro',
+    type: 'Trekking',
+  },
+  {
+    slug: 'honeymoon-safari-zanzibar',
+    title: 'Honeymoon Safari + Zanzibar',
+    durationDays: 10,
+    priceFromUsd: 5980,
+    summary: 'Intimate game drives, private sundowners, and six nights on Zanzibar\'s most romantic beaches.',
+    hero: 'https://images.unsplash.com/photo-1505881502353-a1986add3762?w=900&q=80&auto=format&fit=crop',
+    destination: 'Safari + Zanzibar',
+    type: 'Honeymoon',
+  },
+  {
+    slug: 'cultural-tanzania',
+    title: 'Cultural Tanzania',
+    durationDays: 7,
+    priceFromUsd: 2680,
+    summary: 'Walk with Maasai warriors, hunt with the Hadzabe, and learn Swahili cooking in a local village.',
+    hero: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=80&auto=format&fit=crop',
+    destination: 'Northern Tanzania',
+    type: 'Cultural',
+  },
+  {
+    slug: 'mara-river-crossing',
+    title: 'Mara River Crossing Safari',
+    durationDays: 7,
+    priceFromUsd: 4250,
+    summary: 'Position yourself on the Mara River for the world\'s most dramatic wildlife spectacle.',
+    hero: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=900&q=80&auto=format&fit=crop',
+    destination: 'Northern Serengeti',
+    type: 'Migration',
+  },
+];
+---
+
+<PublicLayout
+  title="Premium Tanzania Safaris & Kilimanjaro Climbs"
+  description="Locally-owned Tanzanian tour operator crafting unforgettable safaris, Kilimanjaro climbs, and Zanzibar beach holidays. 15+ years experience, expert guides, sustainable travel."
+  ogImage="/og/index.png"
+  transparentHeader={true}
+>
+  <Hero />
+  <Features />
+  <FeaturedTours tours={featuredTours} />
+  <Destinations />
+  <Testimonials />
+  <WhyUs />
+  <Seasons />
+
+  <script type="application/ld+json" set:html={JSON.stringify(orgGraph)} slot="head" />
+</PublicLayout>
