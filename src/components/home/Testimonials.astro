@@ -1,0 +1,61 @@
+---
+import { Star, Quote } from '@lucide/astro';
+
+const testimonials = [
+  {
+    name: 'Sarah & Michael',
+    country: 'United Kingdom',
+    rating: 5,
+    body: "Simon and the team made our honeymoon safari absolutely magical. From sunrise balloon rides over the Serengeti to sundowners in the Crater — every detail was perfect. We've already recommended Springbok to friends.",
+    tour: 'Honeymoon Safari + Zanzibar',
+  },
+  {
+    name: 'David Chen',
+    country: 'Singapore',
+    rating: 5,
+    body: "I climbed Kilimanjaro via Machame with Springbok. The guides were patient, the food was incredible, and we made it to Uhuru Peak at sunrise. Their 95% summit rate is real — I saw why on the mountain.",
+    tour: 'Kilimanjaro · Machame Route',
+  },
+  {
+    name: 'The Patel Family',
+    country: 'United States',
+    rating: 5,
+    body: "Traveling with three kids (ages 7, 10, 13) felt daunting, but Springbok designed a family safari that kept everyone engaged. The kids still talk about the lions in Tarangire and the Hadzabe hunters at Lake Eyasi.",
+    tour: 'Family Safari Adventure',
+  },
+];
+---
+
+<section class="section bg-safari-900 text-white relative overflow-hidden">
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-10 right-10 w-72 h-72 rounded-full bg-savannah-500 blur-3xl"></div>
+    <div class="absolute bottom-10 left-10 w-96 h-96 rounded-full bg-savannah-500 blur-3xl"></div>
+  </div>
+
+  <div class="container-content relative">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="eyebrow text-savannah-300 mb-3">From Our Travelers</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-white mb-5">
+        Real stories from real journeys
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {testimonials.map((t) => (
+        <div class="bg-safari-800/50 backdrop-blur border border-savannah-500/20 rounded-2xl p-8 hover:border-savannah-500/40 transition-colors">
+          <Quote size={32} class="text-savannah-500 mb-4" />
+          <p class="text-dusk-100 leading-relaxed mb-6">"{t.body}"</p>
+          <div class="flex gap-0.5 mb-4">
+            {Array.from({ length: t.rating }).map(() => (
+              <Star size={14} class="fill-savannah-500 text-savannah-500" />
+            ))}
+          </div>
+          <div>
+            <p class="font-medium text-white">{t.name}</p>
+            <p class="text-sm text-dusk-300">{t.country} · {t.tour}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

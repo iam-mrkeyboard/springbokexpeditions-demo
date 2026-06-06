@@ -1,0 +1,85 @@
+---
+import { ArrowRight, MapPin, Calendar } from '@lucide/astro';
+
+interface Tour {
+  slug: string;
+  title: string;
+  durationDays: number;
+  priceFromUsd: number;
+  summary: string;
+  hero: string;
+  destination: string;
+  type: string;
+}
+
+interface Props {
+  tours: Tour[];
+  eyebrow?: string;
+  heading?: string;
+  subheading?: string;
+}
+
+const {
+  tours = [],
+  eyebrow = 'Featured Itineraries',
+  heading = 'Signature safaris, ready to book',
+  subheading = "Hand-picked routes that combine Tanzania's most iconic parks and experiences. Customize any of them, or use them as inspiration for your own.",
+} = Astro.props;
+---
+
+<section class="section bg-white">
+  <div class="container-content">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+      <div class="max-w-2xl">
+        <p class="eyebrow mb-3">{eyebrow}</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+          {heading}
+        </h2>
+        <p class="text-dusk-700 text-lg leading-relaxed mt-4">{subheading}</p>
+      </div>
+      <a href="/tours" class="btn btn-ghost self-start md:self-auto">
+        View all safaris
+        <ArrowRight size={16} />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {tours.slice(0, 6).map((tour) => (
+        <a href={`/tours/${tour.slug}`} class="card card-hover group block">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img
+              src={tour.hero}
+              alt={tour.title}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute top-3 left-3 bg-safari-900/90 backdrop-blur text-white text-xs font-medium px-3 py-1.5 rounded-full">
+              From ${tour.priceFromUsd.toLocaleString()}
+            </div>
+            {tour.type && (
+              <div class="absolute top-3 right-3 bg-savannah-500/95 backdrop-blur text-safari-900 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full">
+                {tour.type}
+              </div>
+            )}
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-xl font-medium text-safari-900 mb-2 group-hover:text-savannah-700 transition-colors">
+              {tour.title}
+            </h3>
+            <p class="text-sm text-dusk-700 leading-relaxed mb-4 line-clamp-2">{tour.summary}</p>
+            <div class="flex items-center gap-4 text-xs text-dusk-600">
+              <span class="flex items-center gap-1.5">
+                <MapPin size={13} />
+                {tour.destination}
+              </span>
+              <span class="flex items-center gap-1.5">
+                <Calendar size={13} />
+                {tour.durationDays} {tour.durationDays === 1 ? 'day' : 'days'}
+              </span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

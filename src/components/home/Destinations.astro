@@ -1,0 +1,54 @@
+---
+import { MapPin, ArrowRight } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+const featured = await getCollection('destinations', (entry) =>
+  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'kilimanjaro-national-park', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
+);
+---
+
+<section class="section bg-dusk-100">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="eyebrow mb-3">Where We Go</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+        Iconic destinations, real expertise
+      </h2>
+      <p class="text-dusk-700 text-lg leading-relaxed">
+        Our guides are born and raised in the regions we explore. They know where the leopards den, when the migrations turn, and which baobab has watched a thousand sunsets.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {featured.map((d) => (
+        <a href={`/destinations/${d.id}`} class="group relative aspect-[4/5] overflow-hidden rounded-2xl block">
+          <img
+            src={d.data.hero}
+            alt={d.data.name}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/30 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6 text-white">
+            <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-savannah-300 mb-2">
+              <MapPin size={12} />
+              {d.data.region}
+            </div>
+            <h3 class="font-display text-2xl md:text-3xl font-medium mb-2">{d.data.name}</h3>
+            <p class="text-sm text-dusk-100/90 leading-relaxed mb-3">{d.data.summary.slice(0, 90)}{d.data.summary.length > 90 ? '…' : ''}</p>
+            <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-400 group-hover:gap-3 transition-all">
+              Explore <ArrowRight size={14} />
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="/destinations" class="btn btn-ghost">
+        View all destinations
+        <ArrowRight size={16} />
+      </a>
+    </div>
+  </div>
+</section>

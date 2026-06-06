@@ -1,0 +1,77 @@
+---
+import { MapPin, Utensils, Bed } from '@lucide/astro';
+
+interface ItineraryDay {
+  day: number;
+  title: string;
+  body: string;
+  meals: string;
+  accommodation: string;
+  activities: string[];
+}
+
+interface Props {
+  itinerary: ItineraryDay[];
+}
+
+const { itinerary } = Astro.props;
+
+const mealLabels: Record<string, string> = {
+  B: 'Breakfast',
+  L: 'Lunch',
+  D: 'Dinner',
+  BL: 'Breakfast & Lunch',
+  BD: 'Breakfast & Dinner',
+  BLD: 'All meals',
+};
+---
+
+<section>
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-10 h-10 rounded-xl bg-savannah-100 flex items-center justify-center">
+      <MapPin size={18} class="text-savannah-700" />
+    </div>
+    <h2 class="font-display text-2xl font-medium text-safari-900">Day-by-Day Itinerary</h2>
+  </div>
+
+  <div class="relative">
+    <!-- Vertical line -->
+    <div class="absolute left-5 top-3 bottom-3 w-px bg-dusk-200 hidden md:block"></div>
+
+    <div class="space-y-6">
+      {itinerary.map((day) => (
+        <div class="relative md:pl-14">
+          <!-- Day circle -->
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-safari-700 text-white flex items-center justify-center font-display font-medium text-sm hidden md:flex">
+            {day.day}
+          </div>
+          <div class="bg-white border border-dusk-100 rounded-2xl p-6 hover:border-savannah-500/50 hover:shadow-soft transition-all">
+            <div class="flex items-center gap-3 mb-3 md:hidden">
+              <span class="bg-safari-700 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                Day {day.day}
+              </span>
+            </div>
+            <h3 class="font-display text-lg font-medium text-safari-900 mb-3">{day.title}</h3>
+            <p class="text-dusk-700 leading-relaxed mb-4">{day.body}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-dusk-100">
+              <div class="flex items-start gap-2 text-sm">
+                <Utensils size={14} class="text-savannah-700 mt-0.5 shrink-0" />
+                <div>
+                  <span class="text-dusk-500">Meals: </span>
+                  <span class="text-dusk-800 font-medium">{mealLabels[day.meals] || day.meals}</span>
+                </div>
+              </div>
+              <div class="flex items-start gap-2 text-sm">
+                <Bed size={14} class="text-savannah-700 mt-0.5 shrink-0" />
+                <div>
+                  <span class="text-dusk-500">Stay: </span>
+                  <span class="text-dusk-800 font-medium">{day.accommodation}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

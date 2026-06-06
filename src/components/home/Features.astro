@@ -1,0 +1,63 @@
+---
+import { Map, Mountain, Users, Sparkles, ArrowRight } from '@lucide/astro';
+
+const features = [
+  {
+    icon: Map,
+    title: 'Wildlife Safaris',
+    body: 'Track the Big Five across the Serengeti, Ngorongoro Crater, and Tarangire with expert local guides who know every watering hole and pride of lions.',
+    link: '/tours?style=wildlife',
+  },
+  {
+    icon: Mountain,
+    title: 'Kilimanjaro Climbs',
+    body: 'Choose from seven routes to the Roof of Africa. Our 95% summit success rate comes from careful acclimatization and experienced mountain crews.',
+    link: '/kilimanjaro',
+  },
+  {
+    icon: Users,
+    title: 'Cultural Encounters',
+    body: "Walk with Maasai warriors, hunt with the Hadzabe, and learn to cook Swahili cuisine in Stone Town. Real connections, not staged performances.",
+    link: '/experiences/cultural',
+  },
+  {
+    icon: Sparkles,
+    title: 'Custom Adventures',
+    body: "Tell us what you dream of — a honeymoon, a family trip, a solo expedition — and we'll design every detail around you.",
+    link: '/contact',
+  },
+];
+---
+
+<section class="section bg-dusk-50">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="eyebrow mb-4">What We Offer</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
+        A Tanzania for every kind of traveler
+      </h2>
+      <p class="text-dusk-700 text-lg leading-relaxed">
+        Whether you're chasing the Great Migration, summiting Kilimanjaro, or unwinding on a Zanzibar beach — we have the journey, and the team, to make it real.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {features.map((f) => (
+        <a
+          href={f.link}
+          class="card card-hover p-8 group block"
+        >
+          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+            <f.icon size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
+          </div>
+          <h3 class="font-display text-xl font-medium text-safari-900 mb-3">{f.title}</h3>
+          <p class="text-sm text-dusk-700 leading-relaxed mb-4">{f.body}</p>
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+            Learn more
+            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

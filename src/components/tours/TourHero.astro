@@ -1,0 +1,61 @@
+---
+import { Star } from '@lucide/astro';
+
+interface Props {
+  tour: {
+    data: {
+      title: string;
+      hero: string;
+      gallery?: string[];
+      excerpt: string;
+      priceFromUSD: number;
+      destinations: string[];
+      featured?: boolean;
+    };
+  };
+  typeLabel: string;
+}
+
+const { tour, typeLabel } = Astro.props;
+---
+
+<section class="relative h-[70vh] min-h-[500px] flex items-end overflow-hidden bg-safari-900 text-white">
+  <div class="absolute inset-0 z-0">
+    <img
+      src={tour.data.hero}
+      alt={tour.data.title}
+      class="w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/40 to-safari-900/20"></div>
+  </div>
+
+  <div class="container-content relative z-10 pb-12">
+    <nav class="flex items-center gap-2 text-sm text-dusk-200 mb-6">
+      <a href="/" class="hover:text-white">Home</a>
+      <span>/</span>
+      <a href="/tours" class="hover:text-white">Tours</a>
+      <span>/</span>
+      <span class="text-dusk-300">{tour.data.title}</span>
+    </nav>
+
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-savannah-500 text-safari-900 text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full">
+        {typeLabel}
+      </span>
+      {tour.data.featured && (
+        <span class="bg-sunset-500 text-white text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full flex items-center gap-1">
+          <Star size={11} fill="currentColor" /> Featured
+        </span>
+      )}
+    </div>
+
+    <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white max-w-3xl mb-4">
+      {tour.data.title}
+    </h1>
+    <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed">
+      {tour.data.excerpt}
+    </p>
+  </div>
+</section>

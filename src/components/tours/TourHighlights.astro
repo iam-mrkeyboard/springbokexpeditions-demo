@@ -1,0 +1,28 @@
+---
+import { Check, Sparkles } from '@lucide/astro';
+
+interface Props {
+  highlights: string[];
+}
+
+const { highlights } = Astro.props;
+---
+
+<section>
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-10 h-10 rounded-xl bg-savannah-100 flex items-center justify-center">
+      <Sparkles size={18} class="text-savannah-700" />
+    </div>
+    <h2 class="font-display text-2xl font-medium text-safari-900">Tour Highlights</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    {highlights.map((highlight) => (
+      <div class="flex items-start gap-3 p-4 bg-dusk-50 rounded-xl">
+        <div class="w-6 h-6 rounded-full bg-savannah-500 flex items-center justify-center shrink-0 mt-0.5">
+          <Check size={14} class="text-safari-900" stroke-width={3} />
+        </div>
+        <span class="text-dusk-800 leading-relaxed">{highlight}</span>
+      </div>
+    ))}
+  </div>
+</section>

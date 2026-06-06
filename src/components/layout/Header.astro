@@ -1,0 +1,391 @@
+---
+import { Phone, Mail, Menu, X, ChevronDown } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  transparent?: boolean;
+  siteName: string;
+}
+
+const { transparent = false } = Astro.props;
+
+const destHighlights = await getCollection('destinations', (entry) =>
+  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
+);
+
+const navItems = [
+  {
+    label: 'Safaris',
+    href: '/tours',
+    children: [
+      {
+        label: 'All Safaris',
+        href: '/tours',
+        desc: 'Browse all our Tanzania safaris',
+      },
+      {
+        label: 'Wildlife Safaris',
+        href: '/tours?style=wildlife',
+        desc: 'Big Five, Great Migration',
+      },
+      {
+        label: 'Luxury Safaris',
+        href: '/tours?style=luxury',
+        desc: 'Premium lodges & private guides',
+      },
+      {
+        label: 'Family Safaris',
+        href: '/tours?style=family',
+        desc: 'Kid-friendly itineraries',
+      },
+      {
+        label: 'Honeymoon Safaris',
+        href: '/tours?style=honeymoon',
+        desc: 'Romantic & intimate',
+      },
+      {
+        label: 'Day Trips',
+        href: '/tours?style=day-trip',
+        desc: 'Quick escapes from Arusha',
+      },
+    ],
+  },
+  {
+    label: 'Destinations',
+    href: '/destinations',
+    children: [
+      {
+        label: 'All Destinations',
+        href: '/destinations',
+        desc: 'All parks & islands',
+      },
+      ...destHighlights.map((d) => ({
+        label: d.data.name,
+        href: `/destinations/${d.id}`,
+        desc: d.data.summary.slice(0, 60) + (d.data.summary.length > 60 ? '…' : ''),
+      })),
+    ],
+  },
+  {
+    label: 'Kilimanjaro',
+    href: '/kilimanjaro',
+    children: [
+      {
+        label: 'All Routes',
+        href: '/kilimanjaro',
+        desc: 'Compare 7 climbing routes',
+      },
+      {
+        label: 'Machame Route',
+        href: '/kilimanjaro/machame',
+        desc: '7 days · Scenic · Popular',
+      },
+      {
+        label: 'Lemosho Route',
+        href: '/kilimanjaro/lemosho',
+        desc: '8 days · Best acclimatization',
+      },
+      {
+        label: 'Marangu Route',
+        href: '/kilimanjaro/marangu',
+        desc: '6 days · The "Coca-Cola" route',
+      },
+      {
+        label: 'Rongai Route',
+        href: '/kilimanjaro/rongai',
+        desc: '7 days · Northern approach',
+      },
+    ],
+  },
+  {
+    label: 'Zanzibar',
+    href: '/zanzibar',
+    children: [
+      {
+        label: 'All Areas',
+        href: '/zanzibar',
+        desc: 'Compare 8 hand-picked areas',
+      },
+      {
+        label: 'Stone Town',
+        href: '/zanzibar/stone-town',
+        desc: 'UNESCO old town & culture',
+      },
+      {
+        label: 'Nungwi',
+        href: '/zanzibar/nungwi',
+        desc: 'Beach, sunsets, bars',
+      },
+      {
+        label: 'Kendwa',
+        href: '/zanzibar/kendwa',
+        desc: 'Quiet · Luxury resorts',
+      },
+      {
+        label: 'Paje',
+        href: '/zanzibar/paje',
+        desc: 'Kitesurfing capital',
+      },
+      {
+        label: 'Matemwe',
+        href: '/zanzibar/matemwe',
+        desc: 'Diving & Mnemba Atoll',
+      },
+    ],
+  },
+  {
+    label: 'Experiences',
+    href: '/experiences',
+    children: [
+      {
+        label: 'All Experiences',
+        href: '/experiences',
+        desc: '6 ways to experience Tanzania',
+      },
+      {
+        label: 'Honeymoon',
+        href: '/experiences/honeymoon-safari',
+        desc: 'Private, romantic, Zanzibar finish',
+      },
+      {
+        label: 'Family',
+        href: '/experiences/family-safari',
+        desc: 'Kid-friendly, short drives',
+      },
+      {
+        label: 'Great Migration',
+        href: '/experiences/great-migration-safari',
+        desc: 'Mara River crossings, Jul–Oct',
+      },
+      {
+        label: 'Photography',
+        href: '/experiences/photography-safari',
+        desc: 'Custom 4x4, dedicated guide',
+      },
+      {
+        label: 'Birding',
+        href: '/experiences/birding-safari',
+        desc: '1,100+ species',
+      },
+      {
+        label: 'Cultural',
+        href: '/experiences/cultural-tanzania',
+        desc: 'Maasai, Hadzabe, Datoga',
+      },
+    ],
+  },
+  {
+    label: 'Blog',
+    href: '/blog',
+    children: null,
+  },
+  {
+    label: 'About',
+    href: '/about',
+    children: null,
+  },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  id='site-header'
+  data-transparent={transparent ? 'true' : 'false'}
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
+    transparent
+      ? 'site-header--transparent text-white'
+      : 'bg-white/95 backdrop-blur-md text-dusk-900 border-b border-dusk-100',
+  ]}
+>
+  <!-- Top contact bar -->
+  <div
+    class:list={[
+      'hidden lg:block border-b header-contact-border',
+      transparent ? 'border-white/10' : 'border-dusk-100',
+    ]}
+  >
+    <div
+      class='container-content flex justify-end items-center gap-6 py-2 text-xs'
+    >
+      <a
+        href='tel:+255784136616'
+        class:list={[
+          'header-contact-link flex items-center gap-1.5 hover:text-savannah-600 transition-colors',
+          transparent ? 'text-white/80' : 'text-dusk-700',
+        ]}
+      >
+        <Phone size={13} />
+        <span>+255 784 136 616</span>
+      </a>
+      <a
+        href='mailto:info@springbokexpeditions.com'
+        class:list={[
+          'header-contact-link flex items-center gap-1.5 hover:text-savannah-600 transition-colors',
+          transparent ? 'text-white/80' : 'text-dusk-700',
+        ]}
+      >
+        <Mail size={13} />
+        <span>info@springbokexpeditions.com</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main nav -->
+  <div class='container-content'>
+    <div class='flex items-center justify-between h-20'>
+      <!-- Logo -->
+      <a href='/' class='flex items-center gap-3 group'>
+        <img
+          src='/logo.png'
+          alt='Springbok Expeditions'
+          class='object-contain header-logo-img'
+          height={50}
+          width={200}
+        />
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class='hidden lg:flex items-center gap-1'>
+        {
+          navItems.map((item) => (
+            <div class='relative group'>
+              <a
+                href={item.href}
+                class:list={[
+                  'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors',
+                  'hover:text-savannah-600',
+                  currentPath === item.href ||
+                  (item.href !== '/' && currentPath.startsWith(item.href))
+                    ? 'text-savannah-600'
+                    : '',
+                ]}>
+                {item.label}
+                {item.children && (
+                  <ChevronDown
+                    size={14}
+                    class='transition-transform group-hover:rotate-180'
+                  />
+                )}
+              </a>
+              {item.children && (
+                <div class='invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[420px] z-10'>
+                  <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1'>
+                    {item.children.map((child) => (
+                      <a
+                        href={child.href}
+                        class='flex flex-col px-3 py-2.5 rounded-lg hover:bg-dusk-50 transition-colors group/item'>
+                        <span class='font-medium text-sm text-dusk-900 group-hover/item:text-savannah-700'>
+                          {child.label}
+                        </span>
+                        <span class='text-xs text-dusk-600 mt-0.5'>
+                          {child.desc}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </nav>
+
+      <!-- CTA button -->
+      <div class='hidden lg:flex items-center gap-3'>
+        <a href='/contact' class='btn btn-primary'> Plan Your Safari </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button
+        id='mobile-menu-btn'
+        class='lg:hidden p-2 -mr-2'
+        aria-label='Toggle menu'
+        aria-expanded='false'
+      >
+        <Menu size={24} id='menu-icon-open' />
+        <X size={24} id='menu-icon-close' class='hidden' />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id='mobile-menu'
+    class='hidden lg:hidden border-t border-dusk-100 bg-white'
+  >
+    <nav class='container-content py-6 space-y-1'>
+      {
+        navItems.map((item) => (
+          <div>
+            <a
+              href={item.href}
+              class='block px-3 py-2.5 text-base font-medium text-dusk-900 hover:bg-dusk-50 rounded-lg'>
+              {item.label}
+            </a>
+            {item.children && (
+              <div class='pl-4 space-y-1'>
+                {item.children.slice(0, 4).map((child) => (
+                  <a
+                    href={child.href}
+                    class='block px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'>
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      }
+      <div class='pt-4'>
+        <a href='/contact' class='btn btn-primary w-full'>Plan Your Safari</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    if (isOpen) {
+      menu?.classList.add('hidden');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      menu?.classList.remove('hidden');
+      iconOpen?.classList.add('hidden');
+      iconClose?.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Scroll-based header background: transparent at top, solid white once scrolled
+  const header = document.getElementById('site-header');
+  if (header && header.dataset.transparent === 'true') {
+    const SCROLL_THRESHOLD = 60;
+    let ticking = false;
+
+    const update = () => {
+      const scrolled = window.scrollY > SCROLL_THRESHOLD;
+      header.classList.toggle('is-scrolled', scrolled);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

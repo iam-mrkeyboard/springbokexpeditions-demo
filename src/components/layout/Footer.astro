@@ -1,0 +1,263 @@
+---
+import { Phone, Mail, MapPin } from '@lucide/astro';
+import SocialIcon from '@/components/layout/SocialIcon.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  siteName: string;
+  contact: {
+    phone?: string;
+    whatsapp?: string;
+    email?: string;
+    address?: string;
+  };
+  social: {
+    facebook?: string;
+    instagram?: string;
+    whatsapp?: string;
+    tripadvisor?: string;
+  };
+  footer: { copyright?: string; tagline?: string };
+}
+
+const { siteName, contact, social, footer } = Astro.props;
+
+const phone = contact.phone || '+255 784 136 616';
+const email = contact.email || 'info@springbokexpeditions.com';
+const whatsapp = contact.whatsapp || '+255 764 908 272';
+const address = contact.address || 'Arusha, Tanzania';
+const copyright =
+  footer.copyright ||
+  `© ${new Date().getFullYear()} ${siteName}. All rights reserved.`;
+const tagline =
+  footer.tagline || 'Locally owned tour operator in Arusha, Tanzania.';
+
+const safariLinks = [
+  { label: 'All Safaris', href: '/tours' },
+  { label: 'Wildlife Safaris', href: '/tours?style=wildlife' },
+  { label: 'Luxury Safaris', href: '/tours?style=luxury' },
+  { label: 'Family Safaris', href: '/tours?style=family' },
+  { label: 'Honeymoon Safaris', href: '/tours?style=honeymoon' },
+  { label: 'Day Trips', href: '/tours?style=day-trip' },
+];
+
+const allDests = await getCollection('destinations');
+const featuredDests = allDests
+  .slice()
+  .sort((a, b) => a.data.name.localeCompare(b.data.name))
+  .slice(0, 6)
+  .map((d) => ({ label: d.data.name, href: `/destinations/${d.id}` }));
+const destinationLinks = [{ label: 'All Destinations', href: '/destinations' }, ...featuredDests];
+
+const companyLinks = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Our Team', href: '/about#team' },
+  { label: 'Sustainability', href: '/about#sustainability' },
+  { label: 'Travel Info', href: '/travel-info' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<footer class='bg-safari-900 text-dusk-100 mt-auto'>
+  <!-- CTA banner -->
+  <div class='container-content -mt-16 mb-16'>
+    <div
+      class='bg-savannah-500 text-safari-900 rounded-2xl p-8 md:p-12 shadow-elevated flex flex-col md:flex-row items-center justify-between gap-6'
+    >
+      <div>
+        <h3 class='text-2xl md:text-3xl font-display font-medium mb-2'>
+          Ready for your Tanzanian adventure?
+        </h3>
+        <p class='text-safari-800/80 max-w-xl'>
+          Tell us what you dream of — a Great Migration safari, a Kilimanjaro
+          summit, or a quiet Zanzibar beach. We'll craft it for you.
+        </p>
+      </div>
+      <a
+        href='/contact'
+        class='btn bg-safari-900 text-savannah-500 hover:bg-safari-800 shrink-0'
+      >
+        Plan Your Safari
+      </a>
+    </div>
+  </div>
+
+  <!-- Main footer -->
+  <div class='container-content pb-12'>
+    <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8'>
+      <!-- Brand -->
+      <div class='lg:col-span-2'>
+        <a href='/' class='flex items-center gap-3 mb-4'>
+          <img
+            src='/logo.png'
+            alt='Springbok Expeditions'
+            class='object-contain brightness-0 invert'
+            width={150}
+            height={40}
+          />
+        </a>
+        <p class='text-dusk-200 text-sm leading-relaxed max-w-md mb-6'>
+          {tagline} Locally-owned in Arusha, crafting authentic safaris, Kilimanjaro
+          climbs, and Zanzibar holidays for travelers from around the world.
+        </p>
+
+        <div class='space-y-3 text-sm'>
+          <a
+            href={`tel:${phone.replace(/\s/g, '')}`}
+            class='flex items-center gap-3 text-dusk-200 hover:text-savannah-500 transition-colors'
+          >
+            <Phone size={16} />
+            <span>{phone}</span>
+          </a>
+          <a
+            href={`mailto:${email}`}
+            class='flex items-center gap-3 text-dusk-200 hover:text-savannah-500 transition-colors'
+          >
+            <Mail size={16} />
+            <span>{email}</span>
+          </a>
+          <a
+            href={`https://wa.me/${whatsapp.replace(/[^\d]/g, '')}`}
+            target='_blank'
+            rel='noopener'
+            class='flex items-center gap-3 text-dusk-200 hover:text-savannah-500 transition-colors'
+          >
+            <SocialIcon name='whatsapp' size={16} />
+            <span>{whatsapp}</span>
+          </a>
+          <div class='flex items-center gap-3 text-dusk-200'>
+            <MapPin size={16} />
+            <span>{address}</span>
+          </div>
+        </div>
+
+        <div class='flex items-center gap-3 mt-6'>
+          {
+            social.facebook && (
+              <a
+                href={social.facebook}
+                target='_blank'
+                rel='noopener'
+                aria-label='Facebook'
+                class='w-9 h-9 rounded-full bg-safari-800 hover:bg-savannah-500 hover:text-safari-900 flex items-center justify-center transition-colors'>
+                <SocialIcon name='facebook' size={16} />
+              </a>
+            )
+          }
+          {
+            social.instagram && (
+              <a
+                href={social.instagram}
+                target='_blank'
+                rel='noopener'
+                aria-label='Instagram'
+                class='w-9 h-9 rounded-full bg-safari-800 hover:bg-savannah-500 hover:text-safari-900 flex items-center justify-center transition-colors'>
+                <SocialIcon name='instagram' size={16} />
+              </a>
+            )
+          }
+          {
+            social.whatsapp && (
+              <a
+                href={social.whatsapp}
+                target='_blank'
+                rel='noopener'
+                aria-label='WhatsApp'
+                class='w-9 h-9 rounded-full bg-safari-800 hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-colors'>
+                <SocialIcon name='whatsapp' size={16} />
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Safaris -->
+      <div>
+        <h4
+          class='font-display text-savannah-500 font-medium mb-4 text-sm tracking-wider uppercase'
+        >
+          Safaris
+        </h4>
+        <ul class='space-y-2.5 text-sm'>
+          {
+            safariLinks.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class='text-dusk-200 hover:text-savannah-500 transition-colors'>
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Destinations -->
+      <div>
+        <h4
+          class='font-display text-savannah-500 font-medium mb-4 text-sm tracking-wider uppercase'
+        >
+          Destinations
+        </h4>
+        <ul class='space-y-2.5 text-sm'>
+          {
+            destinationLinks.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class='text-dusk-200 hover:text-savannah-500 transition-colors'>
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4
+          class='font-display text-savannah-500 font-medium mb-4 text-sm tracking-wider uppercase'
+        >
+          Company
+        </h4>
+        <ul class='space-y-2.5 text-sm'>
+          {
+            companyLinks.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class='text-dusk-200 hover:text-savannah-500 transition-colors'>
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class='border-t border-safari-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-dusk-400'
+    >
+      <p>{copyright}</p>
+      <div class='flex items-center gap-5'>
+        <a
+          href='/legal/privacy'
+          class='hover:text-savannah-500 transition-colors'>Privacy</a
+        >
+        <a href='/legal/terms' class='hover:text-savannah-500 transition-colors'
+          >Terms</a
+        >
+        <a
+          href='/legal/booking-conditions'
+          class='hover:text-savannah-500 transition-colors'
+          >Booking Conditions</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>

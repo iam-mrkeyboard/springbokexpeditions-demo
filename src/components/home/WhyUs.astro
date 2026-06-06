@@ -1,0 +1,58 @@
+---
+import { Leaf, Heart, Users, ShieldCheck } from '@lucide/astro';
+
+const promises = [
+  {
+    icon: Leaf,
+    title: 'Sustainable Travel',
+    body: 'We partner with locally-owned lodges, employ Tanzanian guides, and contribute a portion of every trip to conservation in the parks we visit.',
+  },
+  {
+    icon: Heart,
+    title: 'Crafted, Not Packaged',
+    body: "Every itinerary starts with you. Tell us your style, pace, and dreams — we'll build around them, not hand you a brochure.",
+  },
+  {
+    icon: Users,
+    title: 'Born & Raised Here',
+    body: "Our guides grew up tracking wildlife in the Serengeti and summiting Kilimanjaro. That local knowledge is something you can't fake.",
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Safe & Supported',
+    body: '24/7 in-country support, licensed guides, insured vehicles, and emergency protocols. We handle the worry so you can enjoy the wonder.',
+  },
+];
+---
+
+<section class="section bg-dusk-50">
+  <div class="container-content">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div>
+        <p class="eyebrow mb-4">Why Springbok</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
+          A tour operator that <span class="italic text-savannah-700">actually lives</span> in Tanzania
+        </h2>
+        <p class="text-dusk-700 text-lg leading-relaxed mb-6">
+          We're not a booking platform. We're a small, locally-owned team based in Arusha — the gateway to every Tanzanian safari and the slopes of Kilimanjaro. When you travel with us, you travel with neighbors, not middlemen.
+        </p>
+        <p class="text-dusk-700 text-lg leading-relaxed mb-8">
+          That means better prices, real expertise, and the kind of flexibility that turns a good trip into an unforgettable one.
+        </p>
+        <a href="/about" class="btn btn-secondary">Learn more about us</a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {promises.map((p) => (
+          <div class="bg-white rounded-2xl p-6 shadow-soft">
+            <div class="w-12 h-12 rounded-xl bg-savannah-100 flex items-center justify-center mb-4">
+              <p.icon size={22} class="text-savannah-700" />
+            </div>
+            <h3 class="font-display text-lg font-medium text-safari-900 mb-2">{p.title}</h3>
+            <p class="text-sm text-dusk-700 leading-relaxed">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

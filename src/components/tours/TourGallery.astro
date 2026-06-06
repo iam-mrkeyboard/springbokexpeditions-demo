@@ -1,0 +1,35 @@
+---
+interface Props {
+  images: string[];
+  title: string;
+}
+
+const { images, title } = Astro.props;
+---
+
+<section>
+  <h2 class="font-display text-2xl font-medium text-safari-900 mb-6">Gallery</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+    {images.map((img, i) => (
+      <a
+        href={img}
+        target="_blank"
+        rel="noopener"
+        class:list={[
+          'block overflow-hidden rounded-xl group',
+          i === 0 ? 'col-span-2 row-span-2' : '',
+        ]}
+      >
+        <img
+          src={img.replace('w=1600', 'w=800')}
+          alt={`${title} photo ${i + 1}`}
+          class:list={[
+            'w-full object-cover group-hover:scale-105 transition-transform duration-500',
+            i === 0 ? 'h-full aspect-square' : 'aspect-square',
+          ]}
+          loading="lazy"
+        />
+      </a>
+    ))}
+  </div>
+</section>

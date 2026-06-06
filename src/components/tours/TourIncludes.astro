@@ -1,0 +1,46 @@
+---
+import { Check, X } from '@lucide/astro';
+
+interface Props {
+  inclusions: string[];
+  exclusions: string[];
+}
+
+const { inclusions, exclusions } = Astro.props;
+---
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="bg-safari-50 rounded-2xl p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-8 h-8 rounded-lg bg-safari-700 text-white flex items-center justify-center">
+        <Check size={16} stroke-width={3} />
+      </div>
+      <h3 class="font-display text-lg font-medium text-safari-900">What's Included</h3>
+    </div>
+    <ul class="space-y-2.5">
+      {inclusions.map((item) => (
+        <li class="flex items-start gap-2 text-sm text-dusk-800">
+          <Check size={14} class="text-safari-700 mt-0.5 shrink-0" stroke-width={3} />
+          <span class="leading-relaxed">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="bg-dusk-50 rounded-2xl p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-8 h-8 rounded-lg bg-dusk-300 text-white flex items-center justify-center">
+        <X size={16} stroke-width={3} />
+      </div>
+      <h3 class="font-display text-lg font-medium text-safari-900">Not Included</h3>
+    </div>
+    <ul class="space-y-2.5">
+      {exclusions.map((item) => (
+        <li class="flex items-start gap-2 text-sm text-dusk-700">
+          <X size={14} class="text-dusk-500 mt-0.5 shrink-0" stroke-width={3} />
+          <span class="leading-relaxed">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
