@@ -5,7 +5,6 @@ import { getCollection } from 'astro:content';
 import { ArrowRight, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
-export const prerender = true;
 
 const areas = [...zanzibarAreas].sort((a, b) => a.order - b.order);
 const regions = zanzibarRegions();

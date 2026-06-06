@@ -4,7 +4,6 @@ import { getCollection } from 'astro:content';
 import { ArrowRight, Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
-export const prerender = true;
 
 const experiences = (await getCollection('experiences'))
   .sort((a, b) => a.data.order - b.data.order);

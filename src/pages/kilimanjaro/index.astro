@@ -7,7 +7,6 @@ import {
   Check, Star, Tent, MountainSnow,
 } from '@lucide/astro';
 
-export const prerender = true;
 
 const routes = (await getCollection('kilimanjaro')).sort(
   (a, b) => a.data.order - b.data.order

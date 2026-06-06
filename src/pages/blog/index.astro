@@ -3,7 +3,6 @@ import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
 import { ArrowRight, BookOpen, Calendar, Clock, Tag } from '@lucide/astro';
 
-export const prerender = true;
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
