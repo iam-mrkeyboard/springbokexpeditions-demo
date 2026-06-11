@@ -1,21 +1,15 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
 import {
   ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird,
 } from '@lucide/astro';
 
-
-export async function getStaticPaths() {
-  const experiences = await getCollection('experiences');
-  return experiences.map((exp) => ({
-    params: { slug: exp.id },
-    props: { exp },
-  }));
-}
-
-const { exp } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.rewrite('/404');
+const exp = await getEntry('experiences', slug);
+if (!exp) return Astro.rewrite('/404');
 const { Content } = await render(exp);
 
 const allTours = await getCollection('tours');
@@ -54,7 +48,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
   description={exp.data.summary}
   transparentHeader={true}
 >
-  <!-- Hero -->
   <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src={exp.data.hero}
@@ -89,20 +82,13 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Quick info bar -->
   <section class="bg-safari-900 text-white border-b border-white/10">
     <div class="container-content">
-      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+      <div class="grid grid-cols-2 md:grid-cols-3 divide-x divide-white/10">
         <div class="px-4 md:px-6 py-5 md:py-6 border-l-0">
           <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Duration</p>
           <p class="font-display text-xl md:text-2xl text-white">{exp.data.durationDays} days</p>
         </div>
-        {exp.data.priceFromUSD && (
-          <div class="px-4 md:px-6 py-5 md:py-6">
-            <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">From</p>
-            <p class="font-display text-xl md:text-2xl text-white">${exp.data.priceFromUSD.toLocaleString()}</p>
-          </div>
-        )}
         <div class="px-4 md:px-6 py-5 md:py-6">
           <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Best months</p>
           <p class="text-sm md:text-base text-white">{exp.data.bestMonths.slice(0, 3).join(', ')}{exp.data.bestMonths.length > 3 ? '…' : ''}</p>
@@ -115,7 +101,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Overview -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
@@ -184,7 +169,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Best time -->
   <section class="section bg-white">
     <div class="container-content max-w-4xl">
       <p class="eyebrow text-safari-600 mb-3 text-center">When to go</p>
@@ -209,7 +193,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Highlights -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="text-center max-w-2xl mx-auto mb-12">
@@ -231,7 +214,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Sample itinerary -->
   {exp.data.sampleItinerary && exp.data.sampleItinerary.length > 0 && (
     <section class="section bg-white">
       <div class="container-content max-w-4xl">
@@ -265,7 +247,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </section>
   )}
 
-  <!-- Related tours -->
   {relatedTours.length > 0 && (
     <section class="section bg-dusk-50">
       <div class="container-content">
@@ -301,8 +282,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
                 <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
                 <div class="flex items-center gap-3 text-xs text-dusk-500">
                   <span>{tour.data.durationDays} days</span>
-                  <span>·</span>
-                  <span>From ${tour.data.priceFromUSD.toLocaleString()}</span>
                 </div>
               </div>
             </a>
@@ -312,7 +291,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </section>
   )}
 
-  <!-- FAQs -->
   {exp.data.faqs.length > 0 && (
     <section class="section bg-white">
       <div class="container-content max-w-3xl">
@@ -345,7 +323,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </section>
   )}
 
-  <!-- Other experiences -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="flex items-end justify-between mb-8">
@@ -392,7 +369,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Final CTA -->
   <section class="section bg-safari-900 text-white">
     <div class="container-content">
       <div class="max-w-3xl mx-auto text-center">
@@ -416,7 +392,6 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- JSON-LD -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -431,11 +406,5 @@ const ratingColorMap: Record<'high' | 'low', string> = {
       '@type': 'Place',
       name: 'Tanzania',
     },
-    offers: exp.data.priceFromUSD ? {
-      '@type': 'Offer',
-      priceCurrency: 'USD',
-      price: exp.data.priceFromUSD,
-      availability: 'https://schema.org/InStock',
-    } : undefined,
   }))} />
 </PublicLayout>
