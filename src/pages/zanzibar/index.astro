@@ -1,11 +1,9 @@
 ---
-export const prerender = true;
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { zanzibarAreas, zanzibarRegions } from '@/data/zanzibar-areas';
 import { getCollection } from 'astro:content';
 import { ArrowRight, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
-
 
 const areas = [...zanzibarAreas].sort((a, b) => a.order - b.order);
 const regions = zanzibarRegions();
@@ -329,8 +327,6 @@ const bestArea = areas[0];
                 <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
                 <div class="flex items-center gap-3 text-xs text-dusk-500">
                   <span>{tour.data.durationDays} days</span>
-                  <span>·</span>
-                  <span>From ${tour.data.priceFromUSD.toLocaleString()}</span>
                 </div>
               </div>
             </a>
