@@ -1,5 +1,4 @@
 ---
-export const prerender = true;
 import { getCollection } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
@@ -7,7 +6,6 @@ import {
   ArrowRight, Mountain, TrendingUp, Calendar, Users, Home,
   Check, Star, Tent, MountainSnow,
 } from '@lucide/astro';
-
 
 const routes = (await getCollection('kilimanjaro')).sort(
   (a, b) => a.data.order - b.data.order
@@ -186,7 +184,6 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
               <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Scenery</th>
               <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Traffic</th>
               <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Sleep</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">From</th>
               <th class="px-4 py-4 font-semibold text-safari-900 text-sm sr-only">View</th>
             </tr>
           </thead>
@@ -217,7 +214,6 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
                   </td>
                   <td class="px-4 py-4 text-dusk-700">{trafficLabel[r.data.traffic]}</td>
                   <td class="px-4 py-4 text-dusk-700 capitalize">{r.data.accommodation}</td>
-                  <td class="px-4 py-4 font-medium text-safari-900">${r.data.priceFromUSD.toLocaleString()}</td>
                   <td class="px-4 py-4 text-right">
                     <a href={`/kilimanjaro/${r.id}`} class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-safari-100 text-safari-700 hover:bg-safari-200 transition-colors">
                       <ArrowRight size={14} />
@@ -234,10 +230,9 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
       <div class="md:hidden space-y-4">
         {routes.map((r) => (
           <a href={`/kilimanjaro/${r.id}`} class="block bg-white rounded-2xl border border-dusk-100 p-5 hover:border-safari-300 hover:shadow-soft transition-all">
-            <div class="flex items-start justify-between mb-2">
-              <h3 class="font-display text-lg text-safari-900">{r.data.name}</h3>
-              <span class="text-safari-900 font-medium">${r.data.priceFromUSD.toLocaleString()}</span>
-            </div>
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-display text-lg text-safari-900">{r.data.name}</h3>
+          </div>
             <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{r.data.tagline}</p>
             <div class="flex flex-wrap gap-2 text-xs">
               <span class="px-2 py-1 rounded bg-dusk-100 text-dusk-700">{r.data.durationDays} days</span>
@@ -285,7 +280,6 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
               <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-3">{r.data.summary}</p>
               <div class="flex items-center justify-between text-xs text-dusk-500 pt-4 border-t border-dusk-100">
                 <span>{r.data.durationDays} days · {difficultyLabel[r.data.difficulty]}</span>
-                <span class="font-medium text-safari-900">From ${r.data.priceFromUSD.toLocaleString()}</span>
               </div>
             </div>
           </a>
@@ -359,7 +353,7 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
             <p class="text-dusk-700 leading-relaxed text-lg mb-6">
               {recommended.data.summary}
             </p>
-            <div class="grid grid-cols-3 gap-4 mb-6 max-w-md">
+            <div class="grid grid-cols-2 gap-4 mb-6 max-w-md">
               <div>
                 <p class="font-display text-2xl text-safari-900">{recommended.data.durationDays} days</p>
                 <p class="text-xs text-dusk-500 uppercase tracking-wider">Duration</p>
@@ -367,10 +361,6 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
               <div>
                 <p class="font-display text-2xl text-safari-900">{recommended.data.successRate}</p>
                 <p class="text-xs text-dusk-500 uppercase tracking-wider">Success</p>
-              </div>
-              <div>
-                <p class="font-display text-2xl text-safari-900">${recommended.data.priceFromUSD.toLocaleString()}</p>
-                <p class="text-xs text-dusk-500 uppercase tracking-wider">From</p>
               </div>
             </div>
             <a href={`/kilimanjaro/${recommended.id}`} class="btn btn-primary px-6 py-3">
@@ -419,8 +409,6 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
                 <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
                 <div class="flex items-center gap-3 text-xs text-dusk-500">
                   <span>{tour.data.durationDays} days</span>
-                  <span>·</span>
-                  <span>From ${tour.data.priceFromUSD.toLocaleString()}</span>
                 </div>
               </div>
             </a>
