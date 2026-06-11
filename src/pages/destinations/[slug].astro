@@ -4,10 +4,13 @@ import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowLeft, MapPin, Calendar, Sparkles, Plane, Star, Trees, Mountain, Umbrella, TreePalm } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.map((d) => ({ params: { slug: d.id } }));
+}
+
 const { slug } = Astro.params;
-if (!slug) return Astro.rewrite('/404');
-const destination = await getEntry('destinations', slug);
-if (!destination) return Astro.rewrite('/404');
+const destination = await getEntry('destinations', slug!);
 const { Content } = await render(destination);
 
 const regionIcons: Record<string, typeof TreePalm> = {
