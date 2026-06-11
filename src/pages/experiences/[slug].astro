@@ -6,10 +6,13 @@ import {
   ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird,
 } from '@lucide/astro';
 
+export async function getStaticPaths() {
+  const experiences = await getCollection('experiences');
+  return experiences.map((e) => ({ params: { slug: e.id } }));
+}
+
 const { slug } = Astro.params;
-if (!slug) return Astro.rewrite('/404');
-const exp = await getEntry('experiences', slug);
-if (!exp) return Astro.rewrite('/404');
+const exp = await getEntry('experiences', slug!);
 const { Content } = await render(exp);
 
 const allTours = await getCollection('tours');
