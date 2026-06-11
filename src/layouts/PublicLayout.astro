@@ -4,7 +4,9 @@ import '@fontsource-variable/inter/wght.css';
 import '@/styles/global.css';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
+import { db, schema } from '@/db';
 import { siteInfo, absoluteUrl } from '@/lib/site';
+import { SEO } from 'astro-seo';
 
 interface Props {
   title?: string;
@@ -36,11 +38,23 @@ const {
   imageAlt,
 } = Astro.props;
 
-// Static site settings
-const dbSiteName: string | undefined = undefined;
-const contact: { phone?: string; whatsapp?: string; email?: string; address?: string } = {};
-const social: { facebook?: string; instagram?: string; whatsapp?: string; tripadvisor?: string } = {};
-const footer: { copyright?: string; tagline?: string } = {};
+// Load site settings (with safe defaults for build/SSG)
+let dbSiteName: string | undefined;
+let contact: { phone?: string; whatsapp?: string; email?: string; address?: string } = {};
+let social: { facebook?: string; instagram?: string; whatsapp?: string; tripadvisor?: string } = {};
+let footer: { copyright?: string; tagline?: string } = {};
+
+try {
+  const rows = await db.select().from(schema.siteSettings);
+  for (const row of rows) {
+    if (row.key === 'site_name') dbSiteName = (row.value as any).value;
+    if (row.key === 'contact') contact = row.value as any;
+    if (row.key === 'social') social = row.value as any;
+    if (row.key === 'footer') footer = row.value as any;
+  }
+} catch (e) {
+  // DB not ready - use defaults
+}
 
 const resolvedName = dbSiteName || siteInfo.name;
 const fullTitle = title
@@ -71,30 +85,47 @@ const finalImageAlt = imageAlt || fullTitle;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
-    <title>{fullTitle}</title>
-    <meta name="description" content={finalDescription} />
-    <meta name="author" content={author} />
-
-    <meta property="og:type" content={type} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={finalDescription} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:alt" content={finalImageAlt} />
-    <meta property="og:site_name" content={resolvedName} />
-    <meta property="og:locale" content="en_US" />
-    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
-    {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={finalDescription} />
-    <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content={finalImageAlt} />
-
-    <link rel="preconnect" href="https://images.unsplash.com" />
-    <link rel="preconnect" href="https://res.cloudinary.com" />
-    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    <SEO
+      title={fullTitle}
+      description={finalDescription}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title: fullTitle,
+          type: type,
+          image: ogImageUrl,
+          url: canonicalUrl,
+        },
+        image: {
+          alt: finalImageAlt,
+        },
+        optional: {
+          description: finalDescription,
+          siteName: resolvedName,
+          locale: 'en_US',
+          ...(publishedTime && { publishedTime: publishedTime.toISOString() }),
+          ...(modifiedTime && { modifiedTime: modifiedTime.toISOString() }),
+          ...(author && { author }),
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        title: fullTitle,
+        description: finalDescription,
+        image: ogImageUrl,
+        imageAlt: finalImageAlt,
+      }}
+      extend={{
+        link: [
+          { rel: 'preconnect', href: 'https://images.unsplash.com' },
+          { rel: 'preconnect', href: 'https://res.cloudinary.com' },
+          { rel: 'dns-prefetch', href: 'https://res.cloudinary.com' },
+        ],
+        meta: [
+          { name: 'author', content: author },
+        ],
+      }}
+    />
 
     <slot name="head" />
   </head>
