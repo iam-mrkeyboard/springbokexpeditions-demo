@@ -1,16 +1,14 @@
-import { SITE_URL, EMAIL } from './constants';
-
 export const siteInfo = {
   name: 'Springbok Expeditions',
   shortName: 'Springbok',
   legalName: 'Springbok Expeditions Ltd',
-  url: SITE_URL,
+  url: import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321',
   tagline: 'Locally-owned Tanzanian tour operator',
   description:
     'Bespoke Tanzania safaris, Kilimanjaro climbs, and Zanzibar beach holidays. Private guides, hand-picked lodges, and trips built from scratch around you.',
   phone: '+255 784 136 616',
   whatsapp: '+255 764 908 272',
-  email: EMAIL,
+  email: import.meta.env.PUBLIC_EMAIL || 'info@springbokexpeditions.com',
   address: {
     street: 'Sokoni Street',
     city: 'Arusha',
