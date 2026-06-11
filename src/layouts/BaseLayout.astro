@@ -117,7 +117,10 @@ const ogImageAlt = imageAlt;
     <!-- View Transitions -->
     <slot name="head" />
 
-    <!-- Plausible (disabled in static build) -->
+    <!-- Plausible (optional) -->
+    {import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN && (
+      <script is:inline defer data-domain={import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN} src="https://plausible.io/js/script.js" />
+    )}
   </head>
   <body class="bg-dusk-50 text-dusk-900 antialiased">
     <slot />
