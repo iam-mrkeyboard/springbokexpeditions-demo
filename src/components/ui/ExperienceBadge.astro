@@ -1,0 +1,64 @@
+---
+import { getExperienceBadge, EXPERIENCE_BADGES, type ExperienceBadge } from '@/lib/badges';
+
+interface Props {
+  badge: ExperienceBadge;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'chip' | 'soft';
+  showIcon?: boolean;
+  class?: string;
+}
+
+const { badge, size = 'md', variant = 'soft', showIcon = true, class: className = '' } = Astro.props;
+const badgeConfig = EXPERIENCE_BADGES[badge];
+const Icon = badgeConfig.icon;
+const variantClass = variant === 'chip' ? badgeConfig.chip : badgeConfig.soft;
+---
+
+<span class={`exp-badge exp-badge-${size} exp-badge-${variant} ${variantClass} ${className}`}>
+  {showIcon && Icon && <Icon class="exp-badge-icon" aria-hidden="true" />}
+  <span>{badgeConfig.label}</span>
+</span>
+
+<style>
+  .exp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    white-space: nowrap;
+    line-height: 1;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .exp-badge:hover {
+    transform: translateY(-1px);
+  }
+  /* Sizes */
+  .exp-badge-sm { padding: 0.25rem 0.5625rem; font-size: 0.6875rem; gap: 0.25rem; }
+  .exp-badge-sm .exp-badge-icon { width: 0.6875rem; height: 0.6875rem; }
+  .exp-badge-md { padding: 0.3125rem 0.6875rem; font-size: 0.75rem; }
+  .exp-badge-md .exp-badge-icon { width: 0.75rem; height: 0.75rem; }
+  .exp-badge-lg { padding: 0.4375rem 0.875rem; font-size: 0.8125rem; gap: 0.375rem; }
+  .exp-badge-lg .exp-badge-icon { width: 0.875rem; height: 0.875rem; }
+  .exp-badge-icon {
+    flex-shrink: 0;
+  }
+  /* Variant styles */
+  .exp-badge-chip {
+    letter-spacing: 0.02em;
+    text-transform: none;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(15, 42, 28, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .exp-badge-soft {
+    letter-spacing: 0.01em;
+    text-transform: none;
+    font-weight: 500;
+  }
+  .exp-badge-soft:hover {
+    box-shadow: 0 2px 8px rgba(15, 42, 28, 0.08);
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+// Single, clean badge component for style tiers, experience tags, and category labels.
+// - Real Lucide icon resolved from kebab-case name
+// - Premium tier gradients, refined soft chips, glassy category pills
+// - All visual rules live here, not in tailwind utility soup on the parent
+import {
+  Sparkles, Plane, Tent, Footprints, Users, Heart, Camera,
+  UsersRound, Compass, Shield, Moon, Anchor, Sun, Accessibility,
+  UserCheck, Leaf, Mountain, Bird, Zap, Calendar, Trophy,
+  Crown, Flame, MountainSnow, Binoculars
+} from '@lucide/astro';
+
+type IconName = keyof typeof ICON_MAP;
+
+const ICON_MAP = {
+  'sparkles': Sparkles,
+  'plane': Plane,
+  'tent': Tent,
+  'footprints': Footprints,
+  'users': Users,
+  'heart': Heart,
+  'camera': Camera,
+  'users-round': UsersRound,
+  'compass': Compass,
+  'shield': Shield,
+  'moon': Moon,
+  'anchor': Anchor,
+  'sun': Sun,
+  'accessibility': Accessibility,
+  'user-check': UserCheck,
+  'leaf': Leaf,
+  'mountain': Mountain,
+  'bird': Bird,
+  'zap': Zap,
+  'calendar': Calendar,
+  'trophy': Trophy,
+  'crown': Crown,
+  'flame': Flame,
+  'mountain-snow': MountainSnow,
+  'binoculars': Binoculars,
+} as const;
+
+interface Props {
+  label: string;
+  icon?: string;
+  tier?: 'luxury' | 'mid-range' | 'budget';
+  variant?: 'type' | 'chip' | 'soft';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  label,
+  icon,
+  tier,
+  variant = 'soft',
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+
+const iconKey = (icon ?? '').toLowerCase() as IconName;
+const IconComp = (iconKey && ICON_MAP[iconKey]) || null;
+
+const tierClass = tier
+  ? tier === 'luxury'
+    ? 'badge--tier-luxury'
+    : tier === 'mid-range'
+    ? 'badge--tier-midrange'
+    : 'badge--tier-budget'
+  : '';
+
+const sizeClass = `badge--${size}`;
+const variantClass = `badge--${variant}`;
+---
+
+<span class={`badge ${sizeClass} ${variantClass} ${tierClass} ${className}`}>
+  {IconComp && <IconComp class="badge__icon" stroke-width="2.25" aria-hidden="true" />}
+  <span class="badge__label">{label}</span>
+</span>
+
+<style>
+  /* ── Base ──────────────────────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    border-radius: 9999px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .badge:hover {
+    transform: translateY(-1px);
+  }
+
+  /* ── Sizes ─────────────────────────────────────────────── */
+  .badge--xs { padding: 0.25rem 0.55rem; font-size: 0.625rem; }
+  .badge--xs .badge__icon { width: 0.7rem; height: 0.7rem; }
+
+  .badge--sm { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+  .badge--sm .badge__icon { width: 0.8rem; height: 0.8rem; }
+
+  .badge--md { padding: 0.45rem 0.85rem; font-size: 0.78rem; }
+  .badge--md .badge__icon { width: 0.9rem; height: 0.9rem; }
+
+  .badge--lg { padding: 0.6rem 1.1rem; font-size: 0.875rem; }
+  .badge--lg .badge__icon { width: 1.05rem; height: 1.05rem; }
+
+  /* ── TYPE variant: glassy white pill, sits on photos ────── */
+  /* Used for category labels like "Wildlife Safari", "Kilimanjaro" */
+  .badge--type {
+    background: rgba(255, 255, 255, 0.96);
+    color: #152A1C; /* safari-800 */
+    border: 1px solid rgba(213, 180, 90, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.65rem;
+    box-shadow:
+      0 1px 2px rgba(15, 42, 28, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+  .badge--type:hover {
+    background: #FFFFFF;
+  }
+
+  /* ── CHIP variant: dark gradient, used on photos for tags ── */
+  /* Used for experience badges like "Signature", "Honeymoon" */
+  .badge--chip {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(15, 42, 28, 0.18);
+  }
+
+  /* ── SOFT variant: light, used on cream backgrounds ──────── */
+  .badge--soft {
+    text-transform: none;
+    font-weight: 500;
+  }
+
+  /* ── Tier: luxury (dark + gold ring + glow) ────────────── */
+  .badge--tier-luxury {
+    background: linear-gradient(180deg, #152A1C 0%, #0F2A1C 100%);
+    color: #E2C684;
+    border: 1px solid rgba(213, 180, 90, 0.55);
+    box-shadow:
+      0 1px 0 rgba(213, 180, 90, 0.25) inset,
+      0 0 0 1px rgba(213, 180, 90, 0.08),
+      0 2px 6px rgba(15, 42, 28, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+  .badge--tier-luxury.badge--chip,
+  .badge--tier-luxury.badge--type {
+    color: #E2C684;
+  }
+  .badge--tier-luxury.badge--soft {
+    color: #234329;
+    background: linear-gradient(180deg, #FBF5E6 0%, #F4E7C2 100%);
+    border-color: rgba(168, 133, 47, 0.4);
+    box-shadow: 0 1px 2px rgba(168, 133, 47, 0.12);
+  }
+
+  /* ── Tier: mid-range (gold pill) ───────────────────────── */
+  .badge--tier-midrange {
+    background: linear-gradient(180deg, #EBD495 0%, #D5B45A 100%);
+    color: #1F3D2B;
+    border: 1px solid rgba(168, 133, 47, 0.45);
+    box-shadow: 0 1px 2px rgba(168, 133, 47, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+  .badge--tier-midrange.badge--soft {
+    background: linear-gradient(180deg, #FBF5E6 0%, #F4E7C2 100%);
+    color: #574416;
+    border-color: rgba(213, 180, 90, 0.35);
+  }
+
+  /* ── Tier: budget (warm earth) ─────────────────────────── */
+  .badge--tier-budget {
+    background: linear-gradient(180deg, #C9BFA3 0%, #A89F84 100%);
+    color: #2E2A24;
+    border: 1px solid rgba(107, 98, 88, 0.4);
+    box-shadow: 0 1px 2px rgba(107, 98, 88, 0.12);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+  .badge--tier-budget.badge--soft {
+    background: linear-gradient(180deg, #FAF7F1 0%, #F0EAD9 100%);
+    color: #4F483F;
+    border-color: rgba(168, 159, 132, 0.4);
+  }
+
+  /* ── Icon + label ─────────────────────────────────────── */
+  .badge__icon {
+    flex-shrink: 0;
+    margin-right: -0.05em;
+  }
+  .badge__label {
+    display: inline-block;
+    line-height: 1;
+  }
+</style>
