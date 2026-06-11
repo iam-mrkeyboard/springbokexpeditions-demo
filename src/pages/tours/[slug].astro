@@ -1,5 +1,5 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import TourHero from '@/components/tours/TourHero.astro';
 import TourSnapshot from '@/components/tours/TourSnapshot.astro';
@@ -11,10 +11,13 @@ import TourGallery from '@/components/tours/TourGallery.astro';
 import { ArrowLeft, MapPin } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
+export async function getStaticPaths() {
+  const tours = await getCollection('tours');
+  return tours.map((tour) => ({ params: { slug: tour.id } }));
+}
+
 const { slug } = Astro.params;
-if (!slug) return Astro.rewrite('/404');
-const tour = await getEntry('tours', slug);
-if (!tour) return Astro.rewrite('/404');
+const tour = await getEntry('tours', slug!);
 const { Content } = await render(tour);
 
 const typeLabels: Record<string, string> = {
