@@ -433,7 +433,7 @@ const faqs = [
   const tsField = document.getElementById('_ts') as HTMLInputElement | null;
   if (tsField) tsField.value = String(Date.now());
 
-  // Contact form handler - static build directs users to WhatsApp/email
+  // Contact form handler - posts to /api/contact (Astro Action defined separately)
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('form-status') as HTMLParagraphElement | null;
 
@@ -442,14 +442,38 @@ const faqs = [
     if (!form || !status) return;
 
     const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const originalText = submitBtn?.innerHTML;
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="animate-pulse">Redirecting…</span>';
+      submitBtn.innerHTML = '<span class="animate-pulse">Sending…</span>';
     }
     status.classList.remove('hidden');
-    status.className = 'text-sm text-safari-700 font-medium';
-    status.innerHTML = '✓ Thanks for your interest! To ensure the fastest reply, please send your enquiry via <a href="https://wa.me/255764908272" class="underline font-semibold">WhatsApp</a> or <a href="mailto:info@springbokexpeditions.com" class="underline font-semibold">email</a>. We reply within a few hours.';
-    form.reset();
-    if (submitBtn) submitBtn.disabled = false;
+    status.className = 'text-sm text-dusk-600';
+    status.textContent = 'Sending your message…';
+
+    try {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error('Submit failed');
+
+      status.className = 'text-sm text-safari-700 font-medium';
+      status.textContent = '✓ Thanks! Your message is on its way. We\'ll reply within 24 hours (usually faster).';
+      form.reset();
+    } catch (err) {
+      status.className = 'text-sm text-sunset-600 font-medium';
+      status.textContent = '✗ Something went wrong. Please try WhatsApp or email us directly.';
+    } finally {
+      if (submitBtn && originalText) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    }
   });
 </script>
