@@ -1,15 +1,13 @@
 ---
 import { Star } from '@lucide/astro';
+import Badge from '@/components/ui/Badge.astro';
 
 interface Props {
   tour: {
     data: {
       title: string;
       hero: string;
-      gallery?: string[];
       excerpt: string;
-      priceFromUSD: number;
-      destinations: string[];
       featured?: boolean;
     };
   };
@@ -40,13 +38,11 @@ const { tour, typeLabel } = Astro.props;
       <span class="text-dusk-300">{tour.data.title}</span>
     </nav>
 
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-savannah-500 text-safari-900 text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full">
-        {typeLabel}
-      </span>
+    <div class="flex flex-wrap items-center gap-2.5 mb-5">
+      <Badge label={typeLabel} size="md" variant="soft" />
       {tour.data.featured && (
-        <span class="bg-sunset-500 text-white text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full flex items-center gap-1">
-          <Star size={11} fill="currentColor" /> Featured
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sunset-500/95 text-white text-[11px] font-semibold tracking-[0.12em] uppercase ring-1 ring-sunset-600/30 shadow-sm">
+          <Star size={12} fill="currentColor" stroke-width="0" /> Featured
         </span>
       )}
     </div>
