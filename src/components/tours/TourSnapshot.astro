@@ -1,0 +1,91 @@
+---
+import { Calendar, Users, MapPin } from '@lucide/astro';
+import { isValidStyleTier, isValidExperienceBadge, getStyleTier, getExperienceBadge } from '@/lib/badges';
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+  tour: {
+    data: {
+      durationDays: number;
+      styles: string[];
+      badges?: string[];
+      groupSize?: string;
+      startEnd?: string;
+    };
+  };
+}
+
+const { tour } = Astro.props;
+
+const primaryStyle = isValidStyleTier(tour.data.styles[0])
+  ? tour.data.styles[0]
+  : null;
+const primaryStyleMeta = primaryStyle ? getStyleTier(primaryStyle) : null;
+
+const allBadges = (tour.data.badges || []).filter(isValidExperienceBadge);
+const experienceBadges = allBadges.filter((b) =>
+  !['fly-in', 'walking-safari', 'boat-safari', 'private-guide', 'fly-camping'].includes(b)
+);
+---
+
+<div class="bg-white border border-dusk-100 rounded-2xl shadow-soft overflow-hidden">
+  <div class="p-6 space-y-5">
+    <h3 class="font-display text-sm font-semibold text-dusk-500 uppercase tracking-[0.12em]">
+      Trip Snapshot
+    </h3>
+
+    <div class="flex items-center gap-3 text-sm text-dusk-800">
+      <Calendar size={16} class="text-savannah-700 shrink-0" />
+      <div>
+        <span class="text-dusk-500">Duration: </span>
+        <strong>{tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}</strong>
+      </div>
+    </div>
+
+    {primaryStyle && primaryStyleMeta && (
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-dusk-500 shrink-0">Style:</span>
+        <Badge
+          label={primaryStyleMeta.label}
+          icon={primaryStyleMeta.icon}
+          tier={primaryStyle}
+          size="sm"
+          variant="soft"
+        />
+        <span class="hidden md:inline text-xs text-dusk-400 leading-snug">— {primaryStyleMeta.description}</span>
+      </div>
+    )}
+
+    {experienceBadges.length > 0 && (
+      <div class="space-y-2">
+        <span class="text-sm text-dusk-500">Experience:</span>
+        <div class="flex flex-wrap gap-1.5">
+          {experienceBadges.map((badgeKey) => {
+            const meta = getExperienceBadge(badgeKey);
+            return (
+              <Badge label={meta.label} icon={meta.icon} size="xs" variant="soft" />
+            );
+          })}
+        </div>
+      </div>
+    )}
+
+    <div class="flex items-center gap-3 text-sm text-dusk-800 pt-1 border-t border-dusk-100">
+        <Users size={16} class="text-savannah-700 shrink-0" />
+        <div>
+          <span class="text-dusk-500">Group size: </span>
+          <strong>{tour.data.groupSize}</strong>
+        </div>
+      </div>
+
+    {tour.data.startEnd && (
+      <div class="flex items-center gap-3 text-sm text-dusk-800">
+        <MapPin size={16} class="text-savannah-700 shrink-0" />
+        <div>
+          <span class="text-dusk-500">Starts/ends: </span>
+          <strong>{tour.data.startEnd}</strong>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
