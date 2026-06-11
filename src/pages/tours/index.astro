@@ -1,7 +1,9 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
-import { MapPin, Calendar, ListFilter } from '@lucide/astro';
+import { MapPin, Calendar, ListFilter, ArrowRight } from '@lucide/astro';
+import { isValidStyleTier, isValidExperienceBadge, STYLE_TIERS, getStyleTier, getExperienceBadge } from '@/lib/badges';
+import Badge from '@/components/ui/Badge.astro';
 
 const tours = await getCollection('tours');
 const sortedTours = tours.sort((a, b) =>
@@ -27,59 +29,98 @@ const typeLabels: Record<string, string> = {
   ogImage="/og/tours.png"
   transparentHeader={true}
 >
-  <!-- Page header -->
-  <section class="bg-safari-900 text-white py-20 md:py-28 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-20">
-      <img
-        src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
-        alt=""
-        class="w-full h-full object-cover"
-      />
-    </div>
-    <div class="container-content relative">
-      <p class="eyebrow text-savannah-300 mb-4">Tanzania Tours & Safaris</p>
-      <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight mb-5 max-w-3xl">
-        Find your perfect Tanzanian journey
-      </h1>
-      <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed">
-        From a 3-day Tarangire safari to a 10-day Kilimanjaro climb and Zanzibar honeymoon, every itinerary below is hand-crafted by us — or use them as inspiration for your own bespoke journey.
-      </p>
+  <!-- Hero -->
+  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
+      alt="Tanzania safari at sunset"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">{sortedTours.length} hand-crafted itineraries · Safaris, Kilimanjaro, Zanzibar</p>
+
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          Find your<br />
+          <span class="italic font-normal text-savannah-300">perfect Tanzanian journey.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
+          From a 3-day Tarangire safari to a 10-day Kilimanjaro climb and Zanzibar honeymoon, every itinerary below is hand-crafted by us — or use them as inspiration for your own bespoke journey.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#tours" class="btn btn-primary px-7 py-3.5">
+            Browse all tours
+            <ArrowRight size={16} />
+          </a>
+          <a href="/contact" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Plan a custom trip
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Filters -->
   <section class="bg-white border-b border-dusk-100 sticky top-0 z-30">
-    <div class="container-content py-4 flex flex-wrap items-center gap-3">
-      <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
-        <ListFilter size={16} /> Filter:
-      </span>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-filter="all">
-        All ({sortedTours.length})
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="safari">
-        Safaris
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="kilimanjaro">
-        Kilimanjaro
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="meru">
-        Mt. Meru
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="migration">
-        Migration
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="zanzibar">
-        Zanzibar
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="cultural">
-        Cultural
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="honeymoon">
-        Honeymoon
-      </button>
-      <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter="family">
-        Family
-      </button>
+    <div class="container-content py-4 space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
+          <ListFilter size={16} /> Type:
+        </span>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-filter-type="all" data-filter-style="">
+          All ({sortedTours.length})
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="safari" data-filter-style="">
+          Safaris
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="kilimanjaro" data-filter-style="">
+          Kilimanjaro
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="meru" data-filter-style="">
+          Mt. Meru
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="migration" data-filter-style="">
+          Migration
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="zanzibar" data-filter-style="">
+          Zanzibar
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="cultural" data-filter-style="">
+          Cultural
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="honeymoon" data-filter-style="">
+          Honeymoon
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="family" data-filter-style="">
+          Family
+        </button>
+        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="day-trip" data-filter-style="">
+          Day Trip
+        </button>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
+          Style:
+        </span>
+        <button class="style-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-style="">
+          Any style
+        </button>
+        {Object.entries(STYLE_TIERS).map(([key, tier]) => (
+          <button
+            class={`style-filter px-3 py-1.5 text-sm rounded-full ${tier.bg} hover:opacity-80`}
+            data-style={key}
+          >
+            {tier.label}
+          </button>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -87,44 +128,65 @@ const typeLabels: Record<string, string> = {
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sortedTours.map((tour) => (
-          <a
-            href={`/tours/${tour.id}`}
-            class="card card-hover group block tour-card"
-            data-type={tour.data.type}
-          >
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img
-                src={tour.data.hero}
-                alt={tour.data.title}
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-              />
-              <div class="absolute top-3 left-3 bg-safari-900/90 backdrop-blur text-white text-xs font-medium px-3 py-1.5 rounded-full">
-                From ${tour.data.priceFromUSD.toLocaleString()}
+        {sortedTours.map((tour) => {
+          const tier = isValidStyleTier(tour.data.styles[0]) ? tour.data.styles[0] : null;
+          const tierMeta = tier ? getStyleTier(tier) : null;
+          const tourBadges = (tour.data.badges || []).filter(isValidExperienceBadge).slice(0, 3);
+          return (
+            <a
+              href={`/tours/${tour.id}`}
+              class="card card-hover group block tour-card"
+              data-type={tour.data.type}
+              data-style={tour.data.styles[0] || ''}
+              data-styles={tour.data.styles.join(',')}
+            >
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={tour.data.hero}
+                  alt={tour.data.title}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+
+                <div class="absolute top-3 right-3">
+                  <Badge label={typeLabels[tour.data.type] || tour.data.type} size="sm" variant="type" />
+                </div>
+
+                {tier && tierMeta && (
+                  <div class="absolute top-3 left-3">
+                    <Badge label={tierMeta.label} icon={tierMeta.icon} tier={tier} size="sm" variant="chip" />
+                  </div>
+                )}
               </div>
-              <div class="absolute top-3 right-3 bg-savannah-500/95 backdrop-blur text-safari-900 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full">
-                {typeLabels[tour.data.type] || tour.data.type}
+              <div class="p-6">
+                <h3 class="font-display text-xl font-medium text-safari-900 mb-2 group-hover:text-savannah-700 transition-colors">
+                  {tour.data.title}
+                </h3>
+                <p class="text-sm text-dusk-700 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
+
+                {tourBadges.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 mb-3">
+                    {tourBadges.map((badgeKey) => {
+                      const meta = getExperienceBadge(badgeKey);
+                      return <Badge label={meta.label} icon={meta.icon} size="xs" variant="soft" />;
+                    })}
+                  </div>
+                )}
+
+                <div class="flex items-center gap-4 text-xs text-dusk-600">
+                  <span class="flex items-center gap-1.5">
+                    <Calendar size={13} />
+                    {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
+                  </span>
+                  <span class="flex items-center gap-1.5">
+                    <MapPin size={13} />
+                    {tour.data.destinations.length} {tour.data.destinations.length === 1 ? 'park' : 'parks'}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="p-6">
-              <h3 class="font-display text-xl font-medium text-safari-900 mb-2 group-hover:text-savannah-700 transition-colors">
-                {tour.data.title}
-              </h3>
-              <p class="text-sm text-dusk-700 leading-relaxed mb-4 line-clamp-2">{tour.data.excerpt}</p>
-              <div class="flex items-center gap-4 text-xs text-dusk-600">
-                <span class="flex items-center gap-1.5">
-                  <Calendar size={13} />
-                  {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
-                </span>
-                <span class="flex items-center gap-1.5 capitalize">
-                  <MapPin size={13} />
-                  {tour.data.styles[0].replace('-', ' ')}
-                </span>
-              </div>
-            </div>
-          </a>
-        ))}
+            </a>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -141,25 +203,53 @@ const typeLabels: Record<string, string> = {
 
 <script>
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tour-filter');
+  const styleBtns = document.querySelectorAll<HTMLButtonElement>('.style-filter');
   const cards = document.querySelectorAll<HTMLElement>('.tour-card');
+
+  let currentType = 'all';
+  let currentStyle = '';
+
+  function applyFilters() {
+    cards.forEach((card) => {
+      const cardType = card.dataset.type || '';
+      const cardStyles = (card.dataset.styles || '').split(',');
+      const typeMatch = currentType === 'all' || cardType === currentType;
+      const styleMatch = !currentStyle || cardStyles.includes(currentStyle);
+      if (typeMatch && styleMatch) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
+      currentType = btn.dataset.filterType || 'all';
       filterBtns.forEach((b) => {
         b.classList.remove('bg-safari-700', 'text-white');
         b.classList.add('bg-dusk-100', 'text-dusk-700');
       });
       btn.classList.add('bg-safari-700', 'text-white');
       btn.classList.remove('bg-dusk-100', 'text-dusk-700');
+      applyFilters();
+    });
+  });
 
-      cards.forEach((card) => {
-        if (filter === 'all' || card.dataset.type === filter) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
+  styleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentStyle = btn.dataset.style || '';
+      // Reset visual state for style buttons
+      styleBtns.forEach((b) => {
+        b.classList.remove('bg-safari-700', 'text-white');
+        // Restore the style-specific bg class
+        const orig = b.getAttribute('data-orig-bg');
+        if (orig) b.className = orig;
       });
+      // Set active state
+      btn.classList.remove('bg-dusk-100', 'text-dusk-700', 'bg-purple-100', 'text-purple-800', 'bg-emerald-100', 'text-emerald-800', 'bg-amber-100', 'text-amber-800');
+      btn.classList.add('bg-safari-700', 'text-white');
+      applyFilters();
     });
   });
 </script>
