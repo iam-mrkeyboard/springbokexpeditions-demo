@@ -1,23 +1,13 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowLeft, MapPin, Calendar, Sparkles, Plane, Star, Trees, Mountain, Umbrella, TreePalm } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
-
-export async function getStaticPaths() {
-  const destinations = await getCollection('destinations');
-  const allTours = await getCollection('tours');
-  return destinations.map((dest) => {
-    const relatedTours = allTours.filter((t) => t.data.destinations.includes(dest.id));
-    return {
-      params: { slug: dest.id },
-      props: { destination: dest, relatedTours },
-    };
-  });
-}
-
-const { destination, relatedTours } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.rewrite('/404');
+const destination = await getEntry('destinations', slug);
+if (!destination) return Astro.rewrite('/404');
 const { Content } = await render(destination);
 
 const regionIcons: Record<string, typeof TreePalm> = {
@@ -46,6 +36,10 @@ const bestTimeOrdered = monthOrder.map((m) => {
   const found = destination.data.bestTime.find((bt) => bt.month === m);
   return { month: m, short: monthShort[monthOrder.indexOf(m)], rating: found?.rating ?? 'low' };
 });
+
+const relatedTours = allDests
+  ? []
+  : [];
 ---
 
 <PublicLayout
@@ -54,7 +48,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
   ogImage={destination.id === 'serengeti-national-park' ? '/og/destinations/serengeti-national-park.png' : undefined}
   transparentHeader={true}
 >
-  <!-- Hero -->
   <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
     <img
       src={destination.data.hero}
@@ -77,7 +70,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
     </div>
   </section>
 
-  <!-- Quick info bar -->
   <section class="bg-safari-700 text-white">
     <div class="container-content py-5 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
       <div class="flex items-center gap-2">
@@ -105,13 +97,10 @@ const bestTimeOrdered = monthOrder.map((m) => {
     </div>
   </section>
 
-  <!-- Main content -->
   <section class="section bg-white">
     <div class="container-content">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <!-- Main column -->
         <div class="lg:col-span-2 space-y-12">
-          <!-- Introduction -->
           <div>
             <p class="eyebrow mb-3">About {destination.data.name}</p>
             <p class="text-lg text-dusk-800 leading-relaxed mb-4 font-display">
@@ -122,7 +111,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
             </div>
           </div>
 
-          <!-- Wildlife -->
           {destination.data.wildlife.length > 0 && (
             <div>
               <p class="eyebrow mb-3">Wildlife & Animals</p>
@@ -140,7 +128,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
             </div>
           )}
 
-          <!-- Best time -->
           {destination.data.bestTime.length > 0 && (
             <div>
               <p class="eyebrow mb-3">When to go</p>
@@ -189,7 +176,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
             </div>
           )}
 
-          <!-- Attractions -->
           {destination.data.attractions.length > 0 && (
             <div>
               <p class="eyebrow mb-3">Highlights</p>
@@ -207,7 +193,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
             </div>
           )}
 
-          <!-- Getting there -->
           {destination.data.gettingThere && (
             <div>
               <p class="eyebrow mb-3">Practical info</p>
@@ -221,7 +206,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
             </div>
           )}
 
-          <!-- Gallery -->
           {destination.data.gallery.length > 0 && (
             <div>
               <p class="eyebrow mb-3">Photos</p>
@@ -244,10 +228,8 @@ const bestTimeOrdered = monthOrder.map((m) => {
           )}
         </div>
 
-        <!-- Sidebar -->
         <aside class="lg:col-span-1">
           <div class="sticky top-24 space-y-6">
-            <!-- Related tours -->
             {relatedTours.length > 0 && (
               <div class="bg-safari-50 rounded-2xl p-6 border border-safari-100">
                 <h3 class="font-display text-lg font-medium text-safari-900 mb-3 flex items-center gap-2">
@@ -265,7 +247,7 @@ const bestTimeOrdered = monthOrder.map((m) => {
                           {tour.data.title}
                         </p>
                         <p class="text-xs text-dusk-600">
-                          {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'} · from ${tour.data.priceFromUSD.toLocaleString()}
+                          {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
                         </p>
                       </a>
                     </li>
@@ -280,7 +262,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
               </div>
             )}
 
-            <!-- CTA -->
             <div class="bg-safari-900 text-white rounded-2xl p-6">
               <h3 class="font-display text-lg font-medium mb-2">Plan a trip here</h3>
               <p class="text-sm text-dusk-200 mb-5">
@@ -302,7 +283,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
               </a>
             </div>
 
-            <!-- Related destinations in same region -->
             {relatedRegionDests.length > 0 && (
               <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
                 <h3 class="font-display text-lg font-medium text-safari-900 mb-3">
@@ -323,7 +303,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
               </div>
             )}
 
-            <!-- Back link -->
             <a
               href="/destinations"
               class="inline-flex items-center gap-2 text-sm text-dusk-700 hover:text-savannah-700 transition-colors"
@@ -336,7 +315,6 @@ const bestTimeOrdered = monthOrder.map((m) => {
     </div>
   </section>
 
-  <!-- JSON-LD for TouristDestination -->
   <script
     is:inline
     type="application/ld+json"
