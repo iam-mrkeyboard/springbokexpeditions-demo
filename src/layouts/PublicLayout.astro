@@ -4,7 +4,6 @@ import '@fontsource-variable/inter/wght.css';
 import '@/styles/global.css';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
-import { db, schema } from '@/db';
 import { siteInfo, absoluteUrl } from '@/lib/site';
 import { SEO } from 'astro-seo';
 
@@ -38,25 +37,21 @@ const {
   imageAlt,
 } = Astro.props;
 
-// Load site settings (with safe defaults for build/SSG)
-let dbSiteName: string | undefined;
-let contact: { phone?: string; whatsapp?: string; email?: string; address?: string } = {};
-let social: { facebook?: string; instagram?: string; whatsapp?: string; tripadvisor?: string } = {};
-let footer: { copyright?: string; tagline?: string } = {};
-
-try {
-  const rows = await db.select().from(schema.siteSettings);
-  for (const row of rows) {
-    if (row.key === 'site_name') dbSiteName = (row.value as any).value;
-    if (row.key === 'contact') contact = row.value as any;
-    if (row.key === 'social') social = row.value as any;
-    if (row.key === 'footer') footer = row.value as any;
-  }
-} catch (e) {
-  // DB not ready - use defaults
-}
-
-const resolvedName = dbSiteName || siteInfo.name;
+const resolvedName = siteInfo.name;
+const contact = {
+  phone: siteInfo.phone,
+  whatsapp: siteInfo.whatsapp,
+  email: siteInfo.email,
+  address: `${siteInfo.address.city}, ${siteInfo.address.country}`,
+};
+const social = {
+  facebook: siteInfo.social.facebook,
+  instagram: siteInfo.social.instagram,
+  tripadvisor: siteInfo.social.tripadvisor,
+};
+const footer = {
+  tagline: siteInfo.tagline,
+};
 const fullTitle = title
   ? (title.includes(resolvedName) ? title : `${title} | ${resolvedName}`)
   : `${resolvedName} | Premium Tanzania Safaris & Kilimanjaro Climbs`;
