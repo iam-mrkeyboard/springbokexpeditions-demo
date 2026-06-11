@@ -3,10 +3,13 @@ import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { ArrowRight, ArrowLeft, Calendar, Clock, Tag, User } from '@lucide/astro';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((p) => ({ params: { slug: p.id } }));
+}
+
 const { slug } = Astro.params;
-if (!slug) return Astro.rewrite('/404');
-const post = await getEntry('blog', slug);
-if (!post) return Astro.rewrite('/404');
+const post = await getEntry('blog', slug!);
 const { Content } = await render(post);
 
 const allPosts = await getCollection('blog');
