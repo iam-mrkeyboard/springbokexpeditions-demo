@@ -1,18 +1,12 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import { ArrowRight, ArrowLeft, Calendar, Clock, Tag, User } from '@lucide/astro';
 
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
-}
-
-const { post } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.rewrite('/404');
+const post = await getEntry('blog', slug);
+if (!post) return Astro.rewrite('/404');
 const { Content } = await render(post);
 
 const allPosts = await getCollection('blog');
@@ -31,7 +25,6 @@ function formatDate(d: Date): string {
   description={post.data.excerpt}
   transparentHeader={true}
 >
-  <!-- Hero -->
   <section class="relative h-[60vh] min-h-[420px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src={post.data.hero}
@@ -65,7 +58,6 @@ function formatDate(d: Date): string {
     </div>
   </section>
 
-  <!-- Article -->
   <section class="section bg-dusk-50">
     <div class="container-content max-w-3xl">
       <article class="bg-white rounded-2xl border border-dusk-100 p-8 md:p-12">
@@ -91,7 +83,6 @@ function formatDate(d: Date): string {
         )}
       </article>
 
-      <!-- Author + share -->
       <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6 md:p-8 mt-8">
         <div class="flex items-start gap-4">
           <div class="w-12 h-12 rounded-full bg-safari-700 text-white flex items-center justify-center font-display text-lg flex-shrink-0">
@@ -108,7 +99,6 @@ function formatDate(d: Date): string {
     </div>
   </section>
 
-  <!-- Related -->
   {otherPosts.length > 0 && (
     <section class="section bg-white">
       <div class="container-content">
@@ -155,7 +145,6 @@ function formatDate(d: Date): string {
     </section>
   )}
 
-  <!-- CTA -->
   <section class="section bg-safari-900 text-white">
     <div class="container-content">
       <div class="max-w-3xl mx-auto text-center">
