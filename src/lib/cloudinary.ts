@@ -1,5 +1,4 @@
-import { CLOUDINARY_CLOUD_NAME } from './constants';
-const cloud = CLOUDINARY_CLOUD_NAME;
+const cloud = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
 const base = cloud ? `https://res.cloudinary.com/${cloud}` : '';
 
 export const isCloudinaryConfigured = Boolean(cloud);
