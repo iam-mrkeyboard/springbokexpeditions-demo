@@ -1,62 +1,21 @@
 ---
-import { Calendar, Users, Mail, MessageCircle } from '@lucide/astro';
+import { Mail, MessageCircle } from '@lucide/astro';
 
 interface Props {
   tour: {
     id: string;
     data: {
       title: string;
-      durationDays: number;
-      priceFromUSD: number;
-      groupSize?: string;
-      startEnd?: string;
     };
   };
 }
 
 const { tour } = Astro.props;
-import { WHATSAPP } from '@/lib/constants';
-const whatsappNumber = WHATSAPP;
+const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP || '255764908272';
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi Springbok! I'm interested in the "${tour.data.title}" tour. Could you share more details and availability?`)}`;
 ---
 
 <div class="bg-white border border-dusk-100 rounded-2xl shadow-soft overflow-hidden">
-  <!-- Price header -->
-  <div class="bg-safari-900 text-white p-6">
-    <p class="text-sm text-dusk-300 mb-1">Starting from</p>
-    <p class="text-4xl font-display font-medium mb-2">${tour.data.priceFromUSD.toLocaleString()}</p>
-    <p class="text-xs text-dusk-400">per person, twin share</p>
-  </div>
-
-  <!-- Details -->
-  <div class="p-6 space-y-4 text-sm border-b border-dusk-100">
-    <div class="flex items-center gap-3 text-dusk-800">
-      <Calendar size={16} class="text-savannah-700 shrink-0" />
-      <div>
-        <span class="text-dusk-500">Duration: </span>
-        <strong>{tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}</strong>
-      </div>
-    </div>
-    {tour.data.groupSize && (
-      <div class="flex items-center gap-3 text-dusk-800">
-        <Users size={16} class="text-savannah-700 shrink-0" />
-        <div>
-          <span class="text-dusk-500">Group size: </span>
-          <strong>{tour.data.groupSize}</strong>
-        </div>
-      </div>
-    )}
-    {tour.data.startEnd && (
-      <div class="flex items-center gap-3 text-dusk-800">
-        <Calendar size={16} class="text-savannah-700 shrink-0" />
-        <div>
-          <span class="text-dusk-500">Starts/ends: </span>
-          <strong>{tour.data.startEnd}</strong>
-        </div>
-      </div>
-    )}
-  </div>
-
   <!-- Booking buttons -->
   <div class="p-6 space-y-3">
     <a
