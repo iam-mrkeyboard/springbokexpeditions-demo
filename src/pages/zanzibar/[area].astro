@@ -7,15 +7,10 @@ import {
   ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship, Check,
 } from '@lucide/astro';
 
-
-export async function getStaticPaths() {
-  return zanzibarAreas.map((area) => ({
-    params: { area: area.slug },
-    props: { area },
-  }));
-}
-
-const { area } = Astro.props;
+const { area: areaSlug } = Astro.params;
+if (!areaSlug) return Astro.rewrite('/404');
+const area = zanzibarAreaBySlug(areaSlug);
+if (!area) return Astro.rewrite('/404');
 const allTours = await getCollection('tours');
 const relatedTours = allTours.filter((t) => t.data.type === 'zanzibar' || t.data.destinations.includes('zanzibar-archipelago')).slice(0, 3);
 
@@ -58,7 +53,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
   description={`Plan your visit to ${area.name}: best beaches, top things to do, where to stay, how to get there, and best time to visit. ${area.tagline}`}
   transparentHeader={true}
 >
-  <!-- Hero -->
   <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src={area.hero}
@@ -93,7 +87,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Quick info bar -->
   <section class="bg-safari-900 text-white border-b border-white/10">
     <div class="container-content">
       <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
@@ -113,7 +106,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Overview -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
@@ -173,7 +165,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Best time -->
   <section class="section bg-white">
     <div class="container-content max-w-4xl">
       <p class="eyebrow text-safari-600 mb-3 text-center">When to visit</p>
@@ -199,7 +190,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Highlights -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="text-center max-w-2xl mx-auto mb-12">
@@ -221,7 +211,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Attractions -->
   <section class="section bg-white">
     <div class="container-content max-w-4xl">
       <p class="eyebrow text-safari-600 mb-3 text-center">Top things to do</p>
@@ -240,7 +229,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Other areas -->
   <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="flex items-end justify-between mb-8">
@@ -281,7 +269,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Related tours -->
   {relatedTours.length > 0 && (
     <section class="section bg-white">
       <div class="container-content">
@@ -317,8 +304,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
                 <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
                 <div class="flex items-center gap-3 text-xs text-dusk-500">
                   <span>{tour.data.durationDays} days</span>
-                  <span>·</span>
-                  <span>From ${tour.data.priceFromUSD.toLocaleString()}</span>
                 </div>
               </div>
             </a>
@@ -328,7 +313,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </section>
   )}
 
-  <!-- Final CTA -->
   <section class="section bg-safari-900 text-white">
     <div class="container-content">
       <div class="max-w-3xl mx-auto text-center">
@@ -352,7 +336,6 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
