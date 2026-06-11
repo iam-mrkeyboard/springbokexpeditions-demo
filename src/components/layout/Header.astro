@@ -1,5 +1,6 @@
 ---
 import { Phone, Mail, Menu, X, ChevronDown } from '@lucide/astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
 interface Props {
@@ -237,10 +238,10 @@ const currentPath = Astro.url.pathname;
     <div class='flex items-center justify-between h-20'>
       <!-- Logo -->
       <a href='/' class='flex items-center gap-3 group'>
-        <img
+        <Image
           src='/logo.png'
           alt='Springbok Expeditions'
-          class='object-contain header-logo-img'
+          class='object-cover header-logo-img'
           height={50}
           width={200}
         />
