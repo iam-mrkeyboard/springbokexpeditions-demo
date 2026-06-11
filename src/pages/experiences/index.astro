@@ -1,10 +1,8 @@
 ---
-export const prerender = true;
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
 import { ArrowRight, Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
-
 
 const experiences = (await getCollection('experiences'))
   .sort((a, b) => a.data.order - b.data.order);
@@ -198,14 +196,6 @@ const faqs = [
                   ))}
                 </ul>
                 <div class="flex items-center justify-between pt-4 border-t border-dusk-100">
-                  {exp.data.priceFromUSD ? (
-                    <div>
-                      <p class="text-[10px] uppercase tracking-[0.18em] text-dusk-500">From</p>
-                      <p class="font-display text-xl text-safari-900">${exp.data.priceFromUSD.toLocaleString()}</p>
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
                   <span class="inline-flex items-center gap-1.5 text-safari-700 group-hover:text-safari-900 text-sm font-medium transition-colors">
                     See details
                     <ArrowRight size={14} />
