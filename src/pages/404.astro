@@ -127,8 +127,7 @@ const popularLinks = [
                 </h3>
                 <p class="text-sm text-dusk-600 line-clamp-2 mb-3">{tour.data.excerpt}</p>
                 <p class="text-safari-900 font-semibold">
-                  From ${tour.data.priceFromUSD.toLocaleString()}
-                  <span class="text-dusk-500 text-sm font-normal"> · {tour.data.durationDays} days</span>
+                  {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
                 </p>
               </div>
             </a>
