@@ -31,7 +31,7 @@ export const STYLE_TIERS = {
     border: 'border-dusk-300',
     accent: 'bg-dusk-700 text-dusk-50',
     chip: 'bg-dusk-700/95 text-dusk-50 ring-1 ring-dusk-600/30',
-    icon: 'flame',
+    icon: 'compass',
     description: 'Camping or basic lodges, shared vehicle, authentic adventure',
     order: 3,
   },

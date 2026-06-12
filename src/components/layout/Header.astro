@@ -20,34 +20,36 @@ const navItems = [
     href: '/tours',
     children: [
       {
-        label: 'All Safaris',
-        href: '/tours',
-        desc: 'Browse all our Tanzania safaris',
+        label: '10-Day Tanzania Northern Circuit Classic',
+        href: '/tours/northern-circuit-classic',
       },
       {
-        label: 'Wildlife Safaris',
-        href: '/tours?style=wildlife',
-        desc: 'Big Five, Great Migration',
+        label: '7-Day Signature Northern Circuit Safari',
+        href: '/tours/signature-northern-circuit',
       },
       {
-        label: 'Luxury Safaris',
-        href: '/tours?style=luxury',
-        desc: 'Premium lodges & private guides',
+        label: '7-Day Luxury Serengeti & Ngorongoro Fly-In Safari',
+        href: '/tours/luxury-fly-in-serengeti',
       },
       {
-        label: 'Family Safaris',
-        href: '/tours?style=family',
-        desc: 'Kid-friendly itineraries',
+        label: '7-Day Great Migration Calving Safari',
+        href: '/tours/great-migration-calving',
       },
       {
-        label: 'Honeymoon Safaris',
-        href: '/tours?style=honeymoon',
-        desc: 'Romantic & intimate',
+        label: '8-Day Mara River Crossing Safari',
+        href: '/tours/mara-river-crossing',
       },
       {
-        label: 'Day Trips',
-        href: '/tours?style=day-trip',
-        desc: 'Quick escapes from Arusha',
+        label: 'Bespoke Luxury Safari — Designed Around You',
+        href: '/tours/custom-luxury',
+      },
+      {
+        label: '10-Day Honeymoon Safari + Zanzibar Escape',
+        href: '/tours/honeymoon-safari-zanzibar',
+      },
+      {
+        label: '6-Day Family Safari Adventure',
+        href: '/tours/family-safari',
       },
     ],
   },
@@ -55,11 +57,6 @@ const navItems = [
     label: 'Destinations',
     href: '/destinations',
     children: [
-      {
-        label: 'All Destinations',
-        href: '/destinations',
-        desc: 'All parks & islands',
-      },
       ...destHighlights.map((d) => ({
         label: d.data.name,
         href: `/destinations/${d.id}`,
@@ -71,11 +68,6 @@ const navItems = [
     label: 'Kilimanjaro',
     href: '/kilimanjaro',
     children: [
-      {
-        label: 'All Routes',
-        href: '/kilimanjaro',
-        desc: 'Compare 7 climbing routes',
-      },
       {
         label: 'Machame Route',
         href: '/kilimanjaro/machame',
@@ -92,9 +84,24 @@ const navItems = [
         desc: '6 days · The "Coca-Cola" route',
       },
       {
+        label: 'Northern Circuit',
+        href: '/kilimanjaro/northern-circuit',
+        desc: '9 days · 98% summit success',
+      },
+      {
         label: 'Rongai Route',
         href: '/kilimanjaro/rongai',
         desc: '7 days · Northern approach',
+      },
+      {
+        label: 'Shira Route',
+        href: '/kilimanjaro/shira',
+        desc: '7 days · 4x4 start at 3,500m',
+      },
+      {
+        label: 'Umbwe Route',
+        href: '/kilimanjaro/umbwe',
+        desc: '7 days · Expert climbers only',
       },
     ],
   },
@@ -102,16 +109,6 @@ const navItems = [
     label: 'Zanzibar',
     href: '/zanzibar',
     children: [
-      {
-        label: 'All Areas',
-        href: '/zanzibar',
-        desc: 'Compare 8 hand-picked areas',
-      },
-      {
-        label: 'Stone Town',
-        href: '/zanzibar/stone-town',
-        desc: 'UNESCO old town & culture',
-      },
       {
         label: 'Nungwi',
         href: '/zanzibar/nungwi',
@@ -128,9 +125,29 @@ const navItems = [
         desc: 'Kitesurfing capital',
       },
       {
+        label: 'Stone Town',
+        href: '/zanzibar/stone-town',
+        desc: 'UNESCO old town & culture',
+      },
+      {
         label: 'Matemwe',
         href: '/zanzibar/matemwe',
         desc: 'Diving & Mnemba Atoll',
+      },
+      {
+        label: 'Jambiani',
+        href: '/zanzibar/jambiani',
+        desc: 'Quiet fishing village',
+      },
+      {
+        label: 'Jozani Forest',
+        href: '/zanzibar/jozani-forest',
+        desc: 'Red colobus monkeys',
+      },
+      {
+        label: 'Prison Island',
+        href: '/zanzibar/prison-island',
+        desc: 'Giant tortoises, day trip',
       },
     ],
   },
@@ -138,11 +155,6 @@ const navItems = [
     label: 'Experiences',
     href: '/experiences',
     children: [
-      {
-        label: 'All Experiences',
-        href: '/experiences',
-        desc: '6 ways to experience Tanzania',
-      },
       {
         label: 'Honeymoon',
         href: '/experiences/honeymoon-safari',
@@ -280,9 +292,11 @@ const currentPath = Astro.url.pathname;
                         <span class='font-medium text-sm text-dusk-900 group-hover/item:text-savannah-700'>
                           {child.label}
                         </span>
-                        <span class='text-xs text-dusk-600 mt-0.5'>
-                          {child.desc}
-                        </span>
+                        {child.desc && (
+                          <span class='text-xs text-dusk-600 mt-0.5'>
+                            {child.desc}
+                          </span>
+                        )}
                       </a>
                     ))}
                   </div>

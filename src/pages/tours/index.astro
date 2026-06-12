@@ -109,13 +109,14 @@ const typeLabels: Record<string, string> = {
         <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
           Style:
         </span>
-        <button class="style-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-style="">
+        <button class="style-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-style="" data-orig-bg="bg-safari-700 text-white">
           Any style
         </button>
         {Object.entries(STYLE_TIERS).map(([key, tier]) => (
           <button
             class={`style-filter px-3 py-1.5 text-sm rounded-full ${tier.bg} hover:opacity-80`}
             data-style={key}
+            data-orig-bg={`style-filter px-3 py-1.5 text-sm rounded-full ${tier.bg} hover:opacity-80`}
           >
             {tier.label}
           </button>
