@@ -1,0 +1,377 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { withPublisher } from '@/lib/jsonld';
+import {
+  ArrowRight, Mountain, TrendingUp, Calendar, Users, Home,
+  Check, Star, Tent, MountainSnow,
+} from '@lucide/astro';
+
+const routeDays = [
+  {
+    day: 1,
+    title: 'Momella Gate to Miriakamba Hut',
+    elevation: '1,500m → 2,500m',
+    body: 'The trek begins in montane forest inside Arusha National Park. Giraffes, buffalo, and black-and-white colobus monkeys are common on this section.',
+  },
+  {
+    day: 2,
+    title: 'Miriakamba to Saddle Hut',
+    elevation: '2,500m → 3,570m',
+    body: 'Climb through heath and moorland with views of the Meru crater and ash cone. Optional afternoon walk to Little Meru (3,820m) for acclimatization.',
+  },
+  {
+    day: 3,
+    title: 'Summit day: Socialist Peak',
+    elevation: '3,570m → 4,566m',
+    body: 'Midnight start under starlight, reaching Socialist Peak at sunrise. On clear days the views of Kilimanjaro floating above the clouds are unforgettable.',
+  },
+  {
+    day: 4,
+    title: 'Descent to Momella Gate',
+    elevation: '2,500m → 1,500m',
+    body: 'Descend through the forest to Momella Gate, with a short game drive through Arusha National Park before returning to Arusha.',
+  },
+];
+
+const monthRatings: Record<string, 'high' | 'med' | 'low'> = {
+  Jan: 'high', Feb: 'high', Mar: 'med',
+  Apr: 'low', May: 'low', Jun: 'high',
+  Jul: 'high', Aug: 'high', Sep: 'high',
+  Oct: 'high', Nov: 'med', Dec: 'high',
+};
+const monthColorMap: Record<'high' | 'med' | 'low', string> = {
+  high: 'bg-safari-600 text-white border-safari-700',
+  med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
+  low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
+};
+---
+
+<PublicLayout
+  title="Mount Meru Trek — Tanzania's Second Highest Peak"
+  description="Climb Mount Meru (4,566m) in Arusha National Park. A 4-day scenic trek with wildlife-rich lower slopes, a dramatic knife-edge ridge, and the best acclimatization for Kilimanjaro."
+  ogImage="/og/kilimanjaro.png"
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Mount Meru summit ridge at sunrise"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">4 days · 4,566m · Arusha National Park</p>
+
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          Climb<br />
+          <span class="italic font-normal text-savannah-300">Mount Meru.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
+          Tanzania's second-highest peak is one of East Africa's best-kept secrets: dramatic ridges, abundant wildlife, far fewer trekkers — and the perfect acclimatization before Kilimanjaro.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#route" class="btn btn-primary px-7 py-3.5">
+            See the 4-day route
+            <ArrowRight size={16} />
+          </a>
+          <a href="/contact?subject=mount-meru" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Get a custom quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="bg-safari-900 text-white border-t border-white/10">
+    <div class="container-content py-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">4,566m</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Socialist Peak</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">4 days</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Momella Route</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">2nd</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Highest in Tanzania</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">Arusha NP</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Wildlife-rich slopes</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why climb Meru -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <p class="eyebrow text-safari-600 mb-4">Why Mount Meru</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            Kilimanjaro's little sister — but a giant in its own right.
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg">
+            Mount Meru is often overlooked in favor of its famous neighbor, and that is exactly why we love it. The trails are quiet, the scenery is spectacular, and the summit ridge is one of the most dramatic in Africa. It is also one of the best acclimatization treks in the world for anyone planning to climb Kilimanjaro afterwards.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+              <Mountain size={20} />
+            </span>
+            <h3 class="font-display text-xl text-safari-900 mb-2">Best Kili prep</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">A few days on Meru dramatically improves acclimatization and increases your Kilimanjaro summit chances.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+            <span class="w-10 h-10 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
+              <Users size={20} />
+            </span>
+            <h3 class="font-display text-xl text-safari-900 mb-2">Quiet trails</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">Far fewer trekkers than Kilimanjaro. You get the mountain, the wildlife, and the ranger huts almost to yourself.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+            <span class="w-10 h-10 rounded-xl bg-sunset-100 text-sunset-700 flex items-center justify-center mb-4">
+              <TrendingUp size={20} />
+            </span>
+            <h3 class="font-display text-xl text-safari-900 mb-2">Dramatic summit ridge</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">The final ascent follows a narrow, exhilarating knife-edge ridge with sheer drops on both sides.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+              <Check size={20} />
+            </span>
+            <h3 class="font-display text-xl text-safari-900 mb-2">Wildlife from day one</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">Giraffes, buffalo, warthogs, and black-and-white colobus monkeys are common on the lower slopes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Route overview -->
+  <section id="route" class="section bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">The Momella Route</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          4 days to the summit
+        </h2>
+        <p class="text-dusk-600">
+          The only route used to climb Mount Meru. It is well-maintained, hut-based, and passes through forest, moorland, and alpine desert before the dramatic final ridge.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto space-y-4">
+        {routeDays.map((d) => (
+          <div class="bg-dusk-50 rounded-2xl p-6 md:p-8 border border-dusk-100">
+            <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+              <div class="flex-shrink-0">
+                <span class="w-12 h-12 rounded-xl bg-safari-700 text-white flex items-center justify-center font-display text-lg">
+                  {d.day}
+                </span>
+              </div>
+              <div class="flex-1">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                  <h3 class="font-display text-xl text-safari-900">{d.title}</h3>
+                  <span class="text-xs font-medium text-savannah-700 bg-savannah-100 px-2 py-1 rounded-full">{d.elevation}</span>
+                </div>
+                <p class="text-dusk-700 leading-relaxed">{d.body}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Best time -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <p class="eyebrow text-safari-600 mb-4">When to climb</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            Year-round, but dry season is best
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg mb-4">
+            Mount Meru can be climbed year-round, but the dry seasons from June to February offer the clearest skies and most stable conditions. December through February are particularly beautiful.
+          </p>
+          <p class="text-dusk-700 leading-relaxed">
+            The long rains from mid-March to May make the forest trail slippery and summit views less reliable. November is usually short, passing storms and can still be a good, quiet month to climb.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+            {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m) => {
+              const rating = monthRatings[m];
+              return (
+                <div class={`rounded-xl border p-4 text-center ${monthColorMap[rating]}`}>
+                  <p class="text-xs font-semibold uppercase tracking-wider">{m}</p>
+                  <p class="text-[10px] mt-1 uppercase tracking-wider opacity-80">
+                    {rating === 'high' ? 'Peak' : rating === 'med' ? 'Shoulder' : 'Off'}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          <div class="flex flex-wrap items-center gap-4 text-xs text-dusk-600">
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-safari-600"></span>Peak season</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-savannah-300"></span>Shoulder season</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-dusk-200"></span>Off season (wet)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ready-made package -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-lifted">
+            <img
+              src="https://images.pexels.com/photos/2609459/pexels-photo-2609459.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              alt="Mount Meru trek with Kilimanjaro in the background"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-6">
+          <p class="eyebrow text-safari-700 mb-3">Ready-made trek</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            4-Day Mount Meru Trek
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg mb-6">
+            Our most popular Mount Meru package includes airport transfers, park and hut fees, all meals on the mountain, an armed ranger, and a full support crew. Add it before Kilimanjaro for the ultimate acclimatization strategy.
+          </p>
+          <div class="grid grid-cols-2 gap-4 mb-6 max-w-md">
+            <div>
+              <p class="font-display text-2xl text-safari-900">4 days</p>
+              <p class="text-xs text-dusk-500 uppercase tracking-wider">Duration</p>
+            </div>
+            <div>
+              <p class="font-display text-2xl text-safari-900">4,566m</p>
+              <p class="text-xs text-dusk-500 uppercase tracking-wider">Summit</p>
+            </div>
+          </div>
+          <a href="/tours/mount-meru" class="btn btn-primary px-6 py-3">
+            See the full itinerary
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="section bg-dusk-50">
+    <div class="container-content max-w-3xl">
+      <p class="eyebrow text-safari-600 mb-3 text-center">Common questions</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-10 text-center">
+        Before you book
+      </h2>
+
+      <div class="space-y-4">
+        {[
+          {
+            q: 'Is Mount Meru a good warm-up for Kilimanjaro?',
+            a: 'Yes — it is one of the best acclimatization treks in the world for Kilimanjaro. Spending 4 days above 2,500m on Meru helps your body adjust to altitude before you attempt Kibo.'
+          },
+          {
+            q: 'How difficult is Mount Meru?',
+            a: 'Meru is rated moderate. The daily walking hours are shorter than Kilimanjaro and the summit day is less demanding, but the final ridge is exposed and requires a steady head for heights.'
+          },
+          {
+            q: 'Do I need technical climbing experience?',
+            a: 'No. Mount Meru is a trekking peak, not a technical climb. The final ridge is narrow and exhilarating, but it is still a walk with some scrambling, not roped climbing.'
+          },
+          {
+            q: 'What wildlife will I see?',
+            a: 'The lower slopes of Arusha National Park are home to giraffes, buffalo, warthogs, zebras, and black-and-white colobus monkeys. An armed ranger accompanies every trek for safety.'
+          },
+          {
+            q: 'When is the best time to climb Mount Meru?',
+            a: 'June to February is ideal, with June through October being the driest months. December and January are also excellent. Avoid mid-March to May if you want the best chance of clear views.'
+          },
+          {
+            q: 'Can I combine Mount Meru with Kilimanjaro and a safari?',
+            a: 'Absolutely. The classic combo is 4 days on Meru + 7 days on Kilimanjaro, followed by a 4-5 day safari. We handle all logistics, transfers, and park bookings as one seamless itinerary.'
+          },
+        ].map((faq) => (
+          <details class="group bg-white rounded-xl border border-dusk-100 shadow-soft">
+            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+              <h3 class="font-display text-lg text-safari-900 pr-4">{faq.q}</h3>
+              <span class="w-8 h-8 rounded-full bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0 group-open:rotate-45 transition-transform">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+            </summary>
+            <div class="px-5 pb-5 text-dusk-700 leading-relaxed">
+              {faq.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Start planning</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Ready to climb Mount Meru?
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          All treks are private and fully customized. Tell us your dates, group size, and whether you want to combine Meru with Kilimanjaro or a safari — we'll send a full quote within 24 hours.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact?subject=mount-meru" class="btn btn-primary px-8 py-3.5">
+            Get a custom quote
+            <ArrowRight size={16} />
+          </a>
+          <a href="/tours/mount-meru" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            See the 4-day itinerary
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: 'Mount Meru',
+    description: 'Tanzania\'s second-highest peak, a 4,566m volcanic mountain in Arusha National Park and an excellent acclimatization trek before Kilimanjaro.',
+    url: '/mount-meru',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'TZ',
+      addressRegion: 'Arusha National Park',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: -3.253,
+      longitude: 36.755,
+    },
+  }))} />
+</PublicLayout>
