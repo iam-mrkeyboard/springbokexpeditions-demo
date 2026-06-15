@@ -1,6 +1,5 @@
 ---
 import { ArrowRight } from '@lucide/astro';
-import { cloudinaryVideoUrl, cloudinaryImageUrl } from '@/lib/cloudinary';
 
 interface Props {
   eyebrow?: string;
@@ -23,9 +22,9 @@ const {
   headingLine1 = 'Your Tanzania trip.',
   headingLine2 = 'Built by the people',
   headingItalic = 'who live here.',
-  posterUrl = cloudinaryImageUrl('spring/hero-bg-poster_oz8n9n') || '/hero-bg-poster.jpg',
-  videoSrc = cloudinaryVideoUrl('spring/hero-bg_llkoyg') || '/hero-bg.mp4',
-  videoSrcMobile = cloudinaryVideoUrl('spring/hero-bg-mobile_xo9pvc') || '/hero-bg-mobile.mp4',
+  posterUrl = 'https://res.cloudinary.com/ibracloud/image/upload/q_auto,f_auto/spring/hero-bg-poster_oz8n9n.jpg',
+  videoSrc = 'https://res.cloudinary.com/ibracloud/video/upload/q_auto,f_auto/spring/hero-bg_llkoyg.mp4',
+  videoSrcMobile = 'https://res.cloudinary.com/ibracloud/video/upload/q_auto,f_auto/spring/hero-bg-mobile_xo9pvc.mp4',
   ctaLabel = 'Plan with us',
   ctaHref = '/contact',
   ctaSecondaryLabel = 'See our safaris',
