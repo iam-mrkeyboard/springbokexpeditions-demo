@@ -1,0 +1,301 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { ArrowRight, Mountain, Compass, MapPin, Check, Users, TrendingUp } from '@lucide/astro';
+import { withPublisher } from '@/lib/jsonld';
+
+const trekPeaks = [
+  {
+    name: 'Mount Kilimanjaro',
+    tagline: 'The Roof of Africa',
+    href: '/kilimanjaro',
+    height: '5,895m',
+    duration: '6–9 days',
+    difficulty: 'Moderate to strenuous',
+    image: 'https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    description: 'Africa’s highest peak and the world’s tallest free-standing mountain. Seven official routes lead through five climate zones to the snow-capped summit of Uhuru Peak.',
+    highlights: ['7 official routes', 'Uhuru Peak summit', 'Highest point in Africa', 'No technical climbing required'],
+  },
+  {
+    name: 'Mount Meru',
+    tagline: 'Kilimanjaro’s dramatic little sister',
+    href: '/mount-meru',
+    height: '4,566m',
+    duration: '4 days',
+    difficulty: 'Moderate',
+    image: 'https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    description: 'Tanzania’s second-highest peak, set inside wildlife-rich Arusha National Park. A quieter, scenic trek with a dramatic knife-edge ridge and unmatched views of Kilimanjaro.',
+    highlights: ['Excellent Kili acclimatization', 'Wildlife-rich lower slopes', 'Knife-edge ridge summit', 'Far fewer trekkers'],
+  },
+];
+
+const whyTrek = [
+  {
+    icon: Mountain,
+    title: 'Arusha-based mountain team',
+    body: 'Our guides live near the mountains, summit them regularly, and are certified in wilderness first response and altitude safety.',
+  },
+  {
+    icon: Users,
+    title: 'Fair, professional crews',
+    body: 'We employ our own guides, porters, and chefs — no middlemen. Fair wages, proper equipment, and Kilimanjaro National Park regulations.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Higher summit success',
+    body: 'Longer routes, careful pacing, and daily altitude checks give our climbers above-average success rates on both peaks.',
+  },
+  {
+    icon: Compass,
+    title: 'Custom combos',
+    body: 'Pair any trek with a safari, Zanzibar beach break, or both. We handle transfers, flights, and the full itinerary.',
+  },
+];
+---
+
+<PublicLayout
+  title="Trekking in Tanzania — Kilimanjaro & Mount Meru"
+  description="Plan your Tanzania trekking adventure: climb Mount Kilimanjaro (5,895m) via 7 official routes, or trek Mount Meru (4,566m) for stunning scenery and the best Kilimanjaro acclimatization."
+  ogImage="/og/kilimanjaro.png"
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Mount Kilimanjaro summit at sunrise"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">Tanzania's great peaks · Walk above the clouds</p>
+
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          Trekking in<br />
+          <span class="italic font-normal text-savannah-300">Tanzania.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
+          Two iconic mountains, one extraordinary country. Stand on the roof of Africa at Kilimanjaro, or climb the dramatic volcanic ridges of Mount Meru — the perfect warm-up and a superb trek in its own right.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#peaks" class="btn btn-primary px-7 py-3.5">
+            Compare the peaks
+            <ArrowRight size={16} />
+          </a>
+          <a href="/contact?subject=trekking" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Plan your trek
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="bg-safari-900 text-white border-t border-white/10">
+    <div class="container-content py-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">2</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Iconic peaks</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">7</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Kilimanjaro routes</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">98%</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Best Kili success rate</p>
+        </div>
+        <div>
+          <p class="font-display text-3xl md:text-4xl text-savannah-300">Arusha</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Local guiding team</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="section bg-dusk-50">
+    <div class="container-content max-w-3xl text-center">
+      <p class="eyebrow text-safari-600 mb-4">Why trek with us</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+        Local expertise, world-class mountains
+      </h2>
+      <p class="text-dusk-700 leading-relaxed text-lg">
+        Tanzania is home to two of Africa’s most rewarding treks. Whether you choose the legendary slopes of Kilimanjaro or the quieter ridges of Mount Meru, you’ll be guided by an Arusha-based team that knows every trail, every campsite, and every sign of altitude change.
+      </p>
+    </div>
+  </section>
+
+  <!-- Peak cards -->
+  <section id="peaks" class="section bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">Choose your peak</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Kilimanjaro or Meru?
+        </h2>
+        <p class="text-dusk-600">
+          Both treks start near Arusha and can be combined with a safari or Zanzibar. Pick the mountain that matches your time, budget, and ambition.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        {trekPeaks.map((peak) => (
+          <a
+            href={peak.href}
+            class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
+          >
+            <div class="aspect-[16/10] overflow-hidden bg-dusk-200 relative">
+              <img
+                src={peak.image}
+                alt={peak.name}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur text-xs font-medium text-safari-900">
+                <MapPin size={12} />
+                {peak.height}
+              </div>
+            </div>
+            <div class="p-6 md:p-8 flex-1 flex flex-col">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">{peak.tagline}</p>
+              <h3 class="font-display text-2xl md:text-3xl text-safari-900 mb-3 group-hover:text-safari-700 transition-colors">{peak.name}</h3>
+              <p class="text-dusk-700 leading-relaxed mb-6 flex-1">{peak.description}</p>
+
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-dusk-50 rounded-xl p-3">
+                  <p class="text-[10px] uppercase tracking-wider text-dusk-500">Duration</p>
+                  <p class="font-display text-lg text-safari-900">{peak.duration}</p>
+                </div>
+                <div class="bg-dusk-50 rounded-xl p-3">
+                  <p class="text-[10px] uppercase tracking-wider text-dusk-500">Difficulty</p>
+                  <p class="font-display text-lg text-safari-900">{peak.difficulty}</p>
+                </div>
+              </div>
+
+              <ul class="space-y-2 mb-6">
+                {peak.highlights.map((h) => (
+                  <li class="flex items-start gap-2 text-sm text-dusk-700">
+                    <span class="w-5 h-5 rounded-full bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check size={12} />
+                    </span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+
+              <span class="inline-flex items-center gap-2 text-safari-700 font-medium group-hover:text-safari-900 transition-colors">
+                Explore {peak.name}
+                <ArrowRight size={16} class="group-hover:translate-x-1 transition-transform" />
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why trek with us -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">The Springbok difference</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+          Built by climbers, for climbers
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {whyTrek.map((item) => (
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+              <item.icon size={20} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900 mb-2">{item.title}</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Combination ideas -->
+  <section class="section bg-white">
+    <div class="container-content max-w-5xl">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">Classic combinations</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Trek, then unwind
+        </h2>
+        <p class="text-dusk-600">
+          Most trekkers add a safari, a Zanzibar beach break, or both. We design the whole itinerary — including flights, transfers, and lodges.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">Meru + Kilimanjaro</p>
+          <h3 class="font-display text-xl text-safari-900 mb-3">The acclimatization combo</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Climb Mount Meru first to adapt to altitude, then tackle Kilimanjaro with a much higher chance of summiting.</p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">Kilimanjaro + Safari</p>
+          <h3 class="font-display text-xl text-safari-900 mb-3">Peak to plains</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Summit Kilimanjaro, then recover on a Northern Circuit safari to Tarangire, Ngorongoro, and Serengeti.</p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">Trek + Zanzibar</p>
+          <h3 class="font-display text-xl text-safari-900 mb-3">Mountain to beach</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">After the mountain, fly to Zanzibar for white-sand beaches, Stone Town, and warm Indian Ocean water.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section bg-safari-900 text-white">
+    <div class="container-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow text-savannah-300 mb-3">Start planning</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+          Ready to choose your mountain?
+        </h2>
+        <p class="text-lg text-dusk-100/90 mb-8">
+          Tell us your dates, fitness level, and whether you want to combine the trek with a safari or Zanzibar. We'll recommend the right route and send a full quote within 24 hours.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact?subject=trekking" class="btn btn-primary px-8 py-3.5">
+            Get a custom trekking quote
+            <ArrowRight size={16} />
+          </a>
+          <a href="/kilimanjaro" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Explore Kilimanjaro routes
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Trekking in Tanzania',
+    description: 'Compare Mount Kilimanjaro and Mount Meru trekking adventures in Tanzania.',
+    url: '/trekking',
+    hasPart: trekPeaks.map((peak) => ({
+      '@type': 'TouristAttraction',
+      name: peak.name,
+      description: peak.description,
+      url: peak.href,
+    })),
+  }))} />
+</PublicLayout>
