@@ -1,37 +1,22 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
+import { getCollection } from 'astro:content';
 import {
-  ArrowRight, Mountain, TrendingUp, Calendar, Users, Home,
-  Check, Star, Tent, MountainSnow,
+  ArrowRight, Users, Check, Mountain, TrendingUp, Camera, Trees,
+  Shield, Tent, Sparkles, CalendarDays,
 } from '@lucide/astro';
 
-const routeDays = [
-  {
-    day: 1,
-    title: 'Momella Gate to Miriakamba Hut',
-    elevation: '1,500m → 2,500m',
-    body: 'The trek begins in montane forest inside Arusha National Park. Giraffes, buffalo, and black-and-white colobus monkeys are common on this section.',
-  },
-  {
-    day: 2,
-    title: 'Miriakamba to Saddle Hut',
-    elevation: '2,500m → 3,570m',
-    body: 'Climb through heath and moorland with views of the Meru crater and ash cone. Optional afternoon walk to Little Meru (3,820m) for acclimatization.',
-  },
-  {
-    day: 3,
-    title: 'Summit day: Socialist Peak',
-    elevation: '3,570m → 4,566m',
-    body: 'Midnight start under starlight, reaching Socialist Peak at sunrise. On clear days the views of Kilimanjaro floating above the clouds are unforgettable.',
-  },
-  {
-    day: 4,
-    title: 'Descent to Momella Gate',
-    elevation: '2,500m → 1,500m',
-    body: 'Descend through the forest to Momella Gate, with a short game drive through Arusha National Park before returning to Arusha.',
-  },
-];
+const meruTreks = (await getCollection('trekking'))
+  .filter((t) => t.data.mountain === 'meru')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const difficultyLabel: Record<string, string> = {
+  easy: 'Easy',
+  moderate: 'Moderate',
+  challenging: 'Challenging',
+  strenuous: 'Strenuous',
+};
 
 const monthRatings: Record<string, 'high' | 'med' | 'low'> = {
   Jan: 'high', Feb: 'high', Mar: 'med',
@@ -44,37 +29,52 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
   med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
   low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
 };
+
+const gallery = [
+  {
+    src: 'https://res.cloudinary.com/drhl0yu7y/image/upload/c_scale,w_1600/meru/one-day-mount-meru-day-hike-tanzania-tours-and-activities-package_cHwuv_ch7hij.jpg',
+    alt: 'Hiker on the Mount Meru trail with forested slopes behind',
+  },
+  {
+    src: 'https://res.cloudinary.com/drhl0yu7y/image/upload/c_scale,w_1600/meru/Mount-Meru_pgwsyx.jpg',
+    alt: 'Mount Meru towering above the landscape near Arusha National Park',
+  },
+  {
+    src: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1708504469/meru/ziqisp2ftbmqnjl10vfo.png',
+    alt: 'Wildlife and vegetation on the lower slopes of Mount Meru',
+  },
+];
 ---
 
 <PublicLayout
-  title="Mount Meru Trek — Tanzania's Second Highest Peak"
-  description="Climb Mount Meru (4,566m) in Arusha National Park. A 4-day scenic trek with wildlife-rich lower slopes, a dramatic knife-edge ridge, and the best acclimatization for Kilimanjaro."
+  title="Mount Meru Trek — Tanzania's Hidden Gem & Second Highest Peak"
+  description="Climb Mount Meru (4,566m) in Arusha National Park. A 4-day scenic trek with wildlife-rich lower slopes, a dramatic knife-edge ridge, and the perfect acclimatization for Kilimanjaro."
   ogImage="/og/kilimanjaro.png"
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[90vh] min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
     <img
-      src="https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?auto=compress&cs=tinysrgb&w=1920"
-      alt="Mount Meru summit ridge at sunrise"
+      src="https://res.cloudinary.com/drhl0yu7y/image/upload/v1762857871/meru/mount_meru_d0q59d.jpg"
+      alt="Mount Meru rises above the savanna at golden hour"
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/40 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
 
-    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-20 md:pb-24 pt-32">
       <div class="max-w-3xl">
         <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">4 days · 4,566m · Arusha National Park</p>
 
-        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
-          Climb<br />
-          <span class="italic font-normal text-savannah-300">Mount Meru.</span>
+        <h1 class="font-display text-[2.8rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6 leading-[1.05]">
+          Mount Meru:<br />
+          <span class="italic font-normal text-savannah-300">Tanzania's Hidden Gem.</span>
         </h1>
 
         <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
-          Tanzania's second-highest peak is one of East Africa's best-kept secrets: dramatic ridges, abundant wildlife, far fewer trekkers — and the perfect acclimatization before Kilimanjaro.
+          Standing quietly in Kilimanjaro’s shadow, Mount Meru is a 4,566m volcano of lush rainforest, open moorland, and one of the most dramatic summit ridges in Africa. It is the perfect warm-up for Kili — and an unforgettable adventure in its own right.
         </p>
 
         <div class="flex flex-wrap gap-4">
@@ -121,42 +121,160 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
         <div class="lg:col-span-5">
           <p class="eyebrow text-safari-600 mb-4">Why Mount Meru</p>
           <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-            Kilimanjaro's little sister — but a giant in its own right.
+            A shorter, quieter, more intimate climb — with all the reward.
           </h2>
-          <p class="text-dusk-700 leading-relaxed text-lg">
-            Mount Meru is often overlooked in favor of its famous neighbor, and that is exactly why we love it. The trails are quiet, the scenery is spectacular, and the summit ridge is one of the most dramatic in Africa. It is also one of the best acclimatization treks in the world for anyone planning to climb Kilimanjaro afterwards.
+          <p class="text-dusk-700 leading-relaxed text-lg mb-4">
+            Mount Meru is often overlooked in favor of its famous neighbor, and that is exactly why we love it. The trails are peaceful, the scenery changes every few hours, and the final knife-edge ridge is one of the most dramatic in Africa.
+          </p>
+          <p class="text-dusk-700 leading-relaxed">
+            It is also one of the best acclimatization treks in the world for Kilimanjaro. Spending four days above 2,500m helps your body adjust before you attempt Kibo — significantly improving your summit chances.
           </p>
         </div>
 
         <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft hover:shadow-lifted transition-shadow">
             <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
               <Mountain size={20} />
             </span>
-            <h3 class="font-display text-xl text-safari-900 mb-2">Best Kili prep</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">A few days on Meru dramatically improves acclimatization and increases your Kilimanjaro summit chances.</p>
+            <h3 class="font-display text-xl text-safari-900 mb-2">Best Kilimanjaro prep</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">A few days on Meru dramatically improves acclimatization and increases your chances of standing on Uhuru Peak.</p>
           </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft hover:shadow-lifted transition-shadow">
             <span class="w-10 h-10 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
               <Users size={20} />
             </span>
             <h3 class="font-display text-xl text-safari-900 mb-2">Quiet trails</h3>
             <p class="text-sm text-dusk-600 leading-relaxed">Far fewer trekkers than Kilimanjaro. You get the mountain, the wildlife, and the ranger huts almost to yourself.</p>
           </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft hover:shadow-lifted transition-shadow">
             <span class="w-10 h-10 rounded-xl bg-sunset-100 text-sunset-700 flex items-center justify-center mb-4">
               <TrendingUp size={20} />
             </span>
             <h3 class="font-display text-xl text-safari-900 mb-2">Dramatic summit ridge</h3>
             <p class="text-sm text-dusk-600 leading-relaxed">The final ascent follows a narrow, exhilarating knife-edge ridge with sheer drops on both sides.</p>
           </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
+          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft hover:shadow-lifted transition-shadow">
             <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
               <Check size={20} />
             </span>
             <h3 class="font-display text-xl text-safari-900 mb-2">Wildlife from day one</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">Giraffes, buffalo, warthogs, and black-and-white colobus monkeys are common on the lower slopes.</p>
+            <p class="text-sm text-dusk-600 leading-relaxed">Giraffes, buffalo, warthogs, bushbucks, and black-and-white colobus monkeys are common on the lower slopes.</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wildlife on foot -->
+  <section class="section bg-white overflow-hidden">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="order-2 lg:order-1">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-4 mt-8">
+              <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
+                <img
+                  src={gallery[0].src}
+                  alt={gallery[0].alt}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
+                <img
+                  src={gallery[2].src}
+                  alt={gallery[2].alt}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <p class="eyebrow text-safari-600 mb-4">A Wildlife Experience on Foot</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            Because the trek begins inside a national park.
+          </h2>
+          <div class="space-y-4 text-dusk-700 leading-relaxed text-lg">
+            <p>
+              Unlike most mountain climbs, Mount Meru starts deep inside Arusha National Park. From the first steps at Momella Gate, you are walking through an African wilderness.
+            </p>
+            <p>
+              Buffalo graze in the clearings, giraffes watch from the acacia tops, and troops of black-and-white colobus monkeys crash through the rainforest canopy. It is not uncommon to spot bushbucks, warthogs, and a dazzling variety of birds before you have even broken a sweat.
+            </p>
+            <p>
+              For safety, an armed ranger from the national park joins every trek — especially on the first day. This unique blend of hiking and safari is part of what makes Meru so special: you are literally walking through the wild before rising above it.
+            </p>
+          </div>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            {['Giraffes', 'Buffalo', 'Colobus monkeys', 'Bushbucks', 'Warthogs', 'Birdlife'].map((animal) => (
+              <span class="bg-safari-50 text-safari-800 border border-safari-100 px-3 py-1.5 rounded-full text-sm font-medium">
+                {animal}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Scenery -->
+  <section class="section bg-safari-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <img
+        src={gallery[1].src}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-safari-900 via-safari-900/95 to-safari-900"></div>
+
+    <div class="container-content relative z-10">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-savannah-300 mb-3">The Scenery</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-4">
+          Every section of Meru tells its own story.
+        </h2>
+        <p class="text-dusk-200 text-lg">
+          From rainforest waterfalls to volcanic ridges, the mountain reveals a new world every few hours.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-10 h-10 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Trees size={20} />
+          </span>
+          <h3 class="font-display text-xl text-white mb-2">Lush rainforest</h3>
+          <p class="text-dusk-200/90 leading-relaxed text-sm">
+            The lower slopes are draped in dense montane forest, dripping with moss, echoing with birdsong, and broken by waterfalls after rain.
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-10 h-10 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Sparkles size={20} />
+          </span>
+          <h3 class="font-display text-xl text-white mb-2">Heather & moorland</h3>
+          <p class="text-dusk-200/90 leading-relaxed text-sm">
+            Higher up, the forest fades into open moorland colored by heather, wildflowers, and giant lobelias, with the crater walls rising ahead.
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-10 h-10 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Camera size={20} />
+          </span>
+          <h3 class="font-display text-xl text-white mb-2">Volcanic summit</h3>
+          <p class="text-dusk-200/90 leading-relaxed text-sm">
+            Near the top, volcanic ridges reveal dramatic views of the crater and ash cone. At Socialist Peak, sunrise spills across the plains with Kilimanjaro on the horizon.
+          </p>
         </div>
       </div>
     </div>
@@ -165,35 +283,47 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
   <!-- Route overview -->
   <section id="route" class="section bg-white">
     <div class="container-content">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="eyebrow text-safari-600 mb-3">The Momella Route</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
-          4 days to the summit
-        </h2>
-        <p class="text-dusk-600">
-          The only route used to climb Mount Meru. It is well-maintained, hut-based, and passes through forest, moorland, and alpine desert before the dramatic final ridge.
-        </p>
-      </div>
-
-      <div class="max-w-4xl mx-auto space-y-4">
-        {routeDays.map((d) => (
-          <div class="bg-dusk-50 rounded-2xl p-6 md:p-8 border border-dusk-100">
-            <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
-              <div class="flex-shrink-0">
-                <span class="w-12 h-12 rounded-xl bg-safari-700 text-white flex items-center justify-center font-display text-lg">
-                  {d.day}
-                </span>
-              </div>
-              <div class="flex-1">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
-                  <h3 class="font-display text-xl text-safari-900">{d.title}</h3>
-                  <span class="text-xs font-medium text-savannah-700 bg-savannah-100 px-2 py-1 rounded-full">{d.elevation}</span>
-                </div>
-                <p class="text-dusk-700 leading-relaxed">{d.body}</p>
-              </div>
-            </div>
+      <div class="grid lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow text-safari-600 mb-3">The Momella Route</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+            4 days to the summit
+          </h2>
+          <p class="text-dusk-600 leading-relaxed mb-6">
+            The only route used to climb Mount Meru. It is well-maintained, hut-based, and passes through rainforest, moorland, and alpine desert before the dramatic final ridge.
+          </p>
+          <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
+            <img
+              src={gallery[1].src}
+              alt="Mount Meru rising above the savanna"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-        ))}
+        </div>
+
+        <div class="lg:col-span-8 space-y-5">
+          <p class="text-dusk-700 leading-relaxed text-lg">
+            The Momella Route is the only trail up Mount Meru and one of East Africa's most rewarding hut-based treks. It climbs through rainforest, heath, and alpine moorland before the dramatic knife-edge ridge to Socialist Peak. An armed ranger escorts every group through the wildlife-rich lower slopes.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: Trees, title: 'Wildlife from day one', body: 'The trail starts inside Arusha National Park. Giraffe, buffalo, and colobus monkeys are common sights on the lower slopes. An armed ranger walks with you the entire way.' },
+              { icon: Tent, title: 'Comfortable mountain huts', body: 'Sleep in solar-lit huts at Miriakamba and Saddle with shared dining rooms. Hot meals are prepared by your crew — no tents, no damp mornings.' },
+              { icon: Mountain, title: 'The knife-edge summit ridge', body: 'The final push follows a dramatic narrow ridgeline between the outer and inner crater. At sunrise, Kilimanjaro fills the eastern horizon above a sea of clouds.' },
+              { icon: Users, title: 'Fewer trekkers, more solitude', body: 'Meru sees a fraction of the crowds on Kilimanjaro. Most days you will share the trail with wildlife, not other groups. A quieter, more intimate mountain experience.' },
+            ].map((item) => (
+              <div class="bg-dusk-50 rounded-xl p-5 border border-dusk-100 hover:border-savannah-300/60 transition-colors">
+                <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-3">
+                  <item.icon size={20} />
+                </span>
+                <h4 class="font-display text-base text-safari-900 mb-2">{item.title}</h4>
+                <p class="text-sm text-dusk-600 leading-relaxed">{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -239,47 +369,165 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Ready-made package -->
+  <!-- Preparation & Safety -->
   <section class="section bg-white">
     <div class="container-content">
-      <div class="grid lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-6">
-          <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-lifted">
-            <img
-              src="https://images.pexels.com/photos/2609459/pexels-photo-2609459.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt="Mount Meru trek with Kilimanjaro in the background"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
-        <div class="lg:col-span-6">
-          <p class="eyebrow text-safari-700 mb-3">Ready-made trek</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-            4-Day Mount Meru Trek
-          </h2>
-          <p class="text-dusk-700 leading-relaxed text-lg mb-6">
-            Our most popular Mount Meru package includes airport transfers, park and hut fees, all meals on the mountain, an armed ranger, and a full support crew. Add it before Kilimanjaro for the ultimate acclimatization strategy.
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">Preparation & Safety</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          No technical climbing required — just fitness and the right team.
+        </h2>
+        <p class="text-dusk-600">
+          Mount Meru is a trekking peak, not a technical climb. With good preparation and our experienced crew, you can focus on the experience while we handle the rest.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+            <CalendarDays size={20} />
+          </span>
+          <h3 class="font-display text-xl text-safari-900 mb-2">Train lightly</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">
+            Start light training about two months before your trip — long walks, hikes with a daypack, and stair climbing all help. No technical skills are needed.
           </p>
-          <div class="grid grid-cols-2 gap-4 mb-6 max-w-md">
-            <div>
-              <p class="font-display text-2xl text-safari-900">4 days</p>
-              <p class="text-xs text-dusk-500 uppercase tracking-wider">Duration</p>
-            </div>
-            <div>
-              <p class="font-display text-2xl text-safari-900">4,566m</p>
-              <p class="text-xs text-dusk-500 uppercase tracking-wider">Summit</p>
-            </div>
-          </div>
-          <a href="/tours/mount-meru" class="btn btn-primary px-6 py-3">
-            See the full itinerary
-            <ArrowRight size={16} />
-          </a>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <span class="w-10 h-10 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
+            <Shield size={20} />
+          </span>
+          <h3 class="font-display text-xl text-safari-900 mb-2">Safety first</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">
+            Every trek is led by professional guides trained in first aid and altitude response. An armed national park ranger accompanies the group, especially on day one.
+          </p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100">
+          <span class="w-10 h-10 rounded-xl bg-sunset-100 text-sunset-700 flex items-center justify-center mb-4">
+            <Tent size={20} />
+          </span>
+          <h3 class="font-display text-xl text-safari-900 mb-2">Comfort on the mountain</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">
+            You stay in clean, comfortable mountain huts. Fresh meals are prepared by our mountain chefs, and our team makes sure you are safe, warm, and well-fed each day.
+          </p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Why climb with us -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div>
+          <p class="eyebrow text-safari-600 mb-4">Why Climb with Springbok Expeditions</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            Every climb is personal.
+          </h2>
+          <div class="space-y-4 text-dusk-700 leading-relaxed text-lg">
+            <p>
+              We believe in small-group or private treks that focus on your pace, comfort, and safety. Our goal is not just to get you to the summit, but to help you connect deeply with the mountain and the people who make the journey possible.
+            </p>
+            <p>
+              Choosing Springbok means traveling responsibly. Your trek supports local guides, porters, and communities while helping preserve the mountain’s fragile environment for generations to come.
+            </p>
+          </div>
+
+          <ul class="mt-6 space-y-3">
+            {[
+              'Private, fully customized treks',
+              'Experienced local guides and mountain crew',
+              'Responsible, community-focused tourism',
+              'All permits, meals, transfers, and hut fees included',
+              'Seamless add-ons: Kilimanjaro, safari, or Zanzibar',
+            ].map((item) => (
+              <li class="flex items-start gap-3 text-dusk-700">
+                <span class="w-5 h-5 rounded-full bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check size={12} />
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4 mt-8">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
+              <img
+                src={gallery[0].src}
+                alt={gallery[0].alt}
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
+              <img
+                src={gallery[1].src}
+                alt={gallery[1].alt}
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ready-made package -->
+  {meruTreks.length > 0 && (
+    <section class="section bg-white">
+      <div class="container-content">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <p class="eyebrow text-safari-700 mb-3">Ready-made Treks</p>
+            <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+              Itineraries already planned for you
+            </h2>
+          </div>
+          <a href="/trekking" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+            See all treks
+            <ArrowRight size={16} />
+          </a>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-5 max-w-4xl">
+          {meruTreks.map((trek) => (
+            <a
+              href={`/trekking/${trek.id}`}
+              class="group relative overflow-hidden rounded-2xl bg-dusk-50 border border-dusk-100 hover:border-savannah-300 hover:shadow-lifted transition-all"
+            >
+              <div class="aspect-[16/9] overflow-hidden bg-dusk-200">
+                <img
+                  src={trek.data.hero}
+                  alt={trek.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="text-xs font-medium text-savannah-700 bg-savannah-100 px-2 py-1 rounded-full">{difficultyLabel[trek.data.difficulty ?? '']}</span>
+                  <span class="text-xs text-dusk-500">{trek.data.successRate}</span>
+                </div>
+                <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{trek.data.title}</h3>
+                <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-2">{trek.data.excerpt}</p>
+                <span class="inline-flex items-center gap-1 text-sm text-safari-700 font-medium group-hover:gap-2 transition-all">
+                  View itinerary <ArrowRight size={14} />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- FAQs -->
   <section class="section bg-dusk-50">
@@ -305,7 +553,15 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
           },
           {
             q: 'What wildlife will I see?',
-            a: 'The lower slopes of Arusha National Park are home to giraffes, buffalo, warthogs, zebras, and black-and-white colobus monkeys. An armed ranger accompanies every trek for safety.'
+            a: 'The lower slopes of Arusha National Park are home to giraffes, buffalo, warthogs, zebras, bushbucks, and black-and-white colobus monkeys. An armed ranger accompanies every trek for safety.'
+          },
+          {
+            q: 'Where do we sleep and what do we eat?',
+            a: 'You stay in basic but clean mountain huts (Miriakamba and Saddle Huts). Our mountain chefs prepare fresh, energizing meals throughout the trek, and our team makes sure you are safe, warm, and well-fed.'
+          },
+          {
+            q: 'How should I prepare physically?',
+            a: 'Light training starting two months before your trip is ideal — long walks, day hikes with a small pack, and stair or hill climbing. Good general fitness is enough; no technical skills are required.'
           },
           {
             q: 'When is the best time to climb Mount Meru?',
@@ -313,7 +569,7 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
           },
           {
             q: 'Can I combine Mount Meru with Kilimanjaro and a safari?',
-            a: 'Absolutely. The classic combo is 4 days on Meru + 7 days on Kilimanjaro, followed by a 4-5 day safari. We handle all logistics, transfers, and park bookings as one seamless itinerary.'
+            a: 'Absolutely. The classic combo is 4 days on Meru + 7 days on Kilimanjaro, followed by a 4–5 day safari. We handle all logistics, transfers, and park bookings as one seamless itinerary.'
           },
         ].map((faq) => (
           <details class="group bg-white rounded-xl border border-dusk-100 shadow-soft">
@@ -341,14 +597,14 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
           Ready to climb Mount Meru?
         </h2>
         <p class="text-lg text-dusk-100/90 mb-8">
-          All treks are private and fully customized. Tell us your dates, group size, and whether you want to combine Meru with Kilimanjaro or a safari — we'll send a full quote within 24 hours.
+          All treks are private and fully customized. Tell us your dates, group size, and whether you want to combine Meru with Kilimanjaro or a safari — we’ll send a full quote within 24 hours.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a href="/contact?subject=mount-meru" class="btn btn-primary px-8 py-3.5">
             Get a custom quote
             <ArrowRight size={16} />
           </a>
-          <a href="/tours/mount-meru" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+          <a href="/trekking/4-day-mount-meru-trekking" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
             See the 4-day itinerary
           </a>
         </div>
@@ -357,7 +613,7 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
   </section>
 
   <!-- JSON-LD -->
-  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
     name: 'Mount Meru',
