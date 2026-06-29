@@ -150,12 +150,13 @@ const experienceSchema = z.object({
 // ─── Testimonials ─────────────────────────────────────────────────────────
 const testimonialSchema = z.object({
   name: z.string(),
-  quote: z.string().optional(),
-  body: z.string().optional(),
-  author: z.string().optional(),
+  initials: z.string().optional(),
   location: z.string().optional(),
-  rating: z.number().optional(),
-  tourSlug: z.string().optional(),
+  rating: z.number(),
+  date: z.string(),
+  travelerType: z.string(),
+  guide: z.string().optional(),
+  featured: z.boolean().default(false),
 }).passthrough();
 
 // ─── Collection definitions ──────────────────────────────────────────────
