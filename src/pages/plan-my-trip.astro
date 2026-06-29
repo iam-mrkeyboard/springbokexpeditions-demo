@@ -1,0 +1,875 @@
+---
+import PublicLayout from '@/layouts/PublicLayout.astro';
+import { withPublisher } from '@/lib/jsonld';
+import {
+  Compass, Mountain, Sun, Map, Umbrella, Users,
+  Clock, Search, CircleCheck, Crown, Star, Tent, Layers,
+  ArrowRight, ArrowLeft, Send, Sparkles,
+} from '@lucide/astro';
+
+const today = new Date().toISOString().split('T')[0];
+
+const countryCodes = [
+  { code: '', label: 'Select' },
+  { code: '+1', label: 'US/CA +1' },
+  { code: '+44', label: 'UK +44' },
+  { code: '+61', label: 'AU +61' },
+  { code: '+49', label: 'DE +49' },
+  { code: '+33', label: 'FR +33' },
+  { code: '+31', label: 'NL +31' },
+  { code: '+46', label: 'SE +46' },
+  { code: '+47', label: 'NO +47' },
+  { code: '+45', label: 'DK +45' },
+  { code: '+41', label: 'CH +41' },
+  { code: '+39', label: 'IT +39' },
+  { code: '+34', label: 'ES +34' },
+  { code: '+81', label: 'JP +81' },
+  { code: '+86', label: 'CN +86' },
+  { code: '+91', label: 'IN +91' },
+  { code: '+27', label: 'ZA +27' },
+  { code: '+254', label: 'KE +254' },
+  { code: '+255', label: 'TZ +255' },
+  { code: '+256', label: 'UG +256' },
+  { code: '+250', label: 'RW +250' },
+];
+
+const trustCards = [
+  { icon: Sparkles, title: 'Custom-built around you', body: 'No two trips are the same. Every answer you give shapes a one-of-a-kind itinerary.' },
+  { icon: Clock, title: '24-hour response', body: 'Your plan lands in our Arusha inbox immediately. We reply with a detailed quote within one working day.' },
+  { icon: CircleCheck, title: 'Free planning, no deposits', body: 'There is zero cost to plan. You only pay when you confirm a booking, and the deposit is fully refundable up to 60 days before travel.' },
+];
+---
+
+<PublicLayout
+  title="Plan Your Dream Safari — Springbok Expeditions"
+  description="Answer a few questions and receive a custom Tanzania itinerary — safari, Kilimanjaro, Meru, or Zanzibar — within 24 hours."
+  transparentHeader={true}
+>
+  <!-- Hero -->
+  <section class="relative h-[70vh] min-h-[550px] w-full overflow-hidden bg-safari-900 text-white">
+    <img
+      src="https://images.pexels.com/photos/2592524/pexels-photo-2592524.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Tanzania savanna at sunrise"
+      class="absolute inset-0 w-full h-full object-cover scale-105"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">
+          Custom Itinerary Builder
+        </p>
+        <h1 class="font-display text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6 leading-[1.05]">
+          Plan Your Dream<br />
+          <span class="italic font-normal text-savannah-300">Safari.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
+          Answer a few questions below and we'll build a custom Tanzania itinerary around your pace, style, and budget — delivered within 24 hours, completely free.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#wizard" class="btn btn-primary px-7 py-3.5">
+            Start planning
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wizard -->
+  <section id="wizard" class="py-16 md:py-20 bg-dusk-50">
+    <div class="container-content max-w-4xl mx-auto">
+      <!-- Progress bar -->
+      <div class="mb-10">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs uppercase tracking-[0.18em] text-savannah-700 font-semibold" id="step-label">Step 1 of 8</p>
+          <p class="text-xs text-dusk-500" id="step-title-display">Trip type</p>
+        </div>
+        <div class="w-full h-2 bg-dusk-200 rounded-full overflow-hidden">
+          <div id="progress-fill" class="h-full bg-safari-600 rounded-full transition-all duration-500 ease-out" style="width: 12.5%"></div>
+        </div>
+      </div>
+
+      <form
+        id="plan-trip-form"
+        class="bg-white rounded-2xl border border-dusk-100 shadow-soft overflow-hidden"
+      >
+        <!-- Step 1: Trip type -->
+        <div class="step p-8 md:p-10" data-step="1" data-required="true" data-auto-advance="true" data-label="Trip type" data-field="tripType">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">What type of trip are you interested in?</h2>
+          <p class="text-dusk-600 mb-8">Choose one — we'll build everything around it.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            {[
+              { value: 'safari', label: 'Wildlife Safari', sub: 'Serengeti, Ngorongoro, Tarangire', icon: Compass },
+              { value: 'kilimanjaro', label: 'Kilimanjaro Climb', sub: '6 routes · 5,895m · Roof of Africa', icon: Mountain },
+              { value: 'meru', label: 'Mount Meru Climb', sub: '4,566m · Arusha National Park', icon: Mountain },
+              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Spice Island · Stone Town · Coast', icon: Sun },
+              { value: 'combined', label: 'Combined Tour', sub: 'Safari + trek or beach', icon: Map },
+              { value: 'not-sure', label: 'Not sure yet', sub: 'Help me decide — surprise me', icon: Sparkles },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="radio" name="tripType" value={o.value} class="sr-only peer" required />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <div class="flex items-start gap-4">
+                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
+                      <o.icon size={20} />
+                    </span>
+                    <div>
+                      <p class="font-display text-lg text-safari-900">{o.label}</p>
+                      <p class="text-sm text-dusk-500">{o.sub}</p>
+                    </div>
+                  </div>
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="tripType">Please select a trip type.</p>
+        </div>
+        <div class="step p-8 md:p-10 hidden" data-step="2" data-label="Add-ons" data-field="addons">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Would you like to add anything?</h2>
+          <p class="text-dusk-600 mb-8">Select any that interest you — or none at all.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            {[
+              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Add a few days on the Spice Island', icon: Umbrella },
+              { value: 'cultural', label: 'Cultural Experiences', sub: 'Maasai village visits, local communities', icon: Users },
+              { value: 'day-trips', label: 'Day Trips from Arusha', sub: 'Materuni waterfalls, hot springs', icon: Clock },
+              { value: 'none', label: 'None, thanks', sub: 'Just the main trip is perfect', icon: CircleCheck },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="checkbox" name="addons" value={o.value} class="sr-only peer" />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-savannah-600 peer-checked:bg-savannah-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <div class="flex items-start gap-4">
+                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
+                      <o.icon size={20} />
+                    </span>
+                    <div>
+                      <p class="font-display text-lg text-safari-900">{o.label}</p>
+                      <p class="text-sm text-dusk-500">{o.sub}</p>
+                    </div>
+                  </div>
+                  <div class="card-dot dot-addon absolute top-4 right-4 w-5 h-5 rounded border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <svg class="check-mark w-3 h-3 text-white opacity-0 transition-opacity" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 3: Planning stage -->
+        <div class="step p-8 md:p-10 hidden" data-step="3" data-required="true" data-auto-advance="true" data-label="Planning stage" data-field="stage">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">How far along are you in your planning?</h2>
+          <p class="text-dusk-600 mb-8">No wrong answer — just helps us tailor the reply.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            {[
+              { value: 'researching', label: 'Still researching', sub: 'Exploring options, gathering ideas', icon: Search },
+              { value: 'ready-to-book', label: 'Ready to book', sub: "I know what I want — let's go", icon: CircleCheck },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="radio" name="stage" value={o.value} class="sr-only peer" required />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <div class="flex items-start gap-4">
+                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
+                      <o.icon size={20} />
+                    </span>
+                    <div>
+                      <p class="font-display text-lg text-safari-900">{o.label}</p>
+                      <p class="text-sm text-dusk-500">{o.sub}</p>
+                    </div>
+                  </div>
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="stage">Please select your planning stage.</p>
+        </div>
+
+        <!-- Step 4: Group size -->
+        <div class="step p-8 md:p-10 hidden" data-step="4" data-required="true" data-label="Group size" data-field="adults">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">How many people are in your group?</h2>
+          <p class="text-dusk-600 mb-8">This helps us recommend the right vehicle and lodges.</p>
+          <div class="grid sm:grid-cols-2 gap-5 max-w-md">
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-2">Adults</label>
+              <select name="adults" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg" required>
+                <option value="">Select</option>
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                  <option value={n}>{n} {n === 1 ? 'adult' : 'adults'}</option>
+                ))}
+                <option value="10+">10+ adults</option>
+              </select>
+              <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="adults">Please select the number of adults.</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-2">Kids <span class="text-dusk-500 font-normal">(optional)</span></label>
+              <select name="kids" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg">
+                <option value="0">None</option>
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                  <option value={n}>{n} {n === 1 ? 'kid' : 'kids'}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Budget -->
+        <div class="step p-8 md:p-10 hidden" data-step="5" data-required="true" data-auto-advance="true" data-label="Budget" data-field="budget">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">What's your budget per person?</h2>
+          <p class="text-dusk-600 mb-8">Excluding international flights. Rough estimates are perfect.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            {[
+              { value: 'under-2000', label: 'Under $2,000', sub: 'Budget-friendly adventures' },
+              { value: '2000-4000', label: '$2,000 – $4,000', sub: 'Comfortable mid-range' },
+              { value: '4000-6000', label: '$4,000 – $6,000', sub: 'Premium lodges & camps' },
+              { value: '6000-10000', label: '$6,000 – $10,000', sub: 'Luxury everywhere' },
+              { value: '10000-plus', label: '$10,000+', sub: 'Top-tier, fly-in, exclusive' },
+              { value: 'flexible', label: "I'm flexible", sub: 'Show me options at any level' },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="radio" name="budget" value={o.value} class="sr-only peer" required />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <p class="font-display text-lg text-safari-900">{o.label}</p>
+                  <p class="text-sm text-dusk-500 mt-1">{o.sub}</p>
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="budget">Please select a budget range.</p>
+        </div>
+
+        <!-- Step 6: Dates + Duration -->
+        <div class="step p-8 md:p-10 hidden" data-step="6" data-required="true" data-label="Dates & duration" data-field="dates">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">When are you thinking of traveling?</h2>
+          <p class="text-dusk-600 mb-8">If you're not sure of exact dates, just give us a rough idea.</p>
+          <div class="space-y-6 max-w-md">
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-2">Approximate start date</label>
+              <input
+                type="date"
+                name="dates"
+                id="trip-date"
+                min={today}
+                class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg"
+              />
+              <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="dates">Please select a travel date.</p>
+            </div>
+            <div class="mt-3">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="flexible-dates" class="sr-only peer" />
+                <span class="w-4 h-4 rounded border-2 border-dusk-300 peer-checked:border-savannah-600 peer-checked:bg-savannah-600 flex items-center justify-center transition-colors">
+                  <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg>
+                </span>
+                <span class="text-sm text-dusk-700">My dates are flexible</span>
+              </label>
+              <input type="text" id="flexible-dates-text" class="hidden w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 mt-2 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg" placeholder="e.g. July–August 2026, or 'late December'" />
+              <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="flexibleDatesText">Please tell us which month or season.</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-3">How long would you like to travel for?</label>
+              <div class="flex flex-wrap gap-2">
+                {['1-5','6-10','11-15','16-plus','flexible'].map((v) => (
+                  <label class="cursor-pointer">
+                    <input type="radio" name="duration" value={v} class="sr-only peer" required />
+                    <span class="block px-4 py-2.5 rounded-xl border-2 border-dusk-200 bg-dusk-50 peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:text-safari-900 peer-checked:font-medium text-sm text-dusk-700 hover:border-savannah-300 transition-all">
+                      {v === '1-5' ? '1–5 days' : v === '6-10' ? '6–10 days' : v === '11-15' ? '11–15 days' : v === '16-plus' ? '16+ days' : 'Flexible'}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <p class="field-error text-sm text-sunset-600 mt-2 hidden" data-error="duration">Please select a trip duration.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 7: Accommodation + Details -->
+        <div class="step p-8 md:p-10 hidden" data-step="7" data-label="Accommodation & details" data-field="accommodation">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Accommodation preference?</h2>
+          <p class="text-dusk-600 mb-6">This helps us pick the right lodges and camps for you.</p>
+          <div class="grid sm:grid-cols-2 gap-3 mb-8">
+            {[
+              { value: 'luxury', label: 'Luxury', sub: 'High-end lodges, fly-in camps', icon: Crown },
+              { value: 'mid-range', label: 'Mid-range', sub: 'Comfortable tents & lodges', icon: Star },
+              { value: 'budget', label: 'Budget', sub: 'Simple camping, public sites', icon: Tent },
+              { value: 'mixed', label: 'Mixed', sub: 'A bit of everything', icon: Layers },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="radio" name="accommodation" value={o.value} class="sr-only peer" />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <div class="flex items-start gap-4">
+                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
+                      <o.icon size={20} />
+                    </span>
+                    <div>
+                      <p class="font-display text-lg text-safari-900">{o.label}</p>
+                      <p class="text-sm text-dusk-500">{o.sub}</p>
+                    </div>
+                  </div>
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <label class="block text-sm font-medium text-safari-900 mb-2">Anything else you'd like to tell us?</label>
+          <textarea
+            name="details"
+            rows="4"
+            class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition resize-y"
+            placeholder="e.g. Honeymoon, celebrating an anniversary, travelling with young children, dietary needs, must-see animals..."
+          ></textarea>
+        </div>
+
+        <!-- Step 8: Contact + Review -->
+        <div class="step p-8 md:p-10 hidden" data-step="8" data-required="true" data-label="Contact details" data-field="firstName">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Your contact details</h2>
+          <p class="text-dusk-600 mb-8">Our team will contact you with your custom itinerary within 24 hours.</p>
+
+          <!-- Review summary -->
+          <div id="review-summary" class="bg-dusk-50 rounded-xl p-5 mb-8 border border-dusk-100">
+            <p class="text-xs uppercase tracking-[0.18em] text-savannah-700 font-semibold mb-3">Your plan summary</p>
+            <div id="review-content" class="space-y-2 text-sm text-dusk-700"></div>
+          </div>
+
+          <div class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-safari-900 mb-1.5">First name <span class="text-sunset-500">*</span></label>
+                <input type="text" name="firstName" required autocomplete="given-name" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition" placeholder="Jane" />
+                <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="firstName">First name is required.</p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-safari-900 mb-1.5">Last name <span class="text-sunset-500">*</span></label>
+                <input type="text" name="lastName" required autocomplete="family-name" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition" placeholder="Smith" />
+                <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="lastName">Last name is required.</p>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-1.5">Email <span class="text-sunset-500">*</span></label>
+              <input type="email" name="email" required autocomplete="email" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition" placeholder="jane@example.com" />
+              <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="email">Please enter a valid email address.</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-1.5">Phone <span class="text-dusk-500 font-normal">(optional)</span></label>
+              <div class="flex gap-2">
+                <select name="phoneCode" autocomplete="tel-country-code" class="px-3 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 text-sm focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition shrink-0">
+                  {countryCodes.map((c) => (
+                    <option value={c.code}>{c.label}</option>
+                  ))}
+                </select>
+                <input type="tel" name="phone" autocomplete="tel" class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition" placeholder="+1 555 123 4567" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spam protection -->
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="website">Website (leave empty)</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" id="_ts" name="_ts" value="" />
+        <div id="turnstile-widget" class="hidden"></div>
+        <input type="hidden" name="turnstileToken" id="turnstile-token" value="" />
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between px-8 md:px-10 py-5 border-t border-dusk-100 bg-dusk-50/50">
+          <button type="button" id="prev-btn" class="btn btn-outline px-5 py-2.5 hidden" aria-label="Previous step">
+            <ArrowLeft size={14} />
+            Back
+          </button>
+          <div></div>
+          <div class="flex gap-3">
+            <button type="button" id="next-btn" class="btn btn-primary px-6 py-2.5">
+              Continue
+              <ArrowRight size={14} />
+            </button>
+            <button type="submit" id="submit-btn" class="btn btn-primary px-8 py-2.5 hidden">
+              <Send size={14} />
+              Send Your Plan
+            </button>
+          </div>
+        </div>
+
+        <p id="form-status" class="text-sm text-center px-8 pb-6 hidden"></p>
+        <p class="text-xs text-dusk-500 text-center px-8 pb-6">
+          By submitting, you agree to our <a href="/legal/privacy" class="underline hover:text-safari-700">Privacy Policy</a>. We never share your details.
+        </p>
+      </form>
+
+      <!-- Success state (hidden until form submission succeeds) -->
+      <div id="success-state" class="hidden max-w-2xl mx-auto text-center">
+        <div class="bg-white rounded-2xl border border-dusk-100 shadow-soft p-10 md:p-14">
+          <div class="w-16 h-16 rounded-2xl bg-safari-100 text-safari-700 flex items-center justify-center mx-auto mb-6">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h2 class="font-display text-3xl md:text-4xl text-safari-900 mb-3">Thank you!</h2>
+          <p class="text-lg text-dusk-600 mb-8 leading-relaxed">
+            Your plan is on its way to our Arusha team. We read every submission personally and reply within 24 hours — usually much sooner. Keep an eye on your inbox.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button type="button" id="plan-another-btn" class="btn btn-outline px-6 py-3">Plan another trip</button>
+            <a href="/tours" class="btn btn-primary px-6 py-3">Browse itineraries <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow text-safari-600 mb-3">Why Plan With Us</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+          Your trip, built around you — not a template.
+        </h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+        {trustCards.map(({ icon: Icon, title, body }) => (
+          <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 transition-colors text-center">
+            <span class="w-11 h-11 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mx-auto mb-4">
+              <Icon size={22} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900 mb-2">{title}</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Plan Your Dream Safari',
+    description: 'Fill in this form to receive a custom Tanzania safari or trekking itinerary within 24 hours.',
+    url: '/plan-my-trip',
+  }))} />
+</PublicLayout>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  // ── Step navigation ──
+  const steps = Array.from(document.querySelectorAll('.step')) as HTMLElement[];
+  const totalSteps = steps.length;
+  let currentStep = 1;
+
+  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const progressFill = document.getElementById('progress-fill') as HTMLDivElement;
+  const stepLabel = document.getElementById('step-label') as HTMLParagraphElement;
+  const stepTitleDisplay = document.getElementById('step-title-display') as HTMLParagraphElement;
+  const formStatus = document.getElementById('form-status') as HTMLParagraphElement;
+  const reviewContent = document.getElementById('review-content') as HTMLDivElement;
+
+  const stepNames: Record<number, string> = {};
+  steps.forEach((s) => {
+    const n = parseInt(s.dataset.step!);
+    stepNames[n] = s.dataset.label!;
+  });
+
+  function showStep(n: number) {
+    steps.forEach((s) => {
+      const sn = parseInt(s.dataset.step!);
+      if (sn === n) {
+        s.classList.remove('hidden');
+        s.style.animation = 'fadeSlideIn 0.35s ease-out';
+      } else {
+        s.classList.add('hidden');
+      }
+    });
+
+    currentStep = n;
+    const pct = Math.round((n / totalSteps) * 100);
+    progressFill.style.width = pct + '%';
+    stepLabel.textContent = `Step ${n} of ${totalSteps}`;
+    stepTitleDisplay.textContent = stepNames[n] ?? '';
+
+    prevBtn!.classList.toggle('hidden', n === 1);
+    nextBtn!.classList.toggle('hidden', n === totalSteps);
+    submitBtn!.classList.toggle('hidden', n !== totalSteps);
+
+    // Build review summary on step 8
+    if (n === totalSteps) {
+      buildReview();
+      initTurnstile();
+    }
+
+    // Scroll to top of form on step change
+    const form = document.getElementById('plan-trip-form');
+    if (form) {
+      const top = form.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  function currentStepData(): HTMLElement | undefined {
+    return steps.find((s) => parseInt(s.dataset.step!) === currentStep);
+  }
+
+  function validateCurrentStep(): boolean {
+    clearAllErrors();
+    const step = currentStepData();
+    if (!step) return true;
+    if (step.dataset.required !== 'true') return true;
+
+    const fieldName = step.dataset.field!;
+    if (fieldName === 'adults') {
+      const sel = step.querySelector('select[name="adults"]') as HTMLSelectElement;
+      if (!sel?.value) { showFieldError('adults', 'Please select the number of adults.'); return false; }
+      return true;
+    }
+    if (fieldName === 'tripType' || fieldName === 'stage' || fieldName === 'budget') {
+      const checked = step.querySelector('input[type="radio"]:checked') as HTMLInputElement;
+      if (!checked) { showFieldError(fieldName, 'Please make a selection.'); return false; }
+      return true;
+    }
+    if (fieldName === 'dates') {
+      const flexible = step.querySelector('#flexible-dates') as HTMLInputElement;
+      if (flexible?.checked) {
+        const ft = step.querySelector('#flexible-dates-text') as HTMLInputElement;
+        if (!ft?.value.trim()) { showFieldError('flexibleDatesText', 'Please tell us which month or season.'); return false; }
+      } else {
+        const input = step.querySelector('input[name="dates"]') as HTMLInputElement;
+        if (!input?.value) { showFieldError('dates', 'Please select a travel date.'); return false; }
+      }
+      const dur = step.querySelector('input[name="duration"]:checked') as HTMLInputElement;
+      if (!dur) { showFieldError('duration', 'Please select a trip duration.'); return false; }
+      return true;
+    }
+    if (fieldName === 'firstName') {
+      const fn = step.querySelector('input[name="firstName"]') as HTMLInputElement;
+      const ln = step.querySelector('input[name="lastName"]') as HTMLInputElement;
+      const em = step.querySelector('input[name="email"]') as HTMLInputElement;
+      if (!fn?.value.trim()) { showFieldError('firstName', 'Please enter your first name.'); return false; }
+      if (!ln?.value.trim()) { showFieldError('lastName', 'Please enter your last name.'); return false; }
+      if (!em?.value.trim() || !em.value.includes('@')) { showFieldError('email', 'Please enter a valid email address.'); return false; }
+      return true;
+    }
+    return true;
+  }
+
+  function showFieldError(name: string, message: string) {
+    const el = document.querySelector(`[data-error="${name}"]`) as HTMLElement;
+    if (el) {
+      el.textContent = message;
+      el.classList.remove('hidden');
+    }
+    const input = document.querySelector(`input[name="${name}"], select[name="${name}"]`) as HTMLElement;
+    if (input) {
+      input.style.borderColor = '#dc2626';
+      (input as any).style.outline = '2px solid rgba(220,38,38,0.3)';
+      input.dataset.invalid = 'true';
+    }
+    (el || input)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function clearFieldError(name: string) {
+    const el = document.querySelector(`[data-error="${name}"]`) as HTMLElement;
+    if (el) el.classList.add('hidden');
+    const input = document.querySelector(`input[name="${name}"], select[name="${name}"]`) as HTMLElement;
+    if (input) {
+      input.style.borderColor = '';
+      (input as any).style.outline = '';
+      delete input.dataset.invalid;
+    }
+  }
+
+  function clearAllErrors() {
+    document.querySelectorAll('.field-error').forEach((el) => el.classList.add('hidden'));
+    document.querySelectorAll('[data-invalid]').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.borderColor = '';
+      (htmlEl as any).style.outline = '';
+      delete htmlEl.dataset.invalid;
+    });
+    if (formStatus) { formStatus.classList.add('hidden'); formStatus.textContent = ''; }
+  }
+
+  let turnstileRendered = false;
+
+  function initTurnstile() {
+    const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+    if (!siteKey || turnstileRendered) return;
+
+    const widget = document.getElementById('turnstile-widget');
+    if (!widget) return;
+
+    const w = window as any;
+    if (typeof w.turnstile !== 'undefined') {
+      widget.classList.remove('hidden');
+      w.turnstile.render(widget, {
+        sitekey: siteKey,
+        callback: (token: string) => {
+          const inp = document.getElementById('turnstile-token') as HTMLInputElement;
+          if (inp) inp.value = token;
+        },
+        'expired-callback': () => {
+          const inp = document.getElementById('turnstile-token') as HTMLInputElement;
+          if (inp) inp.value = '';
+        },
+      });
+      turnstileRendered = true;
+    } else {
+      setTimeout(initTurnstile, 500);
+    }
+  }
+
+  function buildReview() {
+    if (!reviewContent) return;
+    const labels: Record<string, string> = {
+      safari: 'Wildlife Safari', kilimanjaro: 'Kilimanjaro Climb', meru: 'Mount Meru Climb',
+      zanzibar: 'Zanzibar Beach', combined: 'Combined Tour', 'not-sure': 'Not sure yet',
+      researching: 'Still researching', 'ready-to-book': 'Ready to book',
+      'under-2000': 'Under $2,000/person', '2000-4000': '$2,000–4,000/person',
+      '4000-6000': '$4,000–6,000/person', '6000-10000': '$6,000–10,000/person',
+      '10000-plus': '$10,000+/person', flexible: 'Flexible budget',
+      '1-5': '1–5 days', '6-10': '6–10 days', '11-15': '11–15 days', '16-plus': '16+ days',
+      luxury: 'Luxury', 'mid-range': 'Mid-range', budget: 'Budget', mixed: 'Mixed',
+    };
+
+    const items: [string, string][] = [];
+    const tripType = document.querySelector('input[name="tripType"]:checked') as HTMLInputElement;
+    if (tripType) items.push(['Trip type', labels[tripType.value] ?? tripType.value]);
+
+    const addons = Array.from(document.querySelectorAll('input[name="addons"]:checked'));
+    if (addons.length) items.push(['Add-ons', addons.map((a: any) => a.value === 'none' ? 'None' : labels[a.value] ?? a.value).join(', ')]);
+
+    const stage = document.querySelector('input[name="stage"]:checked') as HTMLInputElement;
+    if (stage) items.push(['Stage', labels[stage.value] ?? stage.value]);
+
+    const a = document.querySelector('select[name="adults"]') as HTMLSelectElement;
+    const k = document.querySelector('select[name="kids"]') as HTMLSelectElement;
+    if (a?.value) items.push(['Group', `${a.value} adult${a.value !== '1' ? 's' : ''}${k?.value && k.value !== '0' ? `, ${k.value} kid${k.value !== '1' ? 's' : ''}` : ''}`]);
+
+    const budget = document.querySelector('input[name="budget"]:checked') as HTMLInputElement;
+    if (budget) items.push(['Budget', labels[budget.value] ?? budget.value]);
+
+    const dates = document.querySelector('input[name="dates"]') as HTMLInputElement;
+    const flexible = document.getElementById('flexible-dates') as HTMLInputElement;
+    const flexText = document.getElementById('flexible-dates-text') as HTMLInputElement;
+    const duration = document.querySelector('input[name="duration"]:checked') as HTMLInputElement;
+    const dateDisplay = flexible?.checked && flexText?.value ? flexText.value : (dates?.value || '');
+    if (dateDisplay) items.push(['Dates', dateDisplay]);
+    if (duration) items.push(['Duration', labels[duration.value] ?? duration.value]);
+
+    const acc = document.querySelector('input[name="accommodation"]:checked') as HTMLInputElement;
+    if (acc) items.push(['Style', labels[acc.value] ?? acc.value]);
+
+    reviewContent.innerHTML = items.map(([k, v]) =>
+      `<div class="flex justify-between"><span class="text-dusk-500">${k}</span><span class="font-medium text-safari-900 text-right">${v}</span></div>`
+    ).join('');
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    if (!validateCurrentStep()) return;
+    if (currentStep < totalSteps) showStep(currentStep + 1);
+  });
+
+  // ── Auto-advance on single-choice radio steps (only steps with data-auto-advance) ──
+  steps.forEach((step) => {
+    if (step.dataset.autoAdvance !== 'true') return;
+    const radios = step.querySelectorAll('input[type="radio"]');
+    radios.forEach((r) => {
+      r.addEventListener('change', () => {
+        if (currentStepData() === step && validateCurrentStep() && currentStep < totalSteps) {
+          setTimeout(() => showStep(currentStep + 1), 300);
+        }
+      });
+    });
+  });
+
+  // ── Addon mutual exclusivity: "None, thanks" disables others ──
+  const noneCheckbox = document.querySelector('input[name="addons"][value="none"]') as HTMLInputElement;
+  const addonCheckboxes = Array.from(document.querySelectorAll('input[name="addons"]:not([value="none"])')) as HTMLInputElement[];
+
+  function setAddonDisabledState(disabled: boolean) {
+    addonCheckboxes.forEach((cb) => {
+      if (disabled) cb.checked = false;
+      cb.disabled = disabled;
+      cb.closest('.step-card')?.classList.toggle('opacity-40', disabled);
+    });
+  }
+
+  noneCheckbox?.addEventListener('change', () => {
+    setAddonDisabledState(noneCheckbox.checked);
+  });
+
+  addonCheckboxes.forEach((cb) => {
+    cb.addEventListener('change', () => {
+      const anyChecked = addonCheckboxes.some((c) => c.checked);
+      if (anyChecked) {
+        noneCheckbox.checked = false;
+        noneCheckbox.disabled = true;
+        noneCheckbox.closest('.step-card')?.classList.add('opacity-40');
+      } else {
+        noneCheckbox.disabled = false;
+        noneCheckbox.closest('.step-card')?.classList.remove('opacity-40');
+      }
+    });
+  });
+
+  // ── Form submission ──
+  const form = document.getElementById('plan-trip-form') as HTMLFormElement;
+
+  // Clear field errors on input/change
+  form?.addEventListener('input', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) clearFieldError(t.name);
+  });
+  form?.addEventListener('change', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) clearFieldError(t.name);
+  });
+
+  const tsField = document.getElementById('_ts') as HTMLInputElement;
+  if (tsField) tsField.value = String(Date.now());
+
+  // ── Flexible dates toggle ──
+  const flexibleCheckbox = document.getElementById('flexible-dates') as HTMLInputElement;
+  const tripDateInput = document.getElementById('trip-date') as HTMLInputElement;
+  const flexibleText = document.getElementById('flexible-dates-text') as HTMLInputElement;
+
+  flexibleCheckbox?.addEventListener('change', () => {
+    if (flexibleCheckbox.checked) {
+      tripDateInput.disabled = true;
+      tripDateInput.value = '';
+      flexibleText.classList.remove('hidden');
+    } else {
+      tripDateInput.disabled = false;
+      flexibleText.classList.add('hidden');
+      flexibleText.value = '';
+    }
+  });
+
+  // Plan another trip — reset and start over
+  document.getElementById('plan-another-btn')?.addEventListener('click', () => {
+    form?.reset();
+    form.classList.remove('hidden');
+    const progressSection = document.getElementById('wizard')?.querySelector('.mb-10') as HTMLElement;
+    if (progressSection) progressSection.classList.remove('hidden');
+    document.getElementById('success-state')?.classList.add('hidden');
+    turnstileRendered = false;
+    document.getElementById('turnstile-widget')?.classList.add('hidden');
+    showStep(1);
+    document.getElementById('wizard')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateCurrentStep()) return;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-pulse">Sending…</span>';
+    }
+    formStatus?.classList.remove('hidden');
+    formStatus.className = 'text-sm text-center px-8 pb-6 text-dusk-600';
+    formStatus.textContent = 'Sending your plan…';
+
+    try {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Process addons — FormData gives multiple entries for same name
+      const addonsArr = formData.getAll('addons') as string[];
+      (data as any).addons = addonsArr;
+
+      // Process dates — if flexible, use the flexible text
+      if (flexibleCheckbox?.checked && flexibleText?.value.trim()) {
+        (data as any).dates = flexibleText.value.trim();
+      }
+
+      // Process adults/kids as numbers
+      if (data.adults) (data as any).adults = parseInt(data.adults as string);
+      if (data.kids) (data as any).kids = parseInt(data.kids as string);
+
+      const res = await fetch('/api/plan-trip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({ error: 'Something went wrong' }));
+        // Jump to the step containing the errored field
+        if (body.field) {
+          for (const step of steps) {
+            const sn = parseInt(step.dataset.step!);
+            if (step.dataset.field === body.field || step.querySelector(`[name="${body.field}"]`)) {
+              showStep(sn);
+              break;
+            }
+          }
+          showFieldError(body.field, body.error || 'Please check this field.');
+          throw new Error(body.error || 'Submit failed');
+        }
+        throw new Error(body.error || 'Submit failed');
+      }
+
+      // Success — hide form + progress, show success state
+      form.classList.add('hidden');
+      const progressSection = document.getElementById('wizard')?.querySelector('.mb-10') as HTMLElement;
+      if (progressSection) progressSection.classList.add('hidden');
+      const successState = document.getElementById('success-state');
+      if (successState) successState.classList.remove('hidden');
+      document.getElementById('wizard')?.closest('section')?.scrollIntoView({ behavior: 'smooth' });
+    } catch (err: any) {
+      if (!formStatus.textContent) {
+        formStatus.classList.remove('hidden');
+        formStatus.className = 'text-sm text-center px-8 pb-6 text-sunset-600 font-medium';
+        formStatus.textContent = err.message === 'Submit failed' || err.message === 'Please check this field.'
+          ? 'Something went wrong. Please try again or <a href="https://wa.me/255764908272" class="underline">WhatsApp us</a> directly.'
+          : err.message;
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send Your Plan';
+      }
+    }
+  });
+
+  // On page load, show first step
+  showStep(1);
+</script>
+
+<style>
+  .step { animation: fadeSlideIn 0.3s ease-out; }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Checked indicator styles — :has() reaches nested elements that peer-checked can't */
+  .step-card:has(input:checked) .card-dot {
+    border-color: var(--color-safari-600);
+    background-color: var(--color-safari-600);
+  }
+  .step-card:has(input:checked) .dot-addon {
+    border-color: var(--color-savannah-600);
+    background-color: var(--color-savannah-600);
+  }
+  .step-card:has(input:checked) .check-mark {
+    opacity: 1;
+  }
+</style>
