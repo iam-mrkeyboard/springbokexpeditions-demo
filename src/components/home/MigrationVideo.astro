@@ -1,0 +1,77 @@
+---
+import { ArrowRight } from '@lucide/astro';
+---
+
+<section
+  class="relative h-[70vh] min-h-[500px] w-full overflow-hidden bg-safari-900 text-white"
+  aria-label="The Great Migration"
+>
+  <!-- Video background -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster="/videos/migration-poster.jpg"
+    class="absolute inset-0 w-full h-full object-cover scale-105 ken-burns"
+  >
+    <source src="/videos/migration-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
+    <source src="/videos/migration-desktop.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Two stacked gradients for legibility -->
+  <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+
+  <!-- Content -->
+  <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+    <div class="max-w-3xl reveal-up">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="h-px w-10 md:w-14 bg-savannah-500"></span>
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em]">
+          The Great Migration
+        </p>
+      </div>
+      <h2 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6 leading-[1.05]" style="text-shadow: 0 2px 24px rgba(0,0,0,0.35)">
+        Two million animals.<br />
+        <span class="italic font-normal text-savannah-300">One timeless journey.</span>
+      </h2>
+      <p class="text-lg text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8" style="text-shadow: 0 1px 12px rgba(0,0,0,0.4)">
+        Every year, over two million wildebeest, zebra, and gazelle thunder across the Serengeti–Maasai Mara ecosystem in the largest mammal migration on Earth. Witness it from the front row.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/plan-my-trip" class="btn btn-primary px-7 py-3.5">
+          Plan your migration safari
+          <ArrowRight size={16} />
+        </a>
+        <a href="/blog" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+          Migration guide
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ken-burns {
+    animation: ken-burns 24s ease-in-out infinite alternate;
+  }
+  @keyframes ken-burns {
+    from { transform: scale(1.05); }
+    to { transform: scale(1.18); }
+  }
+
+  .reveal-up {
+    animation: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+  @keyframes reveal-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ken-burns { animation: none; }
+    .reveal-up { animation: none; }
+  }
+</style>
