@@ -1,6 +1,14 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry, getCollection, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
+
+export async function getStaticPaths() {
+  const treks = await getCollection('trekking');
+  return treks.map((trek) => ({
+    params: { id: trek.id },
+    props: {},
+  }));
+}
 import { withPublisher } from '@/lib/jsonld';
 import {
   ArrowRight, MapPin, Calendar, Check, X, Mountain, TrendingUp,
