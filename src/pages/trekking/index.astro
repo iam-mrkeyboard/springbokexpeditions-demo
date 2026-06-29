@@ -2,6 +2,23 @@
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowRight, Mountain, Compass, MapPin, Check, Users, TrendingUp } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
+import { getCollection } from 'astro:content';
+
+const allTreks = await getCollection('trekking');
+const kilimanjaroTreks = allTreks
+  .filter((t) => t.data.mountain === 'kilimanjaro')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const meruTreks = allTreks
+  .filter((t) => t.data.mountain === 'meru')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const difficultyLabel: Record<string, string> = {
+  easy: 'Easy',
+  moderate: 'Moderate',
+  challenging: 'Challenging',
+  strenuous: 'Strenuous',
+};
 
 const trekPeaks = [
   {
@@ -22,7 +39,7 @@ const trekPeaks = [
     height: '4,566m',
     duration: '4 days',
     difficulty: 'Moderate',
-    image: 'https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    image: 'https://images.pexels.com/photos/9594981/pexels-photo-9594981.jpeg?auto=compress&cs=tinysrgb&w=1920',
     description: 'Tanzania’s second-highest peak, set inside wildlife-rich Arusha National Park. A quieter, scenic trek with a dramatic knife-edge ridge and unmatched views of Kilimanjaro.',
     highlights: ['Excellent Kili acclimatization', 'Wildlife-rich lower slopes', 'Knife-edge ridge summit', 'Far fewer trekkers'],
   },
@@ -203,8 +220,101 @@ const whyTrek = [
     </div>
   </section>
 
-  <!-- Why trek with us -->
+  <!-- Kilimanjaro itineraries -->
   <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="eyebrow text-safari-600 mb-3">Kilimanjaro itineraries</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+            Ready-made climbs by route
+          </h2>
+        </div>
+        <a href="/kilimanjaro" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+          Compare routes
+          <ArrowRight size={16} />
+        </a>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {kilimanjaroTreks.map((trek) => (
+          <a
+            href={`/trekking/${trek.id}`}
+            class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
+          >
+            <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
+              <img
+                src={trek.data.hero}
+                alt={trek.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="font-display text-lg text-safari-900 mb-2 group-hover:text-safari-700 transition-colors leading-snug">{trek.data.title}</h3>
+              <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-2">{trek.data.excerpt}</p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="px-2 py-1 rounded-md bg-dusk-50 text-dusk-700 border border-dusk-100">{difficultyLabel[trek.data.difficulty ?? '']}</span>
+                <span class="px-2 py-1 rounded-md bg-dusk-50 text-dusk-700 border border-dusk-100">{trek.data.successRate}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Mount Meru itineraries -->
+  {meruTreks.length > 0 && (
+    <section class="section bg-white">
+      <div class="container-content">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <p class="eyebrow text-safari-600 mb-3">Mount Meru itineraries</p>
+            <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
+              Climb Tanzania's second-highest peak
+            </h2>
+          </div>
+          <a href="/mount-meru" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+            Explore Mount Meru
+            <ArrowRight size={16} />
+          </a>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {meruTreks.map((trek) => (
+            <a
+              href={`/trekking/${trek.id}`}
+              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-savannah-300 hover:shadow-lifted transition-all"
+            >
+              <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
+                <img
+                  src={trek.data.hero}
+                  alt={trek.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                />
+  
+              </div>
+              <div class="p-5">
+                <h3 class="font-display text-lg text-safari-900 mb-2 group-hover:text-safari-700 transition-colors leading-snug">{trek.data.title}</h3>
+                <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-2">{trek.data.excerpt}</p>
+                <div class="flex flex-wrap gap-2 text-xs">
+                  <span class="px-2 py-1 rounded-md bg-dusk-50 text-dusk-700 border border-dusk-100">{difficultyLabel[trek.data.difficulty ?? '']}</span>
+                  <span class="px-2 py-1 rounded-md bg-dusk-50 text-dusk-700 border border-dusk-100">{trek.data.successRate}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Why trek with us -->
+  <section class="section bg-white">
     <div class="container-content">
       <div class="text-center max-w-2xl mx-auto mb-12">
         <p class="eyebrow text-safari-600 mb-3">The Springbok difference</p>
@@ -269,7 +379,7 @@ const whyTrek = [
           Ready to choose your mountain?
         </h2>
         <p class="text-lg text-dusk-100/90 mb-8">
-          Tell us your dates, fitness level, and whether you want to combine the trek with a safari or Zanzibar. We'll recommend the right route and send a full quote within 24 hours.
+          Tell us your dates, fitness level, and whether you want to combine the trek with a safari or Zanzibar. We’ll recommend the right route and send a full quote within 24 hours.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a href="/contact?subject=trekking" class="btn btn-primary px-8 py-3.5">
@@ -285,7 +395,7 @@ const whyTrek = [
   </section>
 
   <!-- JSON-LD -->
-  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Trekking in Tanzania',
