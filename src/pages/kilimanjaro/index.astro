@@ -3,12 +3,13 @@ import { getCollection } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
 import {
-  ArrowRight, Mountain, TrendingUp, Calendar, Users, Home,
-  Check, Star, Tent, MountainSnow,
+  ArrowRight, Mountain, Users, Check, TrendingUp, Shield, HeartPulse,
+  Tent, UtensilsCrossed, Stethoscope, Briefcase, Leaf, Droplets,
+  Clock, Compass, MapPin, Star,
 } from '@lucide/astro';
 
 const routes = (await getCollection('kilimanjaro')).sort(
-  (a, b) => a.data.order - b.data.order
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
 );
 
 const trafficLabel: Record<string, string> = {
@@ -32,65 +33,74 @@ const monthRatings: Record<string, SeasonRating> = {
   Jul: 'high', Aug: 'high', Sep: 'high',
   Oct: 'high', Nov: 'low', Dec: 'med',
 };
-const routeCardImages: Record<string, string> = {
-  lemosho: 'https://images.pexels.com/photos/5109704/pexels-photo-5109704.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  machame: 'https://images.pexels.com/photos/26926327/pexels-photo-26926327.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  marangu: 'https://images.pexels.com/photos/31144648/pexels-photo-31144648.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  rongai: 'https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  'northern-circuit': 'https://images.pexels.com/photos/37808650/pexels-photo-37808650.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  umbwe: 'https://images.pexels.com/photos/14711566/pexels-photo-14711566.jpeg?auto=compress&cs=tinysrgb&w=1920',
-  shira: 'https://images.pexels.com/photos/31047111/pexels-photo-31047111.jpeg?auto=compress&cs=tinysrgb&w=1920',
-};
-
 const monthColorMap: Record<SeasonRating, string> = {
   high: 'bg-safari-600 text-white border-safari-700',
   med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
   low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
 };
 
-const recommended = routes[0];
-const allTours = await getCollection('tours');
-const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').slice(0, 3);
+const allTreks = await getCollection('trekking');
+const kilimanjaroTreks = allTreks
+  .filter((t) => t.data.mountain === 'kilimanjaro')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const routeBlurb: Record<string, string> = {
+  'lemosho': 'A remote western start through rainforest and the Shira Plateau. The most balanced blend of scenery, solitude, and acclimatization.',
+  'machame': 'The classic southern circuit with the famous Barranco Wall. Dramatic, varied, and the most popular camping route.',
+  'marangu': 'The only route with mountain huts. Gentler gradient but a steeper acclimatization curve — best for experienced trekkers short on time.',
+  'rongai': 'The quiet northern approach near the Kenyan border. Drier conditions and a different perspective of the mountain.',
+  'northern-circuit': 'The longest official route, circling the summit cone for unmatched acclimatization and the highest success rate.',
+  'umbwe': 'A steep, direct, and demanding line up the southern forest. Recommended only for strong hikers comfortable with long days.',
+};
+
+const tazamaImages = {
+  hero: 'https://images.pexels.com/photos/5109704/pexels-photo-5109704.jpeg?auto=compress&cs=tinysrgb&w=1920',
+  cta: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759133497/kilimanjaro/call-to-action/itinerary-cta-4_y8z4uu.jpg',
+  scenery1: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759229205/kilimanjaro/main-page/kilimanjaro19_lpdch6.webp',
+  scenery2: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759229199/kilimanjaro/main-page/kilimanjaro11_hyxmwe.webp',
+  scenery3: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759229197/kilimanjaro/main-page/kilimanjaro12_h4dou2.webp',
+  scenery4: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759229190/kilimanjaro/main-page/kilimanjaro4_wclu5t.webp',
+};
 ---
 
 <PublicLayout
-  title="Kilimanjaro Climbing Routes — 7 Ways to the Roof of Africa"
-  description="Compare all 7 official Kilimanjaro routes: Marangu, Machame, Lemosho, Rongai, Northern Circuit, Umbwe, and Shira. Find the right climb for your fitness, schedule, and ambition."
+  title="Climb Kilimanjaro — 7 Routes to the Roof of Africa"
+  description="Plan your Mount Kilimanjaro climb with a local Arusha operator. Compare 6 routes, expert guides, high safety standards, and responsible trekking practices."
   ogImage="/og/kilimanjaro.png"
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[92vh] min-h-[700px] w-full overflow-hidden bg-safari-900 text-white">
     <img
-      src="https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920"
-      alt="Mount Kilimanjaro snow-capped peak at sunrise"
+      src={tazamaImages.hero}
+      alt="Mount Kilimanjaro snow-capped peak above the clouds"
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-tr from-black/90 via-black/50 to-black/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50"></div>
 
-    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-20 md:pb-28 pt-32">
       <div class="max-w-3xl">
-        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">7 official routes · 5,895m · One summit</p>
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">5,895m · 7 official routes · Uhuru Peak</p>
 
-        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
-          Climb<br />
-          <span class="italic font-normal text-savannah-300">Kilimanjaro.</span>
+        <h1 class="font-display text-[3rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tight text-white mb-5 md:mb-6 leading-[1.05]">
+          The Roof of<br />
+          <span class="italic font-normal text-savannah-300">Africa Awaits.</span>
         </h1>
 
         <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
-          Seven official routes, one roof of Africa. Compare success rates, scenery, traffic, and difficulty — and pick the climb that matches your time, fitness, and ambition.
+          Mount Kilimanjaro stands alone: the highest point on the continent and the tallest free-standing mountain on Earth. No ropes, no technical climbing — just determination, solid preparation, and the right team beside you.
         </p>
 
         <div class="flex flex-wrap gap-4">
           <a href="#routes" class="btn btn-primary px-7 py-3.5">
-            Compare the 7 routes
+            Explore the routes
             <ArrowRight size={16} />
           </a>
           <a href="/contact?subject=kilimanjaro" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
-            Get a custom quote
+            Plan your ascent
           </a>
         </div>
       </div>
@@ -99,219 +109,446 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
 
   <!-- Trust strip -->
   <section class="bg-safari-900 text-white border-t border-white/10">
-    <div class="container-content py-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div class="container-content py-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">7</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Official routes</p>
+          <p class="font-display text-4xl md:text-5xl text-savannah-300">5,895m</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-2">Uhuru Peak</p>
         </div>
         <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">98%</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Best success rate</p>
+          <p class="font-display text-4xl md:text-5xl text-savannah-300">6</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-2">Official routes</p>
         </div>
         <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">5,895m</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Uhuru Peak</p>
+          <p class="font-display text-4xl md:text-5xl text-savannah-300">98%</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-2">Top route success</p>
         </div>
         <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">5 zones</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Climate &amp; terrain</p>
+          <p class="font-display text-4xl md:text-5xl text-savannah-300">5</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-2">Climate zones</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Why climb with us -->
-  <section class="section bg-dusk-50">
+  <!-- Intro -->
+  <section class="section bg-white">
     <div class="container-content">
-      <div class="grid lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-5">
-          <p class="eyebrow text-safari-600 mb-4">Why climb with us</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-            Arusha-based guides, no middlemen, no surprises.
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="eyebrow text-safari-600 mb-4">The Mountain</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
+            An icon that needs no introduction — yet rewards every question you ask of it.
           </h2>
-          <p class="text-dusk-700 leading-relaxed text-lg">
-            Our climbing team is based in Arusha, lives near the mountain, and has summited Kilimanjaro hundreds of times. We don't resell other operators' trips. The guides, porters, and chefs you meet on day one are our full-time staff — paid fairly, equipped properly, and trained in altitude response.
-          </p>
-        </div>
-
-        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
-            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
-              <Mountain size={20} />
-            </span>
-            <h3 class="font-display text-xl text-safari-900 mb-2">Top-tier guides</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">Wilderness First Responder certified, 200+ summits each, English-speaking, and trained in altitude emergency response.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
-            <span class="w-10 h-10 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
-              <Users size={20} />
-            </span>
-            <h3 class="font-display text-xl text-safari-900 mb-2">Full support crew</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">Porters, chef, and summit porter included. You carry a daypack; we carry the rest. Fair wages, proper gear, regulated by Kilimanjaro National Park.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
-            <span class="w-10 h-10 rounded-xl bg-sunset-100 text-sunset-700 flex items-center justify-center mb-4">
-              <TrendingUp size={20} />
-            </span>
-            <h3 class="font-display text-xl text-safari-900 mb-2">High success rates</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">Published success rates above industry average: 90% on Machame, 95% on Lemosho, 98% on the Northern Circuit.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
-            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
-              <Check size={20} />
-            </span>
-            <h3 class="font-display text-xl text-safari-900 mb-2">Transparent pricing</h3>
-            <p class="text-sm text-dusk-600 leading-relaxed">Park fees, rescue insurance, crew wages, food, and transfers all included. No surprise add-ons. Tipping guide shared up front.</p>
+          <div class="space-y-4 text-dusk-700 leading-relaxed text-lg">
+            <p>
+              Rising from the East African savanna, Kilimanjaro is more than a mountain. It is a vertical journey through five distinct climate zones, from humid rainforest to arctic summit, each with its own character and challenges.
+            </p>
+            <p>
+              The beauty of climbing here is accessibility. You do not need prior mountaineering experience, ice axes, or rock-climbing skills. What you need is a steady level of fitness, a willingness to walk slowly, and a crew that knows how to keep you safe as the air thins.
+            </p>
+            <p>
+              We are an Arusha-based operator. Our guides, porters, and chefs live within sight of the mountain. When you climb with us, you are not passed to a third party — you are looked after by a team that treats every ascent as its own.
+            </p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Routes comparison table -->
-  <section id="routes" class="section bg-white">
-    <div class="container-content">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="eyebrow text-safari-600 mb-3">All 7 routes</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
-          Find the right climb for you
-        </h2>
-        <p class="text-dusk-600">
-          Every route reaches the same summit. The differences are in scenery, traffic, acclimatization profile, and difficulty. Use the table to compare, then click through to each route for the full day-by-day itinerary.
-        </p>
-      </div>
-
-      <!-- Desktop table -->
-      <div class="hidden md:block overflow-x-auto rounded-2xl border border-dusk-100">
-        <table class="w-full text-left">
-          <thead>
-            <tr class="bg-safari-50 border-b border-dusk-100">
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Route</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Days</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Success</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Difficulty</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Scenery</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Traffic</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm">Sleep</th>
-              <th class="px-4 py-4 font-semibold text-safari-900 text-sm sr-only">View</th>
-            </tr>
-          </thead>
-          <tbody>
-            {routes.map((r, i) => {
-              const dots = Array.from({ length: 5 }, (_, k) => k < r.data.scenery);
-              return (
-                <tr class={`border-b border-dusk-100 hover:bg-safari-50/50 transition-colors ${i === 0 ? 'bg-savannah-50/40' : ''}`}>
-                  <td class="px-4 py-4">
-                    <a href={`/kilimanjaro/${r.id}`} class="font-display text-base text-safari-900 hover:text-safari-700">
-                      {r.data.name}
-                    </a>
-                    {i === 0 && (
-                      <span class="ml-2 inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-savannah-200 text-savannah-900">
-                        Recommended
-                      </span>
-                    )}
-                  </td>
-                  <td class="px-4 py-4 text-dusk-700">{r.data.durationDays} days</td>
-                  <td class="px-4 py-4 text-dusk-700 font-medium">{r.data.successRate}</td>
-                  <td class="px-4 py-4 text-dusk-700">{difficultyLabel[r.data.difficulty]}</td>
-                  <td class="px-4 py-4">
-                    <div class="flex gap-0.5">
-                      {dots.map((filled) => (
-                        <span class={`w-1.5 h-1.5 rounded-full ${filled ? 'bg-savannah-500' : 'bg-dusk-200'}`}></span>
-                      ))}
-                    </div>
-                  </td>
-                  <td class="px-4 py-4 text-dusk-700">{trafficLabel[r.data.traffic]}</td>
-                  <td class="px-4 py-4 text-dusk-700 capitalize">{r.data.accommodation}</td>
-                  <td class="px-4 py-4 text-right">
-                    <a href={`/kilimanjaro/${r.id}`} class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-safari-100 text-safari-700 hover:bg-safari-200 transition-colors">
-                      <ArrowRight size={14} />
-                    </a>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Mobile cards -->
-      <div class="md:hidden space-y-4">
-        {routes.map((r) => (
-          <a href={`/kilimanjaro/${r.id}`} class="block bg-white rounded-2xl border border-dusk-100 p-5 hover:border-safari-300 hover:shadow-soft transition-all">
-          <div class="flex items-start justify-between mb-2">
-            <h3 class="font-display text-lg text-safari-900">{r.data.name}</h3>
-          </div>
-            <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{r.data.tagline}</p>
-            <div class="flex flex-wrap gap-2 text-xs">
-              <span class="px-2 py-1 rounded bg-dusk-100 text-dusk-700">{r.data.durationDays} days</span>
-              <span class="px-2 py-1 rounded bg-safari-100 text-safari-800">{r.data.successRate}</span>
-              <span class="px-2 py-1 rounded bg-savannah-100 text-savannah-800">{difficultyLabel[r.data.difficulty]}</span>
-              <span class="px-2 py-1 rounded bg-dusk-100 text-dusk-700">{trafficLabel[r.data.traffic]}</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Route cards (more visual) -->
-  <section class="section bg-dusk-50">
-    <div class="container-content">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="eyebrow text-safari-600 mb-3">Route deep-dives</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
-          Each route, in pictures and detail
-        </h2>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {routes.map((r) => (
-          <a
-            href={`/kilimanjaro/${r.id}`}
-            class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
-          >
-            <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4 mt-10">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
               <img
-                src={routeCardImages[r.id]}
-                alt={r.data.name}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                src={tazamaImages.scenery2}
+                alt="Kilimanjaro crater rim above the clouds"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
               />
-              <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-xs font-medium text-safari-900">
-                {r.data.successRate} success
-              </div>
             </div>
-            <div class="p-5">
-              <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">{r.data.tagline}</p>
-              <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{r.data.name}</h3>
-              <p class="text-sm text-dusk-600 leading-relaxed mb-4 line-clamp-3">{r.data.summary}</p>
-              <div class="flex items-center justify-between text-xs text-dusk-500 pt-4 border-t border-dusk-100">
-                <span>{r.data.durationDays} days · {difficultyLabel[r.data.difficulty]}</span>
-              </div>
+          </div>
+          <div class="space-y-4">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
+              <img
+                src={tazamaImages.scenery3}
+                alt="Trekkers on the Kilimanjaro summit ridge"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-          </a>
-        ))}
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Best time to climb -->
-  <section class="section bg-white">
+  <!-- Safety first -->
+  <section class="section bg-safari-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <img
+        src={tazamaImages.scenery4}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-safari-900 via-safari-900/95 to-safari-900"></div>
+
+    <div class="container-content relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
+        <div>
+          <p class="eyebrow text-savannah-300 mb-4">Safety First</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
+            Altitude is the real challenge. We treat it that way.
+          </h2>
+          <p class="text-dusk-200 text-lg leading-relaxed">
+            The trails themselves are not extreme. What makes Kilimanjaro demanding is the thin air above 4,000 meters. That is why our entire operation is built around prevention, monitoring, and response — before a problem ever has a chance to develop.
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-sm">
+          <ul class="space-y-4">
+            {[
+              'Twice-daily health checks: oxygen saturation, pulse, and hydration',
+              'Wilderness First Responder certified guides trained in mountain rescue',
+              'Portable oxygen and comprehensive medical kits on every climb',
+              'Private portable toilets at every camp for hygiene and dignity',
+              'Itineraries designed for gradual acclimatization, not speed',
+              '“Climb high, sleep low” built into each day where possible',
+            ].map((item) => (
+              <li class="flex items-start gap-3 text-dusk-100">
+                <span class="w-5 h-5 rounded-full bg-savannah-500/20 text-savannah-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check size={12} />
+                </span>
+                <span class="leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-11 h-11 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <HeartPulse size={22} />
+          </span>
+          <h3 class="font-display text-lg text-white mb-2">Daily vitals</h3>
+          <p class="text-sm text-dusk-200/80 leading-relaxed">Your guide records oxygen levels, pulse, and symptoms every morning and evening.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-11 h-11 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Stethoscope size={22} />
+          </span>
+          <h3 class="font-display text-lg text-white mb-2">Rescue ready</h3>
+          <p class="text-sm text-dusk-200/80 leading-relaxed">Certified guides carry oxygen, a stretcher, and communicate with rescue services.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-11 h-11 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Droplets size={22} />
+          </span>
+          <h3 class="font-display text-lg text-white mb-2">Clean facilities</h3>
+          <p class="text-sm text-dusk-200/80 leading-relaxed">Private portable toilets at every camp so you are never relying on shared latrines.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+          <span class="w-11 h-11 rounded-xl bg-savannah-500/20 text-savannah-300 flex items-center justify-center mb-4">
+            <Clock size={22} />
+          </span>
+          <h3 class="font-display text-lg text-white mb-2">Pole pole pace</h3>
+          <p class="text-sm text-dusk-200/80 leading-relaxed">Slow walking, rest, and generous itineraries give your body time to adapt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How hard -->
+  <section class="section bg-dusk-50">
     <div class="container-content">
       <div class="grid lg:grid-cols-12 gap-12 items-center">
         <div class="lg:col-span-5">
-          <p class="eyebrow text-safari-600 mb-4">When to climb</p>
+          <p class="eyebrow text-safari-600 mb-4">Is It For You?</p>
           <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-            Two climbing seasons, each with its own character
+            More accessible than you think — but never to be underestimated.
           </h2>
           <p class="text-dusk-700 leading-relaxed text-lg mb-4">
-            Kilimanjaro can be climbed year-round, but two windows offer the best weather: January to mid-March and June to October. The dry-season climbs (June–October) are busier; the shoulder months (December, March) are quieter and still excellent.
+            Most people are surprised to learn that Kilimanjaro is open to first-time trekkers. The paths are walking trails, not technical climbs. The real test is the altitude, which affects everyone differently regardless of fitness.
           </p>
           <p class="text-dusk-700 leading-relaxed">
-            We recommend avoiding the long rains (mid-March to May) and the short rains (November) for first-time climbers. The Rongai Route is the best option during rainy months.
+            A typical trekking day lasts 5 to 8 hours. The summit push is longer — usually 10 to 12 hours from midnight to sunrise. If you can comfortably hike 10–15 kilometers or jog a few kilometers without strain, you are in the right zone to start training.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="bg-white rounded-2xl p-6 md:p-8 border border-dusk-100 shadow-soft">
+            <h3 class="font-display text-xl text-safari-900 mb-6">What a standard climb feels like</h3>
+            <div class="space-y-5">
+              <div class="flex items-start gap-4">
+                <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                  <Clock size={18} />
+                </span>
+                <div>
+                  <p class="font-medium text-safari-900">Daily walking time</p>
+                  <p class="text-sm text-dusk-600">5–8 hours on most days, with the final summit night stretching to 10–12 hours.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <span class="w-10 h-10 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
+                  <TrendingUp size={18} />
+                </span>
+                <div>
+                  <p class="font-medium text-safari-900">Altitude gain</p>
+                  <p class="text-sm text-dusk-600">You start near 1,800m and reach 5,895m. The key is a slow, staged ascent.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <span class="w-10 h-10 rounded-xl bg-sunset-100 text-sunset-700 flex items-center justify-center flex-shrink-0">
+                  <Mountain size={18} />
+                </span>
+                <div>
+                  <p class="font-medium text-safari-900">Technical difficulty</p>
+                  <p class="text-sm text-dusk-600">None. No ropes, crampons, or rock climbing. It is a high-altitude trek from start to finish.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                  <Shield size={18} />
+                </span>
+                <div>
+                  <p class="font-medium text-safari-900">Best success strategy</p>
+                  <p class="text-sm text-dusk-600">Choose a 7+ day route, train consistently for 2–3 months, and trust your guide’s pace.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="eyebrow text-safari-600 mb-3">What's Included</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Everything that matters, nothing hidden.
+        </h2>
+        <p class="text-dusk-600 text-lg">
+          From the moment you land to the moment you celebrate, we handle the logistics so you can focus on the climb.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {[
+          { icon: Briefcase, title: 'Airport transfers', body: 'Pick-up and drop-off in Moshi or Arusha, plus 4×4 transport to your route gate.' },
+          { icon: MapPin, title: 'Park fees & permits', body: 'All Kilimanjaro National Park entry, rescue, and camping fees are covered.' },
+          { icon: Tent, title: 'Quality camping gear', body: '4-season mountain tents, sleeping mats, private dining tent, and portable toilet.' },
+          { icon: UtensilsCrossed, title: 'All meals on trek', body: 'Three hot meals daily plus snacks and hot drinks. Dietary requirements happily accommodated.' },
+          { icon: Users, title: 'Full mountain crew', body: 'Professional lead guide, assistant guides, chef, and porters — all employed directly by us.' },
+          { icon: Stethoscope, title: 'Safety equipment', body: 'Oxygen cylinder, pulse oximeter, first-aid kit, and emergency communication.' },
+          { icon: Compass, title: 'Pre-climb briefing', body: 'Gear check, route overview, and Q&A before you leave town.' },
+          { icon: Check, title: 'Summit certificate', body: 'Official KINAPA certificate for every successful trekker.' },
+        ].map((item) => (
+          <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-soft transition-all">
+            <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+              <item.icon size={20} />
+            </span>
+            <h3 class="font-display text-lg text-safari-900 mb-2">{item.title}</h3>
+            <p class="text-sm text-dusk-600 leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl mx-auto bg-safari-50 border border-safari-100 rounded-2xl p-6 text-center">
+        <p class="text-dusk-700 leading-relaxed">
+          <span class="font-semibold text-safari-900">Not included:</span> international flights, Tanzania visa, travel insurance, personal trekking gear, sleeping bag (rentable locally), and crew gratuities. We share a transparent tipping guide with every booking.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethical / why us -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div>
+          <p class="eyebrow text-safari-600 mb-4">Climb With Conscience</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            A fair climb for you, and for everyone who makes it possible.
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg mb-4">
+            The cheapest quote is rarely the best one. Low-cost operators often cut wages, serve poor food, use worn-out tents, and rush itineraries — which raises the risk of altitude illness and leaves the mountain worse than they found it.
+          </p>
+          <p class="text-dusk-700 leading-relaxed">
+            We do the opposite. Our porters and guides earn above-industry wages and eat the same meals as our guests. We follow recognized porter-welfare standards, provide proper equipment, and design itineraries that prioritize safety over speed.
+          </p>
+
+          <div class="mt-8 grid sm:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                <Users size={16} />
+              </span>
+              <div>
+                <p class="font-medium text-safari-900">Fair wages</p>
+                <p class="text-xs text-dusk-600">Crew paid above local standards, on time, every climb.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
+                <Leaf size={16} />
+              </span>
+              <div>
+                <p class="font-medium text-safari-900">Leave no trace</p>
+                <p class="text-xs text-dusk-600">Refillable bottles, reusable packaging, and trash carried out.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-lg bg-sunset-100 text-sunset-700 flex items-center justify-center flex-shrink-0">
+                <Shield size={16} />
+              </span>
+              <div>
+                <p class="font-medium text-safari-900">Proper equipment</p>
+                <p class="text-xs text-dusk-600">Quality tents, clothing allowances, and sleeping conditions for crew.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                <HeartPulse size={16} />
+              </span>
+              <div>
+                <p class="font-medium text-safari-900">Safety-first itineraries</p>
+                <p class="text-xs text-dusk-600">Longer routes and slower pacing for better acclimatization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
+            <img
+              src={tazamaImages.cta}
+              alt="Kilimanjaro climbing team on the trail"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="absolute -bottom-6 -left-6 bg-safari-900 text-white rounded-2xl p-6 shadow-soft max-w-xs hidden lg:block">
+            <p class="font-display text-3xl font-medium mb-1">95%+</p>
+            <p class="text-sm text-dusk-200">Summit success on our recommended 8-day Lemosho itineraries.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Routes (no images, clean cards) -->
+  <section id="routes" class="section bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="eyebrow text-safari-600 mb-3">The Routes</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Seven paths. One summit.
+        </h2>
+        <p class="text-dusk-600 text-lg">
+          Every route reaches Uhuru Peak. The difference is scenery, pace, acclimatization, and how much of the mountain you get to yourself.
+        </p>
+      </div>
+
+      <!-- Recommended highlight -->
+      {routes[0] && (
+        <div class="mb-8 bg-gradient-to-br from-safari-900 to-safari-800 rounded-2xl p-8 md:p-10 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-savannah-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-savannah-500/20 text-savannah-300 text-xs font-semibold uppercase tracking-wider mb-4">
+                <Star size={12} /> Top recommendation
+              </span>
+              <h3 class="font-display text-3xl md:text-4xl mb-3">{routes[0].data.name}</h3>
+              <p class="text-dusk-200 text-lg leading-relaxed mb-6">
+                {routeBlurb[routes[0].id] ?? routes[0].data.summary}
+              </p>
+              <div class="flex flex-wrap gap-4 mb-6">
+                <span class="text-sm bg-white/10 px-3 py-1.5 rounded-full">{routes[0].data.durationDays} days</span>
+                <span class="text-sm bg-white/10 px-3 py-1.5 rounded-full">{routes[0].data.successRate} summit success</span>
+                <span class="text-sm bg-white/10 px-3 py-1.5 rounded-full">{difficultyLabel[routes[0].data.difficulty ?? '']}</span>
+              </div>
+              <a href={`/kilimanjaro/${routes[0].id}`} class="btn btn-primary">
+                View {routes[0].data.name} itinerary
+                <ArrowRight size={16} />
+              </a>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+              <h4 class="font-display text-lg mb-4 text-savannah-300">Why it leads our list</h4>
+              <ul class="space-y-3 text-dusk-100">
+                {routes[0].data.highlights.slice(0, 4).map((h) => (
+                  <li class="flex items-start gap-3">
+                    <Check size={16} class="text-savannah-300 flex-shrink-0 mt-0.5" />
+                    <span class="text-sm leading-relaxed">{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Route grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {routes.slice(1).map((r) => {
+          const dots = Array.from({ length: 5 }, (_, k) => k < (r.data.scenery ?? 0));
+          return (
+            <a
+              href={`/kilimanjaro/${r.id}`}
+              class="group bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-lifted hover:-translate-y-1 transition-all"
+            >
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-1">{r.data.tagline}</p>
+                  <h3 class="font-display text-xl text-safari-900 group-hover:text-safari-700 transition-colors">{r.data.name}</h3>
+                </div>
+                <span class="w-8 h-8 rounded-full bg-white text-safari-700 flex items-center justify-center group-hover:bg-safari-700 group-hover:text-white transition-colors">
+                  <ArrowRight size={14} />
+                </span>
+              </div>
+
+              <p class="text-sm text-dusk-600 leading-relaxed mb-5 line-clamp-3">
+                {routeBlurb[r.id] ?? r.data.summary}
+              </p>
+
+              <div class="flex flex-wrap gap-2 text-xs mb-4">
+                <span class="px-2 py-1 rounded-md bg-white text-dusk-700 border border-dusk-100">{r.data.successRate}</span>
+                <span class="px-2 py-1 rounded-md bg-white text-dusk-700 border border-dusk-100">{difficultyLabel[r.data.difficulty ?? '']}</span>
+              </div>
+
+              <div class="flex items-center justify-between pt-4 border-t border-dusk-200/60">
+                <div class="flex gap-0.5">
+                  {dots.map((filled) => (
+                    <span class={`w-1.5 h-1.5 rounded-full ${filled ? 'bg-savannah-500' : 'bg-dusk-200'}`}></span>
+                  ))}
+                </div>
+                <span class="text-xs text-dusk-500">{trafficLabel[r.data.traffic ?? '']} · {r.data.accommodation}</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Best time -->
+  <section class="section bg-dusk-50">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <p class="eyebrow text-safari-600 mb-4">When to Climb</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            Two dry windows, each with its own feel.
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg mb-4">
+            Kilimanjaro can be climbed year-round, but the most stable weather falls between January and mid-March, and again from June to October.
+          </p>
+          <p class="text-dusk-700 leading-relaxed mb-4">
+            The June–October window is the driest and busiest. December and March are quieter shoulder months with excellent conditions. We generally advise first-timers to avoid the long rains from mid-March to May.
+          </p>
+          <p class="text-dusk-700 leading-relaxed">
+            If you must travel in November or April, the Rongai Route is often the driest choice because it sits in the mountain’s rain shadow.
           </p>
         </div>
 
@@ -339,87 +576,95 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
     </div>
   </section>
 
-  <!-- Recommended for first-timers -->
-  {recommended && (
-    <section class="section bg-safari-50">
-      <div class="container-content">
-        <div class="grid lg:grid-cols-12 gap-12 items-center">
-          <div class="lg:col-span-6">
-            <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-lifted">
-              <img
-                src={routeCardImages[recommended.id]}
-                alt={recommended.data.name}
-                class="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+  <!-- Your role in planning -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="order-2 lg:order-1">
+          <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
+            <img
+              src={tazamaImages.scenery1}
+              alt="Kilimanjaro trekker silhouetted against the summit glaciers"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-          <div class="lg:col-span-6">
-            <p class="eyebrow text-safari-700 mb-3">Our pick for first-timers</p>
-            <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-              {recommended.data.name}
-            </h2>
-            <p class="text-dusk-700 leading-relaxed text-lg mb-6">
-              {recommended.data.summary}
-            </p>
-            <div class="grid grid-cols-2 gap-4 mb-6 max-w-md">
-              <div>
-                <p class="font-display text-2xl text-safari-900">{recommended.data.durationDays} days</p>
-                <p class="text-xs text-dusk-500 uppercase tracking-wider">Duration</p>
+        </div>
+        <div class="order-1 lg:order-2">
+          <p class="eyebrow text-safari-600 mb-4">Your Part</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
+            We handle the logistics. You handle the preparation.
+          </h2>
+          <p class="text-dusk-700 leading-relaxed text-lg mb-6">
+            From the day you book, we stay in close contact. You receive a detailed preparation pack with training guidance, a packing checklist, visa information, and answers to the questions you have not thought of yet.
+          </p>
+          <div class="space-y-4">
+            {[
+              { title: 'Train consistently', body: 'Start 8–12 weeks out with hiking, stair climbing, or cardio. The fitter you are, the more you will enjoy the trek.' },
+              { title: 'Share your needs', body: 'Tell us about dietary requirements, medical conditions, and any concerns before arrival so we can plan around them.' },
+              { title: 'Pack smart', body: 'We provide a full gear list and can arrange rental of sleeping bags, trekking poles, and warm layers in Moshi or Arusha.' },
+              { title: 'Trust the pace', body: 'The mountain rewards patience. Pole pole — slowly, slowly — is the mantra that gets people to the top.' },
+            ].map((item) => (
+              <div class="flex items-start gap-4 p-4 rounded-xl bg-dusk-50 border border-dusk-100">
+                <span class="w-8 h-8 rounded-lg bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0">
+                  <Check size={14} />
+                </span>
+                <div>
+                  <p class="font-medium text-safari-900">{item.title}</p>
+                  <p class="text-sm text-dusk-600 leading-relaxed">{item.body}</p>
+                </div>
               </div>
-              <div>
-                <p class="font-display text-2xl text-safari-900">{recommended.data.successRate}</p>
-                <p class="text-xs text-dusk-500 uppercase tracking-wider">Success</p>
-              </div>
-            </div>
-            <a href={`/kilimanjaro/${recommended.id}`} class="btn btn-primary px-6 py-3">
-              See the full {recommended.data.name} itinerary
-              <ArrowRight size={16} />
-            </a>
+            ))}
           </div>
         </div>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
-  <!-- Ready-made packages -->
-  {kilimanjaroTours.length > 0 && (
-    <section class="section bg-white">
+  <!-- Featured itineraries -->
+  {kilimanjaroTreks.length > 0 && (
+    <section class="section bg-safari-50">
       <div class="container-content">
-        <div class="flex items-end justify-between mb-8">
+        <div class="flex items-end justify-between mb-10">
           <div>
-            <p class="eyebrow text-safari-600 mb-3">Ready-made climbs</p>
+            <p class="eyebrow text-safari-700 mb-3">Ready-Made Treks</p>
             <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
-              Skip the planning, book a package
+              Itineraries already planned for you
             </h2>
           </div>
-          <a href="/tours?style=kilimanjaro" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
-            See all climbs
+          <a href="/trekking" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
+            See all treks
             <ArrowRight size={16} />
           </a>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {kilimanjaroTours.map((tour) => (
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {kilimanjaroTreks.map((trek) => (
             <a
-              href={`/tours/${tour.id}`}
-              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
+              href={`/trekking/${trek.id}`}
+              class="group bg-white rounded-2xl overflow-hidden border border-dusk-100 hover:border-savannah-300/60 hover:shadow-lifted hover:-translate-y-1 transition-all"
             >
-              <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
+              <div class="aspect-[16/10] overflow-hidden bg-dusk-200">
                 <img
-                  src={tour.data.hero}
-                  alt={tour.data.title}
+                  src={trek.data.hero}
+                  alt={trek.data.title}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
                 />
               </div>
               <div class="p-5">
-                <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{tour.data.title}</h3>
-                <p class="text-sm text-dusk-600 leading-relaxed mb-3 line-clamp-2">{tour.data.excerpt}</p>
-                <div class="flex items-center gap-3 text-xs text-dusk-500">
-                  <span>{tour.data.durationDays} days</span>
-                </div>
+                <span class="text-xs text-dusk-500 mb-3 block">{trek.data.successRate}</span>
+                <h3 class="font-display text-lg text-safari-900 mb-2 group-hover:text-safari-700 transition-colors line-clamp-2">
+                  {trek.data.title}
+                </h3>
+                <p class="text-sm text-dusk-600 leading-relaxed line-clamp-2 mb-4">
+                  {trek.data.excerpt}
+                </p>
+                <span class="inline-flex items-center gap-1 text-sm text-safari-700 font-medium group-hover:gap-2 transition-all">
+                  View itinerary <ArrowRight size={14} />
+                </span>
               </div>
             </a>
           ))}
@@ -429,9 +674,9 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
   )}
 
   <!-- FAQs -->
-  <section class="section bg-dusk-50">
+  <section class="section bg-white">
     <div class="container-content max-w-3xl">
-      <p class="eyebrow text-safari-600 mb-3 text-center">Common questions</p>
+      <p class="eyebrow text-safari-600 mb-3 text-center">Common Questions</p>
       <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-10 text-center">
         Before you book
       </h2>
@@ -439,31 +684,35 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
       <div class="space-y-4">
         {[
           {
-            q: 'Which Kilimanjaro route is the best for first-time climbers?',
-            a: 'Lemosho (8 days) or the Northern Circuit (9 days) are the easiest routes to summit successfully, with published success rates of 95% and 98%. Machame (7 days) is the most popular and a good middle ground. Marangu (6 days) is the shortest and easiest physically, but has a lower success rate because of the shorter acclimatization profile.'
+            q: 'Which route is best for a first Kilimanjaro climb?',
+            a: 'We usually recommend the 8-day Lemosho Route. It offers the best acclimatization profile, the highest success rate, and the most varied scenery. Machame (7 days) is an excellent alternative if you prefer a slightly shorter trip.'
           },
           {
             q: 'How fit do I need to be?',
-            a: 'You don\'t need to be an athlete, but you do need to be able to walk 5–7 hours per day on steep, uneven terrain. The best preparation is 3–4 months of regular hiking, cycling, or stair climbing before your trip. We send a training plan with every booking.'
+            a: 'You do not need to be an athlete, but you should be comfortable walking 5–7 hours on uneven terrain. Start a training routine 8–12 weeks before departure — hiking, cycling, swimming, and stair climbing all help. We send a detailed training guide with every booking.'
           },
           {
-            q: 'How do you handle altitude sickness?',
-            a: 'Our guides are Wilderness First Responder certified and carry oxygen and pulse oximeters. We follow the "climb high, sleep low" principle on every route, and our guides check every climber twice daily. The most important thing is choosing a route with enough days for acclimatization — 7+ days gives your body time to adjust.'
+            q: 'How do you prevent altitude sickness?',
+            a: 'We prevent it through route choice (7+ days), slow pacing, twice-daily health checks, and the “climb high, sleep low” principle. Our guides are trained to recognize early symptoms and respond immediately with oxygen, rest, or descent if needed.'
           },
           {
-            q: 'What\'s the best time of year to climb?',
-            a: 'January to mid-March and June to October are the dry-season windows. July, August, and September are busiest. December and March are quieter shoulder months with excellent weather. We avoid the long rains (mid-March to May) and short rains (November) for first-timers.'
+            q: 'What is the accommodation like on the mountain?',
+            a: 'On camping routes you sleep in quality 4-season tents with foam sleeping mats. On the Marangu Route you stay in basic mountain huts. We also provide a private dining tent and portable toilet at every camp.'
           },
           {
-            q: 'How much should I tip the crew?',
-            a: 'Tipping is customary on Kilimanjaro and is a meaningful supplement to crew wages. The recommended total is $350–$500 per climber for the full mountain team, split between the lead guide, assistant guides, chef, and porters. We share the exact breakdown and tipping protocol with your booking confirmation.'
+            q: 'Can you accommodate dietary requirements?',
+            a: 'Yes. Our mountain chefs prepare three hot meals daily and can cater to vegetarian, vegan, gluten-free, halal, and most other requirements. Just let us know in advance.'
           },
           {
-            q: 'Can I climb Kilimanjaro and add a safari or Zanzibar?',
-            a: 'Absolutely — most of our climbers do. The classic combination is 7 days on Kilimanjaro + 4 days on safari (Tarangire, Ngorongoro, Serengeti) + 4 days on Zanzibar. We can build any combination, and we offer a 10% discount on safari + Zanzibar when booked with a climb.'
+            q: 'What should I bring?',
+            a: 'You will need layered trekking clothing, a warm down jacket, quality hiking boots, a headlamp, sun protection, and a sleeping bag rated to at least -10°C. We provide a full packing list and can arrange gear rental in Moshi or Arusha.'
+          },
+          {
+            q: 'Can I combine Kilimanjaro with a safari or Zanzibar?',
+            a: 'Absolutely. Most climbers add a 4–5 day northern-circuit safari and/or a beach break in Zanzibar. We handle all transfers, accommodation, and park bookings as one seamless trip.'
           },
         ].map((faq) => (
-          <details class="group bg-white rounded-xl border border-dusk-100 shadow-soft">
+          <details class="group bg-dusk-50 rounded-xl border border-dusk-100 shadow-soft hover:shadow-lifted transition-shadow">
             <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
               <h3 class="font-display text-lg text-safari-900 pr-4">{faq.q}</h3>
               <span class="w-8 h-8 rounded-full bg-safari-100 text-safari-700 flex items-center justify-center flex-shrink-0 group-open:rotate-45 transition-transform">
@@ -480,35 +729,45 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
   </section>
 
   <!-- Final CTA -->
-  <section class="section bg-safari-900 text-white">
-    <div class="container-content">
+  <section class="section bg-safari-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-15">
+      <img
+        src={tazamaImages.scenery4}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-safari-900 via-safari-900/95 to-safari-900"></div>
+
+    <div class="container-content relative z-10">
       <div class="max-w-3xl mx-auto text-center">
-        <p class="eyebrow text-savannah-300 mb-3">Start planning</p>
+        <p class="eyebrow text-savannah-300 mb-3">Start Planning</p>
         <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
-          Tell us your dates. We'll build your climb.
+          Tell us your dates. We will build your climb.
         </h2>
         <p class="text-lg text-dusk-100/90 mb-8">
-          All climbs are private and fully customized. Tell us your group size, preferred route, and travel dates — we'll send a full quote within 24 hours, including gear list, sample schedule, and what to expect on the mountain.
+          Every Kilimanjaro expedition is private and tailored. Share your group size, preferred route, and travel dates — we will respond within 24 hours with a detailed plan, gear list, and everything you need to prepare.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a href="/contact?subject=kilimanjaro" class="btn btn-primary px-8 py-3.5">
             Get a custom quote
             <ArrowRight size={16} />
           </a>
-          <a href="/tours?style=kilimanjaro" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
-            See ready-made climbs
+          <a href="/trekking" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
+            Browse ready-made treks
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- JSON-LD: ItemList of 7 routes -->
-  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+  <!-- JSON-LD -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Kilimanjaro Climbing Routes',
-    description: 'The 7 official routes up Mount Kilimanjaro, Tanzania',
+    description: 'The 6 official routes up Mount Kilimanjaro, Tanzania',
     numberOfItems: routes.length,
     itemListElement: routes.map((r, i) => ({
       '@type': 'ListItem',
@@ -519,3 +778,4 @@ const kilimanjaroTours = allTours.filter((t) => t.data.type === 'kilimanjaro').s
     })),
   }))} />
 </PublicLayout>
+
