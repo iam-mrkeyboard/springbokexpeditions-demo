@@ -3,7 +3,7 @@ import { MapPin, ArrowRight } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
 const featured = await getCollection('destinations', (entry) =>
-  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'kilimanjaro-national-park', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
+  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'kilimanjaro-national-park', 'mount-meru', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
 );
 ---
 
