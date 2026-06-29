@@ -2,6 +2,7 @@
 import { Phone, Mail, Menu, X, ChevronDown } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import { CATEGORY_CONFIG, getToursForCategory, ALL_CATEGORIES, type TourCategory } from '@/lib/safari-categories';
 
 interface Props {
   transparent?: boolean;
@@ -14,44 +15,40 @@ const destHighlights = await getCollection('destinations', (entry) =>
   ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
 );
 
+const kiliTreks = (await getCollection('trekking'))
+  .filter((t) => t.data.mountain === 'kilimanjaro')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const meruTreks = (await getCollection('trekking'))
+  .filter((t) => t.data.mountain === 'meru')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const safariCategories = await Promise.all(
+  ALL_CATEGORIES.map(async (key: TourCategory) => {
+    const tours = await getToursForCategory(key);
+    const config = CATEGORY_CONFIG[key];
+    return {
+      key,
+      label: config.pluralLabel,
+      href: `/tours/${key}`,
+      tours: tours.map((t) => ({
+        label: t.data.title,
+        href: `/tours/${t.id}`,
+      })),
+    };
+  })
+);
+
 const navItems = [
   {
     label: 'Safaris',
     href: '/tours',
-    children: [
-      {
-        label: '10-Day Tanzania Northern Circuit Classic',
-        href: '/tours/northern-circuit-classic',
-      },
-      {
-        label: '7-Day Signature Northern Circuit Safari',
-        href: '/tours/signature-northern-circuit',
-      },
-      {
-        label: '7-Day Luxury Serengeti & Ngorongoro Fly-In Safari',
-        href: '/tours/luxury-fly-in-serengeti',
-      },
-      {
-        label: '7-Day Great Migration Calving Safari',
-        href: '/tours/great-migration-calving',
-      },
-      {
-        label: '8-Day Mara River Crossing Safari',
-        href: '/tours/mara-river-crossing',
-      },
-      {
-        label: 'Bespoke Luxury Safari — Designed Around You',
-        href: '/tours/custom-luxury',
-      },
-      {
-        label: '10-Day Honeymoon Safari + Zanzibar Escape',
-        href: '/tours/honeymoon-safari-zanzibar',
-      },
-      {
-        label: '6-Day Family Safari Adventure',
-        href: '/tours/family-safari',
-      },
-    ],
+    children: safariCategories.map((cat) => ({
+      label: cat.label,
+      href: cat.href,
+      desc: `${cat.tours.length} ${cat.tours.length === 1 ? 'itinerary' : 'itineraries'}`,
+      subChildren: cat.tours,
+    })),
   },
   {
     label: 'Destinations',
@@ -71,12 +68,20 @@ const navItems = [
       {
         label: 'Mount Kilimanjaro',
         href: '/kilimanjaro',
-        desc: '7 routes · 5,895m · Roof of Africa',
+        desc: '6 routes · 5,895m · Roof of Africa',
+        subChildren: kiliTreks.map((t) => ({
+          label: t.data.title,
+          href: `/trekking/${t.id}`,
+        })),
       },
       {
         label: 'Mount Meru',
         href: '/mount-meru',
         desc: '4 days · 4,566m · Best Kili acclimatization',
+        subChildren: meruTreks.map((t) => ({
+          label: t.data.title,
+          href: `/trekking/${t.id}`,
+        })),
       },
     ],
   },
@@ -87,36 +92,36 @@ const navItems = [
   },
   {
     label: 'Experiences',
-    href: '/experiences',
+    href: '/tours',
     children: [
       {
         label: 'Honeymoon',
-        href: '/experiences/honeymoon-safari',
+        href: '/tours/honeymoon',
         desc: 'Private, romantic, Zanzibar finish',
       },
       {
         label: 'Family',
-        href: '/experiences/family-safari',
+        href: '/tours/family',
         desc: 'Kid-friendly, short drives',
       },
       {
         label: 'Great Migration',
-        href: '/experiences/great-migration-safari',
+        href: '/tours/migration',
         desc: 'Mara River crossings, Jul–Oct',
       },
       {
         label: 'Photography',
-        href: '/experiences/photography-safari',
+        href: '/tours/photography',
         desc: 'Custom 4x4, dedicated guide',
       },
       {
         label: 'Birding',
-        href: '/experiences/birding-safari',
+        href: '/tours/birding',
         desc: '1,100+ species',
       },
       {
         label: 'Cultural',
-        href: '/experiences/cultural-tanzania',
+        href: '/tours/cultural',
         desc: 'Maasai, Hadzabe, Datoga',
       },
     ],
@@ -159,8 +164,9 @@ const currentPath = Astro.url.pathname;
       <a
         href='tel:+255784136616'
         class:list={[
-          'header-contact-link flex items-center gap-1.5 hover:text-savannah-600 transition-colors',
-          transparent ? 'text-white/80' : 'text-dusk-700',
+          'header-contact-link flex items-center gap-1.5 transition-colors',
+          'hover:text-savannah-600',
+          transparent ? 'text-white' : 'text-dusk-700',
         ]}
       >
         <Phone size={13} />
@@ -169,8 +175,9 @@ const currentPath = Astro.url.pathname;
       <a
         href='mailto:info@springbokexpeditions.com'
         class:list={[
-          'header-contact-link flex items-center gap-1.5 hover:text-savannah-600 transition-colors',
-          transparent ? 'text-white/80' : 'text-dusk-700',
+          'header-contact-link flex items-center gap-1.5 transition-colors',
+          'hover:text-savannah-600',
+          transparent ? 'text-white' : 'text-dusk-700',
         ]}
       >
         <Mail size={13} />
@@ -219,19 +226,51 @@ const currentPath = Astro.url.pathname;
               {item.children && (
                 <div class='invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[420px] z-10'>
                   <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1'>
-                    {item.children.map((child) => (
-                      <a
-                        href={child.href}
-                        class='flex flex-col px-3 py-2.5 rounded-lg hover:bg-dusk-50 transition-colors group/item'>
-                        <span class='font-medium text-sm text-dusk-900 group-hover/item:text-savannah-700'>
-                          {child.label}
-                        </span>
-                        {child.desc && (
-                          <span class='text-xs text-dusk-600 mt-0.5'>
-                            {child.desc}
+                    {item.children.map((child: any) => (
+                      child.subChildren ? (
+                        <div class='relative subgroup group/sub'>
+                          <a
+                            href={child.href}
+                            class='flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-dusk-50 transition-colors group/item'>
+                            <div class='flex flex-col'>
+                              <span class='font-medium text-sm text-dusk-900 group-hover/item:text-savannah-700'>
+                                {child.label}
+                              </span>
+                              {child.desc && (
+                                <span class='text-xs text-dusk-600 mt-0.5'>
+                                  {child.desc}
+                                </span>
+                              )}
+                            </div>
+                            <ChevronDown size={12} class='-rotate-90 text-dusk-400' />
+                          </a>
+                          <div class='subgroup-panel opacity-0 pointer-events-none group-hover/sub:opacity-100 group-focus-within/sub:opacity-100 group-hover/sub:pointer-events-auto group-focus-within/sub:pointer-events-auto transition-opacity duration-200 absolute left-full top-0 w-[360px] z-20'>
+                            <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1 max-h-[480px] overflow-y-auto'>
+                              {child.subChildren.map((sub: any) => (
+                                <a
+                                  href={sub.href}
+                                  class='block px-3 py-2 rounded-lg hover:bg-dusk-50 transition-colors text-sm text-dusk-800 hover:text-savannah-700'
+                                >
+                                  {sub.label}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <a
+                          href={child.href}
+                          class='flex flex-col px-3 py-2.5 rounded-lg hover:bg-dusk-50 transition-colors group/item'>
+                          <span class='font-medium text-sm text-dusk-900 group-hover/item:text-savannah-700'>
+                            {child.label}
                           </span>
-                        )}
-                      </a>
+                          {child.desc && (
+                            <span class='text-xs text-dusk-600 mt-0.5'>
+                              {child.desc}
+                            </span>
+                          )}
+                        </a>
+                      )
                     ))}
                   </div>
                 </div>
@@ -243,7 +282,7 @@ const currentPath = Astro.url.pathname;
 
       <!-- CTA button -->
       <div class='hidden lg:flex items-center gap-3'>
-        <a href='/contact' class='btn btn-primary'> Plan Your Safari </a>
+        <a href='/plan-my-trip' class='btn btn-primary'> Plan Your Safari </a>
       </div>
 
       <!-- Mobile menu button -->
@@ -262,7 +301,7 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile menu -->
   <div
     id='mobile-menu'
-    class='hidden lg:hidden border-t border-dusk-100 bg-white'
+    class='lg:hidden border-t border-dusk-100 bg-white mobile-menu-panel'
   >
     <nav class='container-content py-6 space-y-1'>
       {
@@ -275,12 +314,44 @@ const currentPath = Astro.url.pathname;
             </a>
             {item.children && (
               <div class='pl-4 space-y-1'>
-                {item.children.slice(0, 4).map((child) => (
-                  <a
-                    href={child.href}
-                    class='block px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'>
-                    {child.label}
-                  </a>
+                {item.children.map((child: any) => (
+                  child.subChildren ? (
+                    <div class='mobile-accordion'>
+                      <button
+                        type='button'
+                        class='mobile-accordion-toggle flex items-center justify-between w-full px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'
+                        data-target={`mob-${item.label.toLowerCase()}-${child.label.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        <span>{child.label}</span>
+                        <ChevronDown size={14} class='mobile-chevron transition-transform' />
+                      </button>
+                      <div
+                        id={`mob-${item.label.toLowerCase()}-${child.label.toLowerCase().replace(/\s+/g, '-')}`}
+                        class='mobile-submenu pl-3 pb-1 space-y-0.5'
+                      >
+                        <a
+                          href={child.href}
+                          class='block px-3 py-1.5 text-xs text-savannah-700 font-medium'
+                        >
+                          View all {child.label.toLowerCase()} →
+                        </a>
+                        {child.subChildren.map((sub: any) => (
+                          <a
+                            href={sub.href}
+                            class='block px-3 py-1.5 text-xs text-dusk-600 hover:text-savannah-700'
+                          >
+                            {sub.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      href={child.href}
+                      class='block px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'>
+                      {child.label}
+                    </a>
+                  )
                 ))}
               </div>
             )}
@@ -288,11 +359,53 @@ const currentPath = Astro.url.pathname;
         ))
       }
       <div class='pt-4'>
-        <a href='/contact' class='btn btn-primary w-full'>Plan Your Safari</a>
+        <a href='/plan-my-trip' class='btn btn-primary w-full'>Plan Your Safari</a>
       </div>
     </nav>
   </div>
 </header>
+
+<style>
+  .mobile-menu-panel {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0ms linear 350ms;
+  }
+  .mobile-menu-panel.open {
+    max-height: 80vh;
+    opacity: 1;
+    visibility: visible;
+    overflow-y: auto;
+    transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0ms linear 0ms;
+  }
+
+  .mobile-submenu {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-submenu.open {
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-panel,
+    .mobile-menu-panel.open,
+    .mobile-submenu,
+    .mobile-submenu.open {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   const btn = document.getElementById('mobile-menu-btn');
@@ -301,18 +414,28 @@ const currentPath = Astro.url.pathname;
   const iconClose = document.getElementById('menu-icon-close');
 
   btn?.addEventListener('click', () => {
-    const isOpen = !menu?.classList.contains('hidden');
+    const isOpen = menu?.classList.toggle('open');
     if (isOpen) {
-      menu?.classList.add('hidden');
-      iconOpen?.classList.remove('hidden');
-      iconClose?.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-    } else {
-      menu?.classList.remove('hidden');
       iconOpen?.classList.add('hidden');
       iconClose?.classList.remove('hidden');
       btn.setAttribute('aria-expanded', 'true');
+    } else {
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  // Mobile accordion for nested menu items
+  document.querySelectorAll('.mobile-accordion-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = (toggle as HTMLElement).dataset.target;
+      const target = targetId ? document.getElementById(targetId) : null;
+      const chevron = toggle.querySelector('.mobile-chevron');
+      target?.classList.toggle('open');
+      chevron?.classList.toggle('rotate-180');
+    });
   });
 
   // Scroll-based header background: transparent at top, solid white once scrolled
