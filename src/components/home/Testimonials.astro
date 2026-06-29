@@ -1,29 +1,14 @@
 ---
-import { Star, Quote } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+import { ExternalLink } from '@lucide/astro';
+import TripadvisorIcon from '../icons/TripadvisorIcon.astro';
+import StarRating from '../icons/StarRating.astro';
 
-const testimonials = [
-  {
-    name: 'Sarah & Michael',
-    country: 'United Kingdom',
-    rating: 5,
-    body: "Simon and the team made our honeymoon safari absolutely magical. From sunrise balloon rides over the Serengeti to sundowners in the Crater — every detail was perfect. We've already recommended Springbok to friends.",
-    tour: 'Honeymoon Safari + Zanzibar',
-  },
-  {
-    name: 'David Chen',
-    country: 'Singapore',
-    rating: 5,
-    body: "I climbed Kilimanjaro via Machame with Springbok. The guides were patient, the food was incredible, and we made it to Uhuru Peak at sunrise. Their 95% summit rate is real — I saw why on the mountain.",
-    tour: 'Kilimanjaro · Machame Route',
-  },
-  {
-    name: 'The Patel Family',
-    country: 'United States',
-    rating: 5,
-    body: "Traveling with three kids (ages 7, 10, 13) felt daunting, but Springbok designed a family safari that kept everyone engaged. The kids still talk about the lions in Tarangire and the Hadzabe hunters at Lake Eyasi.",
-    tour: 'Family Safari Adventure',
-  },
-];
+const all = await getCollection('testimonials');
+const featured = all.find((t) => t.data.featured);
+const cards = all.filter((t) => !t.data.featured);
+
+const tripadvisorUrl = 'https://www.tripadvisor.com/Attraction_Review-g297913-d21130462-Reviews-Springbok_Expeditions-Arusha_Arusha_Region.html';
 ---
 
 <section class="section bg-safari-900 text-white relative overflow-hidden">
@@ -33,29 +18,115 @@ const testimonials = [
   </div>
 
   <div class="container-content relative">
-    <div class="text-center max-w-2xl mx-auto mb-16">
+    <div class="text-center mb-16">
       <p class="eyebrow text-savannah-300 mb-3">From Our Travelers</p>
-      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-white mb-5">
-        Real stories from real journeys
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-white mb-4">
+        What Our Guests Say
       </h2>
+      <p class="text-dusk-300 max-w-2xl mx-auto text-base md:text-lg">
+        Real stories from travelers who experienced the magic of Africa with us
+      </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {testimonials.map((t) => (
-        <div class="bg-safari-800/50 backdrop-blur border border-savannah-500/20 rounded-2xl p-8 hover:border-savannah-500/40 transition-colors">
-          <Quote size={32} class="text-savannah-500 mb-4" />
-          <p class="text-dusk-100 leading-relaxed mb-6">"{t.body}"</p>
-          <div class="flex gap-0.5 mb-4">
-            {Array.from({ length: t.rating }).map(() => (
-              <Star size={14} class="fill-savannah-500 text-savannah-500" />
-            ))}
+{featured && (
+    <div class="mb-12 lg:mb-16">
+      <div class="relative bg-gradient-to-br from-savannah-500/10 to-savannah-500/5 rounded-3xl p-8 md:p-12 border border-savannah-500/10">
+        <div class="absolute top-6 right-8 md:top-8 md:right-12 text-savannah-500/20">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+        </div>
+        <div class="relative flex flex-col md:flex-row gap-8 items-start">
+          <div class="flex-shrink-0">
+            <div class="h-16 w-16 md:h-20 md:w-20 rounded-full bg-savannah-500/20 flex items-center justify-center text-savannah-400 font-semibold text-xl md:text-2xl ring-4 ring-safari-800 shadow-lg">
+              {featured.data.initials || featured.data.name.charAt(0).toUpperCase()}
+            </div>
           </div>
-          <div>
-            <p class="font-medium text-white">{t.name}</p>
-            <p class="text-sm text-dusk-300">{t.country} · {t.tour}</p>
+          <div class="flex-1">
+            <div class="flex gap-1 mb-4 text-savannah-400">
+              <StarRating rating={featured.data.rating} size={22} />
+            </div>
+            <blockquote class="text-lg md:text-xl lg:text-2xl font-display text-dusk-100 leading-relaxed mb-6">
+              &ldquo;{featured.body}&rdquo;
+            </blockquote>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <span class="font-semibold text-white text-lg capitalize">{featured.data.name}</span>
+              <span class="text-dusk-600 hidden sm:inline">·</span>
+              <span class="text-dusk-300 text-sm">{featured.data.date} · {featured.data.travelerType}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+
+    <div class="grid gap-6 md:grid-cols-2">
+      {cards.map((c) => (
+        <div class="group relative bg-safari-800/80 rounded-2xl p-7 shadow-sm border border-safari-700 hover:shadow-xl hover:border-savannah-500/30 transition-all duration-300 hover:-translate-y-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="h-11 w-11 rounded-full bg-safari-700 flex items-center justify-center text-dusk-300 font-medium text-sm ring-2 ring-safari-600">
+              {c.data.initials || c.data.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h4 class="font-semibold text-white text-sm capitalize">{c.data.name}</h4>
+              <p class="text-xs text-dusk-400">{c.data.date}</p>
+            </div>
+          </div>
+          <div class="flex gap-0.5 mb-3 text-savannah-400">
+            <StarRating rating={c.data.rating} size={14} />
+          </div>
+          <p class="text-dusk-200 text-sm leading-relaxed line-clamp-4">
+            &ldquo;{c.body}&rdquo;
+          </p>
+          <div class="mt-4 pt-4 border-t border-safari-700 flex items-center gap-2">
+            <svg class="w-4 h-4 text-savannah-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <span class="text-xs font-medium text-savannah-400">{c.data.travelerType}</span>
           </div>
         </div>
       ))}
+
+      <div class="group relative bg-safari-800/40 rounded-2xl p-7 shadow-sm border border-dashed border-safari-700 hover:shadow-xl hover:border-savannah-500/30 transition-all duration-300 hover:-translate-y-1 flex flex-col items-center justify-center text-center">
+        <TripadvisorIcon size={44} class="mb-3" style="color:#00AF87" />
+        <h4 class="font-semibold text-white">Share Your Story</h4>
+        <p class="text-dusk-400 text-sm mt-1 mb-6 max-w-xs">
+          Tell us about your Springbok adventure and help fellow travelers
+        </p>
+        <a
+          href={tripadvisorUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-2.5 bg-savannah-500 text-safari-900 font-medium rounded-full hover:bg-savannah-400 transition-colors text-sm"
+        >
+          Write a Review
+          <ExternalLink size={14} />
+        </a>
+      </div>
+    </div>
+
+    <div class="text-center mt-14">
+      <div class="inline-flex items-center gap-3 mb-6">
+        <div class="h-px w-12 bg-safari-600"></div>
+        <span class="text-dusk-500 text-sm font-medium tracking-wide">Verified Reviews</span>
+        <div class="h-px w-12 bg-safari-600"></div>
+      </div>
+      <a
+        href={tripadvisorUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-8 py-3.5 bg-savannah-500 text-safari-900 font-semibold rounded-full hover:bg-savannah-400 transition-all duration-200 shadow-lg shadow-savannah-500/20 hover:shadow-xl hover:shadow-savannah-500/30"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+        Read More on TripAdvisor
+      </a>
     </div>
   </div>
 </section>
