@@ -96,6 +96,41 @@ const kilimanjaroSchema = z.object({
   highlights: z.array(z.string()).optional().default([]),
 }).passthrough();
 
+// ─── Trekking itineraries (Kilimanjaro, Meru, etc.) ───────────────────────
+const trekkingSchema = z.object({
+  title: z.string(),
+  excerpt: z.string(),
+  summary: z.string().optional(),
+  route: z.string(),
+  mountain: z.enum(['kilimanjaro', 'meru']),
+  hero: z.string().optional(),
+  gallery: z.array(z.string()).optional().default([]),
+  successRate: z.string().optional(),
+  durationDays: z.number().int().positive(),
+  difficulty: z.enum(['easy', 'moderate', 'challenging', 'strenuous']).optional(),
+  accommodation: z.string().optional(),
+  bestMonths: z.array(z.string()).optional().default([]),
+  highlights: z.array(z.string()).optional().default([]),
+  inclusions: z.array(z.string()).optional().default([]),
+  exclusions: z.array(z.string()).optional().default([]),
+  itinerary: z.array(z.object({
+    day: z.number().int().positive(),
+    title: z.string(),
+    elevation: z.string().optional(),
+    timeWalking: z.string().optional(),
+    terrain: z.string().optional(),
+    description: z.string(),
+    accommodation: z.string().optional(),
+    meals: z.string().optional(),
+  })).optional().default([]),
+  order: z.number().optional(),
+  publishedAt: z.union([z.string(), z.date()]),
+  seo: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+  }).optional(),
+}).passthrough();
+
 // ─── Experiences ──────────────────────────────────────────────────────────
 const experienceSchema = z.object({
   name: z.string(),
@@ -149,6 +184,11 @@ const experiences = defineCollection({
   schema: experienceSchema,
 });
 
+const trekking = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/trekking' }),
+  schema: trekkingSchema,
+});
+
 const testimonials = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/testimonials' }),
   schema: testimonialSchema,
@@ -160,5 +200,6 @@ export const collections = {
   blog,
   kilimanjaro,
   experiences,
+  trekking,
   testimonials,
 };
