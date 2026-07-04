@@ -7,7 +7,7 @@ export const siteInfo = {
   description:
     'Bespoke Tanzania safaris, Kilimanjaro climbs, and Zanzibar beach holidays. Private guides, hand-picked lodges, and trips built from scratch around you.',
   phone: '+255 784 136 616',
-  whatsapp: '+255 764 908 272',
+  whatsapp: '+255 784 136 616',
   email: import.meta.env.PUBLIC_EMAIL || 'info@springbokexpeditions.com',
   address: {
     street: 'Sokoni Street',
