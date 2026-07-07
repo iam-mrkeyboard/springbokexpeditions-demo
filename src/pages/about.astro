@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { Compass, Map, Mountain, Users, Umbrella, Globe, MapPin, Calendar, ArrowRight, Sparkles } from '@lucide/astro';
+import { Compass, Map, Mountain, Users, Umbrella, MapPin, Calendar, ArrowRight, Sparkles } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
 const tours = await getCollection('tours');
@@ -174,44 +174,41 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
     </div>
   </section>
 
-  <!-- Where we operate -->
-  <section class="py-16 md:py-20 bg-safari-900 text-white">
-    <div class="container-content">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+  <!-- Where We Operate -->
+  <section class="section bg-safari-900 text-white relative overflow-hidden">
+    <div class="container-content relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         <div>
-          <div class="inline-flex items-center gap-2 text-savannah-300 text-sm font-semibold tracking-wider uppercase mb-3">
-            <Globe size={14} /> Where We Operate
-          </div>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium text-white mb-6">
-            Tanzania — and only Tanzania
+          <p class="eyebrow text-savannah-300 mb-4">Where We Operate</p>
+          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-white mb-6 leading-tight">
+            Northern Tanzania &amp; Zanzibar — our specialty
           </h2>
-          <p class="text-lg text-dusk-200 leading-relaxed mb-6">
-            We don't do Kenya, Botswana, or South Africa. We do Tanzania, and we do it deeply. Every guide has worked the
-            Serengeti, climbed Kilimanjaro, and traveled the back roads of Zanzibar. That focus is the whole reason we can
-            deliver what bigger operators can't.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            {['Serengeti', 'Ngorongoro', 'Tarangire', 'Lake Manyara', 'Kilimanjaro', 'Mount Meru', 'Zanzibar', 'Pemba', 'Mahale', 'Selous', 'Ruaha', 'Katavi'].map((place) => (
-              <span class="bg-safari-800/60 border border-safari-700 text-dusk-200 px-3 py-1 rounded-full text-sm">
-                {place}
+          <div class="text-dusk-200 text-lg leading-relaxed mb-8">
+            <p>We don't stretch ourselves across East Africa. We focus on where we live and breathe: the legendary northern circuit and the spice-scented islands of Zanzibar. That focus is the whole reason we can deliver what bigger operators can't.</p>
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            {['Serengeti', 'Ngorongoro', 'Tarangire', 'Lake Manyara', 'Kilimanjaro', 'Mount Meru', 'Zanzibar', 'Pemba'].map((dest) => (
+              <span class="border border-dusk-700/40 rounded-full px-4 py-1.5 text-sm text-dusk-200 font-medium">
+                {dest}
               </span>
             ))}
           </div>
         </div>
-        <div class="bg-safari-800/50 rounded-2xl p-8 border border-safari-700">
-          <h3 class="font-display text-2xl font-medium text-white mb-6">Quick Facts</h3>
-          <dl class="space-y-4">
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-sm">
+          <h3 class="text-sm uppercase tracking-[0.15em] text-dusk-300 font-medium mb-5">Quick Facts</h3>
+          <dl class="divide-y divide-white/10">
             {[
-              { dt: 'Founded', dd: '2010, Arusha, Tanzania' },
-              { dt: 'Headquarters', dd: 'Sokoine Drive, Arusha' },
-              { dt: 'Registration', dd: 'TATO member · TZ tourism licensed' },
-              { dt: 'Insurance', dd: 'Fully insured vehicles + AMREF Flying Doctors evacuation cover on every safari' },
-              { dt: 'Languages', dd: 'English, Swahili, French, German, Spanish, Italian' },
-              { dt: 'Vehicles', dd: 'Toyota Land Cruisers (4x4) with pop-top roofs' },
-            ].map((row) => (
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-3 border-b border-safari-700 last:border-0 last:pb-0">
-                <dt class="text-dusk-400 text-sm font-medium">{row.dt}</dt>
-                <dd class="text-dusk-100 sm:col-span-2">{row.dd}</dd>
+              { label: 'Location', value: 'Arusha, Northern Tanzania' },
+              { label: 'Travel Style', value: 'Authentic, immersive, and sustainable adventures tailored to you' },
+              { label: 'Registration', value: 'TATO member · TZ tourism licensed' },
+              { label: 'Insurance', value: 'Fully insured vehicles + AMREF Flying Doctors evacuation cover on every safari' },
+              { label: 'Languages', value: 'English, Swahili, French, German, Spanish, Italian' },
+              { label: 'Vehicles', value: 'Toyota Land Cruisers (4x4) with pop-top roofs' },
+            ].map((fact) => (
+              <div class="flex justify-between gap-4 py-3.5 first:pt-0 last:pb-0">
+                <dt class="text-dusk-300 text-sm shrink-0">{fact.label}</dt>
+                <dd class="text-white text-sm font-medium text-right leading-snug">{fact.value}</dd>
               </div>
             ))}
           </dl>
