@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { Compass, Users, Globe, MapPin, Calendar, ArrowRight, Sparkles } from '@lucide/astro';
+import { Compass, Map, Mountain, Users, Umbrella, Globe, MapPin, Calendar, ArrowRight, Sparkles } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
 const tours = await getCollection('tours');
@@ -132,7 +132,47 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
     </div>
   </section>
 
+  <!-- Our Adventures -->
+  <section class="section bg-white">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="eyebrow text-safari-600 mb-3">Our Adventures</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">Experiences designed around you</h2>
+        <p class="text-dusk-600 text-lg">From the plains of the Serengeti to the peaks of Kilimanjaro and the shores of Zanzibar.</p>
+      </div>
 
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-soft transition-all">
+          <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+            <Map size={20} />
+          </span>
+          <h3 class="font-display text-lg text-safari-900 mb-2">Wildlife Safaris</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Witness Africa's iconic Big Five in their natural habitat across Tanzania's legendary parks.</p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-soft transition-all">
+          <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+            <Mountain size={20} />
+          </span>
+          <h3 class="font-display text-lg text-safari-900 mb-2">Mountain Treks</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Conquer the peaks of Kilimanjaro and Meru with experienced guides who know every route.</p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-soft transition-all">
+          <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+            <Umbrella size={20} />
+          </span>
+          <h3 class="font-display text-lg text-safari-900 mb-2">Zanzibar Getaways</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Relax on white-sand beaches with crystal-clear waters, spice tours, and rich Swahili culture.</p>
+        </div>
+        <div class="bg-dusk-50 rounded-2xl p-6 border border-dusk-100 hover:border-savannah-300/60 hover:shadow-soft transition-all">
+          <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
+            <Users size={20} />
+          </span>
+          <h3 class="font-display text-lg text-safari-900 mb-2">Cultural Tours</h3>
+          <p class="text-sm text-dusk-600 leading-relaxed">Experience the traditions of the Maasai, Hadzabe, and other indigenous communities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Where we operate -->
   <section class="py-16 md:py-20 bg-safari-900 text-white">
