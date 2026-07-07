@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { Heart, Users, Globe, MapPin, Calendar, ArrowRight, Shield, Sparkles } from '@lucide/astro';
+import { Compass, Heart, Users, Globe, MapPin, Calendar, ArrowRight, Shield, Sparkles } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
 const tours = await getCollection('tours');
@@ -105,31 +105,64 @@ const team = [
     </div>
   </section>
 
-  <!-- Values -->
-  <section class="py-16 md:py-20 bg-safari-50">
+  <!-- Why Travel With Us -->
+  <section class="section bg-safari-50">
     <div class="container-content">
-      <div class="max-w-2xl mx-auto text-center mb-12">
-        <div class="inline-flex items-center gap-2 text-savannah-700 text-sm font-semibold tracking-wider uppercase mb-3">
-          <span class="w-8 h-px bg-savannah-500"></span> What We Stand For
-        </div>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
-          Four things we won't compromise on
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="eyebrow mb-4">Why Travel With Us</p>
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
+          Four reasons travelers choose us
         </h2>
-        <p class="text-lg text-dusk-600">
-          These aren't slogans. They shape how we price, plan, and run every trip.
+        <p class="text-dusk-600 text-lg">
+          We don't just offer tours — we create unforgettable experiences.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {values.map(({ icon: Icon, title, body }) => (
-          <div class="bg-white rounded-2xl p-7 border border-dusk-100 hover:border-savannah-500/50 hover:shadow-soft transition-all">
-            <div class="w-12 h-12 rounded-xl bg-savannah-100 text-savannah-700 flex items-center justify-center mb-4">
-              <Icon size={22} />
-            </div>
-            <h3 class="font-display text-xl font-medium text-safari-900 mb-2">{title}</h3>
-            <p class="text-dusk-700 leading-relaxed">{body}</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="#" class="card card-hover p-7 group block">
+          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+            <Compass size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
-        ))}
+          <h3 class="font-display text-xl font-medium text-safari-900 mb-2">Expertly Curated Safaris</h3>
+          <p class="text-sm text-dusk-700 leading-relaxed mb-4">Whether it's the Great Migration in the Serengeti, the majestic Ngorongoro Crater, or trekking Mount Kilimanjaro, we provide tailor-made experiences that match your travel style.</p>
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+            Learn more
+            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
+        <a href="#" class="card card-hover p-7 group block">
+          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+            <Users size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
+          </div>
+          <h3 class="font-display text-xl font-medium text-safari-900 mb-2">Local Expertise</h3>
+          <p class="text-sm text-dusk-700 leading-relaxed mb-4">Our guides are highly knowledgeable about Tanzania's wildlife, history, and hidden gems. They grew up here and hold advanced certifications from professional guide associations.</p>
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+            Learn more
+            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
+        <a href="#" class="card card-hover p-7 group block">
+          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+            <Sparkles size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
+          </div>
+          <h3 class="font-display text-xl font-medium text-safari-900 mb-2">Sustainable &amp; Ethical Travel</h3>
+          <p class="text-sm text-dusk-700 leading-relaxed mb-4">We support local communities and conservation efforts, ensuring responsible tourism. A portion of every booking supports local schools, anti-poaching units, and Maasai community projects.</p>
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+            Learn more
+            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
+        <a href="#" class="card card-hover p-7 group block">
+          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+            <Sparkles size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
+          </div>
+          <h3 class="font-display text-xl font-medium text-safari-900 mb-2">Personalized Service</h3>
+          <p class="text-sm text-dusk-700 leading-relaxed mb-4">Whether you prefer luxury lodges or off-the-grid adventures, we design trips that suit your budget and preferences — at no extra design fee.</p>
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+            Learn more
+            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
       </div>
     </div>
   </section>
