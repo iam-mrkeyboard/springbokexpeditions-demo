@@ -1,5 +1,5 @@
 ---
-import { Map, Mountain, Users, Sparkles, ArrowRight } from '@lucide/astro';
+import { Map, Mountain, Users, Umbrella, ArrowRight } from '@lucide/astro';
 
 const features = [
   {
@@ -15,22 +15,21 @@ const features = [
     link: '/kilimanjaro',
   },
   {
+    icon: Umbrella,
+    title: 'Zanzibar',
+    body: 'Trade safari dust for white-sand beaches, turquoise water, ancient Stone Town, and dhow sails at sunset. The perfect ending to your Tanzanian adventure.',
+    link: '/zanzibar',
+  },
+  {
     icon: Users,
     title: 'Cultural Encounters',
     body: "Walk with Maasai warriors, hunt with the Hadzabe, and learn to cook Swahili cuisine in Stone Town. Real connections, not staged performances.",
     link: '/experiences/cultural',
   },
-  {
-    icon: Sparkles,
-    title: 'Custom Adventures',
-    body: "Tell us what you dream of — a honeymoon, a family trip, a solo expedition — and we'll design every detail around you.",
-    link: '/contact',
-  },
 ];
----
 
 <section class="section bg-dusk-50">
-  <div class="container-content">
+  <div class="container-wide">
     <div class="text-center max-w-2xl mx-auto mb-16">
       <p class="eyebrow mb-4">What We Offer</p>
       <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
