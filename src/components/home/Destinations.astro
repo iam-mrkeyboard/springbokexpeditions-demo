@@ -20,11 +20,18 @@ const destSlugs = [
   'ngorongoro-crater',
   'tarangire-national-park',
   'lake-manyara-national-park',
-  'zanzibar-archipelago',
 ];
+
+const nameOverrides: Record<string, string> = {
+  'zanzibar-archipelago': 'Zanzibar Beach',
+};
 
 const mdDests = await getCollection('destinations', (entry) =>
   destSlugs.includes(entry.id)
+);
+
+const zanzibar = await getCollection('destinations', (entry) =>
+  entry.id === 'zanzibar-archipelago'
 );
 
 const trekkingCard = {
@@ -39,8 +46,11 @@ const trekkingCard = {
 };
 
 const allCards = [
-  ...mdDests.map((d) => ({ id: d.id, data: d.data, link: `/destinations/${d.id}` })),
+  ...mdDests
+    .sort((a, b) => destSlugs.indexOf(a.id) - destSlugs.indexOf(b.id))
+    .map((d) => ({ id: d.id, data: d.data, link: `/destinations/${d.id}` })),
   trekkingCard,
+  ...zanzibar.map((d) => ({ id: d.id, data: d.data, link: `/destinations/${d.id}` })),
 ];
 ---
 
@@ -55,7 +65,7 @@ const allCards = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {allCards.map((card) => {
         const hero = card.data.hero || '';
-        const name = card.data.name || '';
+        const name = nameOverrides[card.id] || card.data.name || '';
         const region = card.data.region || '';
         const summary = card.data.summary || '';
         const isLocalImage = card.link === '/trekking';
