@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { Compass, Heart, Users, Globe, MapPin, Calendar, ArrowRight, Shield, Sparkles } from '@lucide/astro';
+import { Heart, Users, Globe, MapPin, Calendar, ArrowRight, Shield, Sparkles } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 
 const tours = await getCollection('tours');
@@ -50,46 +50,28 @@ const team = [
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative bg-safari-900 text-white overflow-hidden">
-    <div class="absolute inset-0 z-0">
+  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+    <div class="absolute inset-0 z-0 overflow-hidden bg-safari-900">
       <img
         src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
-        alt="Sunrise over the Serengeti"
-        class="w-full h-full object-cover opacity-50"
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover scale-105"
         loading="eager"
       />
-      <div class="absolute inset-0 bg-gradient-to-br from-safari-900/85 via-safari-900/65 to-safari-900/85"></div>
+      <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
     </div>
 
-    <div class="container-content relative z-10 py-20 md:py-28">
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
-        <div class="inline-flex items-center gap-2 bg-savannah-500/20 border border-savannah-500/30 text-savannah-300 px-3.5 py-1.5 rounded-full text-sm font-medium mb-6">
-          <Compass size={14} /> About Us
-        </div>
-        <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white mb-6">
-          A Tanzanian-owned safari company, based in Arusha since 2010
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">About Us</p>
+        <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
+          Experience the Wild,<br />
+          <span class="italic font-normal text-savannah-300">Explore the Extraordinary.</span>
         </h1>
-        <p class="text-xl text-dusk-200 leading-relaxed max-w-2xl">
-          We design and run safaris, Kilimanjaro climbs, and Zanzibar holidays for travelers from around the world —
-          and we do it the way we'd want to travel ourselves: small groups, fair prices, and guides who treat the land like home.
+        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
+          We are passionate storytellers of Tanzania's breathtaking landscapes, rich cultures, and unforgettable wildlife encounters.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats -->
-  <section class="py-12 md:py-16 bg-white border-b border-dusk-100">
-    <div class="container-content">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {stats.map((stat) => (
-          <div class="text-center md:text-left">
-            <p class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-1">
-              {stat.value}
-            </p>
-            <p class="font-medium text-safari-700">{stat.label}</p>
-            <p class="text-sm text-dusk-500">{stat.sublabel}</p>
-          </div>
-        ))}
       </div>
     </div>
   </section>
