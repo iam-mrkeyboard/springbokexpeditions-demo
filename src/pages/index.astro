@@ -9,6 +9,7 @@ import Testimonials from '../components/home/Testimonials.astro';
 import WhyUs from '../components/home/WhyUs.astro';
 import Seasons from '../components/home/Seasons.astro';
 import MigrationVideo from '../components/home/MigrationVideo.astro';
+import TrekkingVideo from '../components/home/TrekkingVideo.astro';
 import ZanzibarVideo from '../components/home/ZanzibarVideo.astro';
 import { siteInfo, absoluteUrl } from '../lib/site';
 import { organizationJsonLd, websiteId, organizationId } from '../lib/jsonld';
@@ -92,6 +93,7 @@ const featuredTours = allTours
   <FeaturedTours tours={featuredTours} />
   <MigrationVideo />
   <Destinations />
+  <TrekkingVideo />
   <WhyUs />
   <Testimonials />
   <ZanzibarVideo />
