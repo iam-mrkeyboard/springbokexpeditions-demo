@@ -1,47 +1,100 @@
 ---
 import { MapPin, ArrowRight } from '@lucide/astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
-const featured = await getCollection('destinations', (entry) =>
-  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'kilimanjaro-national-park', 'mount-meru', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  subheading?: string;
+}
+
+const {
+  eyebrow = 'Where We Go',
+  heading = 'Iconic destinations, real expertise',
+  subheading = 'Our guides are born and raised in the regions we explore. They know where the leopards den, when the migrations turn, and which baobab has watched a thousand sunsets.',
+} = Astro.props;
+
+const destSlugs = [
+  'serengeti-national-park',
+  'ngorongoro-crater',
+  'tarangire-national-park',
+  'lake-manyara-national-park',
+  'zanzibar-archipelago',
+];
+
+const mdDests = await getCollection('destinations', (entry) =>
+  destSlugs.includes(entry.id)
 );
+
+const trekkingCard = {
+  id: 'trekking',
+  data: {
+    name: 'Trekking',
+    region: 'Mountain',
+    summary: "Climb Mount Kilimanjaro (5,895m) via seven official routes, or summit Mount Meru (4,566m) — expert guides, proven safety, and routes for every level.",
+    hero: '/videos/trekking-poster.jpg',
+  },
+  link: '/trekking',
+};
+
+const allCards = [
+  ...mdDests.map((d) => ({ id: d.id, data: d.data, link: `/destinations/${d.id}` })),
+  trekkingCard,
+];
 ---
 
 <section class="section bg-dusk-100">
   <div class="container-content">
     <div class="text-center max-w-2xl mx-auto mb-16">
-      <p class="eyebrow mb-3">Where We Go</p>
-      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">
-        Iconic destinations, real expertise
-      </h2>
-      <p class="text-dusk-700 text-lg leading-relaxed">
-        Our guides are born and raised in the regions we explore. They know where the leopards den, when the migrations turn, and which baobab has watched a thousand sunsets.
-      </p>
+      <p class="eyebrow mb-3">{eyebrow}</p>
+      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-5">{heading}</h2>
+      <p class="text-dusk-700 text-lg leading-relaxed">{subheading}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {featured.map((d) => (
-        <a href={`/destinations/${d.id}`} class="group relative aspect-[4/5] overflow-hidden rounded-2xl block">
-          <img
-            src={d.data.hero}
-            alt={d.data.name}
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            loading="lazy"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/30 to-transparent"></div>
-          <div class="absolute inset-x-0 bottom-0 p-6 text-white">
-            <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-savannah-300 mb-2">
-              <MapPin size={12} />
-              {d.data.region}
+      {allCards.map((card) => {
+        const hero = card.data.hero || '';
+        const name = card.data.name || '';
+        const region = card.data.region || '';
+        const summary = card.data.summary || '';
+        const isLocalImage = card.link === '/trekking';
+        return (
+          <a href={card.link} class="group relative aspect-[4/5] overflow-hidden rounded-2xl block">
+            {hero && (
+              isLocalImage ? (
+                <img
+                  src={hero}
+                  alt={name}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+              ) : (
+                <Image
+                  src={hero}
+                  alt={name}
+                  width={400}
+                  height={500}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+              )
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/30 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-6 text-white">
+              <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-savannah-300 mb-2">
+                <MapPin size={12} />
+                {region}
+              </div>
+              <h3 class="font-display text-2xl md:text-3xl font-medium mb-2 text-white">{name}</h3>
+              <p class="text-sm text-dusk-100/90 leading-relaxed mb-3">{summary.slice(0, 90)}{summary.length > 90 ? '…' : ''}</p>
+              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-400 group-hover:gap-3 transition-all">
+                Explore <ArrowRight size={14} />
+              </span>
             </div>
-            <h3 class="font-display text-2xl md:text-3xl font-medium mb-2 text-white">{d.data.name}</h3>
-            <p class="text-sm text-dusk-100/90 leading-relaxed mb-3">{d.data.summary.slice(0, 90)}{d.data.summary.length > 90 ? '…' : ''}</p>
-            <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-400 group-hover:gap-3 transition-all">
-              Explore <ArrowRight size={14} />
-            </span>
-          </div>
-        </a>
-      ))}
+          </a>
+        );
+      })}
     </div>
 
     <div class="text-center mt-12">
