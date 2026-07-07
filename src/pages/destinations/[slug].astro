@@ -40,9 +40,10 @@ const bestTimeOrdered = monthOrder.map((m) => {
   return { month: m, short: monthShort[monthOrder.indexOf(m)], rating: found?.rating ?? 'low' };
 });
 
-const relatedTours = allDests
-  ? []
-  : [];
+const relatedTours: {
+  id: string;
+  data: { title: string; durationDays: number };
+}[] = allDests ? [] : [];
 ---
 
 <PublicLayout

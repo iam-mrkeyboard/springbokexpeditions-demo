@@ -9,7 +9,7 @@ import {
 } from '@lucide/astro';
 
 const routes = (await getCollection('kilimanjaro')).sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
+  (a, b) => ((a.data as any).order ?? 0) - ((b.data as any).order ?? 0)
 );
 
 const trafficLabel: Record<string, string> = {
@@ -42,7 +42,7 @@ const monthColorMap: Record<SeasonRating, string> = {
 const allTreks = await getCollection('trekking');
 const kilimanjaroTreks = allTreks
   .filter((t) => t.data.mountain === 'kilimanjaro')
-  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+  .sort((a, b) => ((a.data as any).order ?? 0) - ((b.data as any).order ?? 0));
 
 const routeBlurb: Record<string, string> = {
   'lemosho': 'A remote western start through rainforest and the Shira Plateau. The most balanced blend of scenery, solitude, and acclimatization.',

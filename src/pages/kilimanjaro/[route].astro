@@ -21,13 +21,13 @@ const { Content } = await render(route as any);
 const allRoutes = await getCollection('kilimanjaro');
 const relatedRoutes = allRoutes
   .filter((r) => r.id !== route.id)
-  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  .sort((a, b) => ((a.data as any).order ?? 0) - ((b.data as any).order ?? 0))
   .slice(0, 3);
 
 const allTreks = await getCollection('trekking');
 const routeTreks = allTreks
   .filter((t) => t.data.route === route.id)
-  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+  .sort((a, b) => ((a.data as any).order ?? 0) - ((b.data as any).order ?? 0));
 
 const trafficLabel: Record<string, string> = {
   quiet: 'Quiet',
@@ -52,8 +52,8 @@ const tazamaImages = {
 ---
 
 <PublicLayout
-  title={route.data.seo?.title ?? `${route.data.name} — ${route.data.durationDays} Days`}
-  description={route.data.seo?.description ?? route.data.summary}
+  title={(route.data.seo as any)?.title ?? `${route.data.name} — ${route.data.durationDays} Days`}
+  description={(route.data.seo as any)?.description ?? route.data.summary}
   transparentHeader={true}
 >
   <section class="relative h-[85vh] min-h-[620px] w-full overflow-hidden bg-safari-900 text-white">
@@ -343,7 +343,7 @@ const tazamaImages = {
             <h3 class="font-display text-2xl text-safari-900">What's included</h3>
           </div>
           <ul class="space-y-3">
-            {route.data.inclusions.map((item) => (
+            {(route.data.inclusions as any[])?.map((item: any) => (
               <li class="flex items-start gap-3 text-dusk-700">
                 <Check size={16} class="text-safari-600 flex-shrink-0 mt-1" />
                 <span>{item}</span>
@@ -360,7 +360,7 @@ const tazamaImages = {
             <h3 class="font-display text-2xl text-dusk-900">Not included</h3>
           </div>
           <ul class="space-y-3">
-            {route.data.exclusions.map((item) => (
+            {(route.data.exclusions as any[])?.map((item: any) => (
               <li class="flex items-start gap-3 text-dusk-700">
                 <X size={16} class="text-dusk-400 flex-shrink-0 mt-1" />
                 <span>{item}</span>

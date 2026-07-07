@@ -5,9 +5,9 @@ interface ItineraryDay {
   day: number;
   title: string;
   body: string;
-  meals: string;
-  accommodation: string;
-  activities: string[];
+  meals?: string;
+  accommodation?: string;
+  activities?: string[];
 }
 
 interface Props {
@@ -58,7 +58,7 @@ const mealLabels: Record<string, string> = {
                 <Utensils size={14} class="text-savannah-700 mt-0.5 shrink-0" />
                 <div>
                   <span class="text-dusk-500">Meals: </span>
-                  <span class="text-dusk-800 font-medium">{mealLabels[day.meals] || day.meals}</span>
+                  <span class="text-dusk-800 font-medium">{day.meals ? (mealLabels[day.meals] || day.meals) : ''}</span>
                 </div>
               </div>
               <div class="flex items-start gap-2 text-sm">
