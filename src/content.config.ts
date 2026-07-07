@@ -36,7 +36,7 @@ const tourSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
   }).optional(),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Destinations ─────────────────────────────────────────────────────────
 const destinationSchema = z.object({
@@ -60,7 +60,7 @@ const destinationSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
   }).optional(),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Blog ─────────────────────────────────────────────────────────────────
 const blogSchema = z.object({
@@ -75,7 +75,7 @@ const blogSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
   }).optional(),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Kilimanjaro routes ───────────────────────────────────────────────────
 const kilimanjaroSchema = z.object({
@@ -95,7 +95,7 @@ const kilimanjaroSchema = z.object({
   startPoint: z.string().optional(),
   endPoint: z.string().optional(),
   highlights: z.array(z.string()).optional().default([]),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Trekking itineraries (Kilimanjaro, Meru, etc.) ───────────────────────
 const trekkingSchema = z.object({
@@ -130,7 +130,7 @@ const trekkingSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
   }).optional(),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Experiences ──────────────────────────────────────────────────────────
 const experienceSchema = z.object({
@@ -146,7 +146,7 @@ const experienceSchema = z.object({
   priceNote: z.string().optional(),
   highlights: z.array(z.string()).optional().default([]),
   sampleItinerary: z.array(z.any()).optional().default([]),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Testimonials ─────────────────────────────────────────────────────────
 const testimonialSchema = z.object({
@@ -158,7 +158,7 @@ const testimonialSchema = z.object({
   travelerType: z.string(),
   guide: z.string().optional(),
   featured: z.boolean().default(false),
-}).passthrough();
+}).catchall(z.any());
 
 // ─── Collection definitions ──────────────────────────────────────────────
 const tours = defineCollection({

@@ -4,7 +4,7 @@ import { zanzibarAreas, zanzibarAreaBySlug } from '@/data/zanzibar-areas';
 import { getCollection } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
 import {
-  ArrowRight, ArrowLeft, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship, Check,
+  ArrowRight, ArrowLeft, MapPin, Calendar, WavesHorizontal, Camera, Trees, Check,
 } from '@lucide/astro';
 
 export async function getStaticPaths() {
@@ -26,22 +26,21 @@ const monthOrder = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const monthMap: Record<string, string> = Object.fromEntries(monthOrder.map((m, i) => [m, monthShort[i]]));
 const bestTimeOrdered = monthOrder.map((m) => {
   const found = area.bestTime.find((bt) => bt.month === m);
   return { month: m, short: monthShort[monthOrder.indexOf(m)], rating: found?.rating ?? 'low' };
 });
 
-const regionIcons: Record<string, typeof Waves> = {
+const regionIcons: Record<string, typeof WavesHorizontal> = {
   'Stone Town': Camera,
-  'North Coast': Waves,
-  'Northeast Coast': Waves,
-  'East Coast': Waves,
-  'South Coast': Waves,
-  'West Coast': Waves,
+  'North Coast': WavesHorizontal,
+  'Northeast Coast': WavesHorizontal,
+  'East Coast': WavesHorizontal,
+  'South Coast': WavesHorizontal,
+  'West Coast': WavesHorizontal,
   'Inland': Trees,
 };
-const RegionIcon = regionIcons[area.region] ?? Waves;
+const RegionIcon = regionIcons[area.region] ?? WavesHorizontal;
 
 const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
   high: 'bg-safari-600 text-white border-safari-700',
@@ -338,7 +337,7 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
     </div>
   </section>
 
-  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
     name: `${area.name}, Zanzibar`,

@@ -1,23 +1,21 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { zanzibarAreas, zanzibarRegions } from '@/data/zanzibar-areas';
+import { zanzibarAreas } from '@/data/zanzibar-areas';
 import { getCollection } from 'astro:content';
-import { ArrowRight, MapPin, Calendar, Sparkles, Waves, Camera, Heart, Tent, UtensilsCrossed, Trees, Ship } from '@lucide/astro';
+import { ArrowRight, WavesHorizontal, Camera, UtensilsCrossed, Ship, Trees } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
 const areas = [...zanzibarAreas].sort((a, b) => a.order - b.order);
-const regions = zanzibarRegions();
 
 const allTours = await getCollection('tours');
 const zanzibarTours = allTours.filter((t) => t.data.type === 'zanzibar').slice(0, 3);
 
-const regionIcons: Record<string, typeof Waves> = {
-  'Stone Town': Camera,
-  'North Coast': Waves,
-  'Northeast Coast': Waves,
-  'East Coast': Waves,
-  'South Coast': Waves,
-  'West Coast': Waves,
+const regionIcons: Record<string, typeof WavesHorizontal> = {
+  'North Coast': WavesHorizontal,
+  'Northeast Coast': WavesHorizontal,
+  'East Coast': WavesHorizontal,
+  'South Coast': WavesHorizontal,
+  'West Coast': WavesHorizontal,
   'Inland': Trees,
 };
 
@@ -39,11 +37,6 @@ const monthColorMap: Record<'high' | 'med' | 'low', string> = {
   med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
   low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
 };
-
-function getAreaRating(area: typeof areas[number], month: string): 'high' | 'med' | 'low' {
-  const found = area.bestTime.find((bt) => bt.month === month);
-  return found?.rating ?? 'low';
-}
 
 const bestArea = areas[0];
 ---
@@ -133,7 +126,7 @@ const bestArea = areas[0];
         <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
           <div class="bg-white rounded-2xl p-6 border border-dusk-100 shadow-soft">
             <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center mb-4">
-              <Waves size={20} />
+              <WavesHorizontal size={20} />
             </span>
             <h3 class="font-display text-xl text-safari-900 mb-2">Beach for every mood</h3>
             <p class="text-sm text-dusk-600 leading-relaxed">Lively sunsets in Nungwi, quiet luxury in Kendwa, kitesurfing in Paje, fishing-village life in Jambiani. Pick the beach that fits you.</p>
@@ -179,7 +172,7 @@ const bestArea = areas[0];
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {areas.map((area) => {
-          const Icon = regionIcons[area.region] ?? Waves;
+          const Icon = regionIcons[area.region] ?? WavesHorizontal;
           return (
             <a
               href={`/zanzibar/${area.slug}`}
@@ -456,7 +449,7 @@ const bestArea = areas[0];
   </section>
 
   <!-- JSON-LD: ItemList of 8 areas -->
-  <script type="application/ld+json" set:html={JSON.stringify(withPublisher({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Zanzibar Areas',

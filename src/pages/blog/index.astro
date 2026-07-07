@@ -1,7 +1,7 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
-import { ArrowRight, BookOpen, Calendar, Clock, Tag } from '@lucide/astro';
+import { ArrowRight, Calendar, Clock, Tag } from '@lucide/astro';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => new Date(b.data.publishedAt || 0).getTime() - new Date(a.data.publishedAt || 0).getTime());

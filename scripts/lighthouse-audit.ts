@@ -86,4 +86,4 @@ for (const r of results) {
   console.log(`Perf:${p}  A11y:${a}  BP:${b}  SEO:${s}  ${r.url}`);
 }
 
-await chrome.kill();
+chrome.kill();
