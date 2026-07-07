@@ -21,7 +21,7 @@ const trek = await getEntry('trekking', id);
 if (!trek) return Astro.rewrite('/404');
 
 const route = await getEntry('kilimanjaro', trek.data.route);
-const { Content } = await render(trek);
+const { Content } = await render(trek as any);
 
 const difficultyLabel: Record<string, string> = {
   easy: 'Easy',

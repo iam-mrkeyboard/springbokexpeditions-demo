@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const destination = await getEntry('destinations', slug!);
-const { Content } = await render(destination);
+const { Content } = await render(destination as any);
 
 const regionIcons: Record<string, typeof TreePalm> = {
   'Northern Circuit': TreePalm,

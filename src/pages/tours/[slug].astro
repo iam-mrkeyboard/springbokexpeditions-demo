@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const tour = await getEntry('tours', slug!);
-const { Content } = await render(tour);
+const { Content } = await render(tour as any);
 
 const typeLabels: Record<string, string> = {
   safari: 'Wildlife Safari',
