@@ -1,27 +1,31 @@
 ---
 import { Map, Mountain, Users, Umbrella, ArrowRight } from '@lucide/astro';
 
+const iconMap: Record<string, any> = {
+  Map, Mountain, Users, Umbrella,
+};
+
 const features = [
   {
-    icon: Map,
+    icon: 'Map',
     title: 'Wildlife Safaris',
     body: 'Track the Big Five across the Serengeti, Ngorongoro Crater, and Tarangire with expert local guides who know every watering hole and pride of lions.',
     link: '/tours?style=wildlife',
   },
   {
-    icon: Mountain,
+    icon: 'Mountain',
     title: 'Kilimanjaro Climbs',
     body: 'Choose from seven routes to the Roof of Africa. Our 95% summit success rate comes from careful acclimatization and experienced mountain crews.',
     link: '/kilimanjaro',
   },
   {
-    icon: Umbrella,
+    icon: 'Umbrella',
     title: 'Zanzibar',
     body: 'Trade safari dust for white-sand beaches, turquoise water, ancient Stone Town, and dhow sails at sunset. The perfect ending to your Tanzanian adventure.',
     link: '/zanzibar',
   },
   {
-    icon: Users,
+    icon: 'Users',
     title: 'Cultural Encounters',
     body: "Walk with Maasai warriors, hunt with the Hadzabe, and learn to cook Swahili cuisine in Stone Town. Real connections, not staged performances.",
     link: '/experiences/cultural',
@@ -41,22 +45,22 @@ const features = [
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {features.map((f) => (
-        <a
-          href={f.link}
-          class="card card-hover p-8 group block"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
-            <f.icon size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
-          </div>
-          <h3 class="font-display text-xl font-medium text-safari-900 mb-3">{f.title}</h3>
-          <p class="text-sm text-dusk-700 leading-relaxed mb-4">{f.body}</p>
-          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
-            Learn more
-            <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
-          </span>
-        </a>
-      ))}
+      {features.map((f) => {
+        const Icon = f.icon ? iconMap[f.icon] : null;
+        return (
+          <a href={f.link} class="card card-hover p-8 group block">
+            <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
+              {Icon ? <Icon size={26} class="text-savannah-700 group-hover:text-white transition-colors" /> : null}
+            </div>
+            <h3 class="font-display text-xl font-medium text-safari-900 mb-3">{f.title}</h3>
+            <p class="text-sm text-dusk-700 leading-relaxed mb-4">{f.body}</p>
+            <span class="inline-flex items-center gap-1.5 text-sm font-medium text-savannah-700 group-hover:text-sunset-500 transition-colors">
+              Learn more
+              <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
+            </span>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>
