@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const exp = await getEntry('experiences', slug!);
+const exp = (await getEntry('experiences', slug!))!;
 const { Content } = await render(exp as any);
 
 const allTours = await getCollection('tours');

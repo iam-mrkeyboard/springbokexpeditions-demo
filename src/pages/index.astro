@@ -66,7 +66,7 @@ const typeLabels: Record<string, string> = {
 
 const featuredTours = allTours
   .filter((t) => t.data.featured)
-  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+  .sort((a, b) => new Date(b.data.publishedAt ?? '').getTime() - new Date(a.data.publishedAt ?? '').getTime())
   .slice(0, 8)
   .map((tour) => ({
     slug: tour.id,

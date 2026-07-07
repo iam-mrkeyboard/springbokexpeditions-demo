@@ -9,7 +9,7 @@ const posts = (await getCollection('blog'))
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 const [featured, ...rest] = posts;
 
-function formatDate(d: string | undefined): string {
+function formatDate(d: string | Date | undefined): string {
   if (!d) return '';
   return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }

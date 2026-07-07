@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { area: areaSlug } = Astro.params;
-const area = zanzibarAreaBySlug(areaSlug!);
+const area = zanzibarAreaBySlug(areaSlug!)!;
 const allTours = await getCollection('tours');
 const relatedTours = allTours.filter((t) => t.data.type === 'zanzibar' || t.data.destinations.includes('zanzibar-archipelago')).slice(0, 3);
 
