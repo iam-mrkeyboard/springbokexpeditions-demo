@@ -11,10 +11,6 @@ interface Props {
 
 const { transparent = false } = Astro.props;
 
-const destHighlights = await getCollection('destinations', (entry) =>
-  ['serengeti-national-park', 'ngorongoro-crater', 'tarangire-national-park', 'zanzibar-archipelago', 'lake-manyara-national-park'].includes(entry.id)
-);
-
 const kiliTreks = (await getCollection('trekking'))
   .filter((t) => t.data.mountain === 'kilimanjaro')
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
@@ -54,11 +50,13 @@ const navItems = [
     label: 'Destinations',
     href: '/destinations',
     children: [
-      ...destHighlights.map((d) => ({
-        label: d.data.name,
-        href: `/destinations/${d.id}`,
-        desc: d.data.summary.slice(0, 60) + (d.data.summary.length > 60 ? '…' : ''),
-      })),
+      { label: 'Serengeti', href: '/destinations/serengeti-national-park', desc: 'Great Migration · 14,763 km²' },
+      { label: 'Ngorongoro', href: '/destinations/ngorongoro-crater', desc: "World's largest caldera · 19 km wide" },
+      { label: 'Tarangire', href: '/destinations/tarangire-national-park', desc: 'Elephants · Ancient baobabs' },
+      { label: 'Lake Manyara', href: '/destinations/lake-manyara-national-park', desc: 'Tree-climbing lions · Flamingos' },
+      { label: 'Kilimanjaro', href: '/kilimanjaro', desc: 'Roof of Africa · 5,895m' },
+      { label: 'Mount Meru', href: '/mount-meru', desc: '4,566m · Best Kili acclimatization' },
+      { label: 'Zanzibar Beach', href: '/destinations/zanzibar-archipelago', desc: 'Spice Island · White sand beaches' },
     ],
   },
   {
