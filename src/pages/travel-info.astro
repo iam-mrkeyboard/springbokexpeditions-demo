@@ -42,7 +42,7 @@ const visasByNationality = [
   { country: 'Canada', requirement: 'eVisa required', cost: '$100', notes: 'Multiple-entry available' },
   { country: 'Australia', requirement: 'eVisa required', cost: '$50', notes: 'Multiple-entry available' },
   { country: 'Most others', requirement: 'eVisa required', cost: '$50', notes: 'Check visa.immigration.go.tz' },
-  { country: 'East Africa (KE, UG, RW)', requirement: 'Visa-free', cost: 'Free', notes: 'ID card sufficient' },
+  { country: 'East Africa (UG, RW)', requirement: 'Visa-free', cost: 'Free', notes: 'ID card sufficient' },
   { country: 'SADC members', requirement: 'Visa-free', cost: 'Free', notes: 'Passport required' },
 ];
 
@@ -52,7 +52,6 @@ const airlines = [
   { name: 'Turkish Airlines', route: 'Istanbul (IST) → Kilimanjaro (JRO)', notes: 'Daily, via Istanbul' },
   { name: 'Emirates', route: 'Dubai (DXB) → Dar es Salaam (DAR)', notes: 'Daily, via Dubai' },
   { name: 'Ethiopian Airlines', route: 'Addis Ababa (ADD) → Kilimanjaro (JRO)', notes: 'Daily, via Addis Ababa' },
-  { name: 'Kenya Airways', route: 'Nairobi (NBO) → Kilimanjaro (JRO)', notes: 'Multiple daily, via Nairobi' },
   { name: 'South African Airways', route: 'Johannesburg (JNB) → Kilimanjaro (JRO)', notes: 'Several per week' },
 ];
 
@@ -267,7 +266,7 @@ const faqs = [
           Visas and entry
         </h2>
         <p class="text-dusk-700 leading-relaxed text-lg">
-          Most visitors need an eVisa, applied for online before travel. East African passports (Kenya, Uganda, Rwanda) and most SADC members are visa-free. Your passport must be valid for 6+ months with at least 2 blank pages.
+          Most visitors need an eVisa, applied for online before travel. East African passports (Uganda, Rwanda) and most SADC members are visa-free. Your passport must be valid for 6+ months with at least 2 blank pages.
         </p>
       </div>
 
@@ -303,7 +302,7 @@ const faqs = [
             <h3 class="font-display text-lg text-safari-900 mb-2">A few practical notes</h3>
             <ul class="text-sm text-dusk-700 space-y-2">
               <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>Apply at least 2 weeks before travel at <a href="https://visa.immigration.go.tz" class="text-safari-700 underline hover:text-safari-900">visa.immigration.go.tz</a>. Avoid third-party sites that add a fee.</li>
-              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>The US$100 visa for US and Canadian passports is the multiple-entry tourist visa — well worth it if you plan to combine with Kenya.</li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>The US$100 visa for US and Canadian passports is the multiple-entry tourist visa — well worth it if you plan to make multiple entries.</li>
               <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>A visa-on-arrival option exists, but we recommend the eVisa — it's faster, cheaper, and avoids the queue at JRO.</li>
               <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-safari-600 flex-shrink-0 mt-2"></span>Yellow fever certificate is required only if arriving from a country with risk of transmission.</li>
             </ul>
