@@ -3,7 +3,7 @@ import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
 import {
-  ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird, Wind
+  ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird, Wind, Clock, Activity, DollarSign, Info, ShieldCheck, Mail
 } from '@lucide/astro';
 
 export async function getStaticPaths() {
@@ -42,11 +42,12 @@ const ratingColorMap: Record<'high' | 'low', string> = {
 ---
 
 <PublicLayout
-  title={`${exp.data.name} — Tanzania Safari Experience`}
+  title={`${exp.data.name} — Tanzania Safari Activities`}
   description={exp.data.summary}
   transparentHeader={true}
 >
-  <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
+  <!-- Hero Banner -->
+  <section class="relative h-[70vh] min-h-[500px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src={exp.data.hero}
       alt={exp.data.name}
@@ -55,251 +56,310 @@ const ratingColorMap: Record<'high' | 'low', string> = {
       fetchpriority="high"
     />
     <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
 
-    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16 pt-32">
       <div class="max-w-3xl">
-        <a href="/experiences" class="inline-flex items-center gap-2 text-savannah-300 hover:text-savannah-200 text-xs uppercase tracking-[0.18em] mb-5 md:mb-6 transition-colors">
+        <a href="/experiences" class="inline-flex items-center gap-2 text-savannah-300 hover:text-savannah-200 text-xs uppercase tracking-[0.18em] mb-4 transition-colors font-medium">
           <ArrowLeft size={14} />
-          All experiences
+          All experiences & activities
         </a>
 
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-xs uppercase tracking-wider mb-4">
-          <ExpIcon size={12} />
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur border border-white/20 text-xs uppercase tracking-wider mb-4 font-semibold">
+          <ExpIcon size={12} class="text-savannah-300" />
           {exp.data.duration}
         </div>
 
-        <h1 class="font-display text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6">
+        <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-4">
           {exp.data.name}
         </h1>
 
-        <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light">
+        <p class="text-base sm:text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light">
           {exp.data.tagline}
         </p>
       </div>
     </div>
   </section>
 
-  <section class="bg-safari-900 text-white border-b border-white/10">
+  <!-- Fast Facts Strip -->
+  <section class="bg-safari-900 text-white border-b border-white/10 py-5">
     <div class="container-content">
-      <div class="grid grid-cols-2 md:grid-cols-3 divide-x divide-white/10">
-        <div class="px-4 md:px-6 py-5 md:py-6 border-l-0">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Duration</p>
-          <p class="font-display text-xl md:text-2xl text-white">{exp.data.duration}</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-4 divide-x divide-white/10">
+        <div class="px-4">
+          <p class="text-[9px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1 flex items-center gap-1.5"><Clock size={11} />Duration</p>
+          <p class="font-display text-sm md:text-base text-white font-medium">{exp.data.duration}</p>
         </div>
-        <div class="px-4 md:px-6 py-5 md:py-6">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Best months</p>
-          <p class="text-sm md:text-base text-white">{exp.data.bestMonths.slice(0, 3).join(', ')}{exp.data.bestMonths.length > 3 ? '…' : ''}</p>
+        <div class="px-4 border-l-0 sm:border-l border-white/10">
+          <p class="text-[9px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1 flex items-center gap-1.5"><MapPin size={11} />Location</p>
+          <p class="font-display text-sm md:text-base text-white font-medium truncate">{exp.data.location}</p>
         </div>
-        <div class="px-4 md:px-6 py-5 md:py-6">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Location</p>
-          <p class="text-sm md:text-base text-white">{exp.data.location}</p>
+        <div class="px-4 border-l-0 md:border-l border-white/10">
+          <p class="text-[9px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1 flex items-center gap-1.5"><DollarSign size={11} />Price Guide</p>
+          <p class="font-display text-sm md:text-base text-white font-medium text-savannah-300 font-semibold">{exp.data.pricingLevel ?? '$$'}</p>
+        </div>
+        <div class="px-4">
+          <p class="text-[9px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1 flex items-center gap-1.5"><Activity size={11} />Activity Level</p>
+          <p class="font-display text-sm md:text-base text-white font-medium">{exp.data.activityLevel ?? 'Easy'}</p>
+        </div>
+        <div class="px-4">
+          <p class="text-[9px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1 flex items-center gap-1.5"><Heart size={11} />Ideal For</p>
+          <p class="font-display text-xs md:text-sm text-white font-medium line-clamp-1">{exp.data.idealFor?.join(', ') ?? 'All Travelers'}</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Main Body Column Layout -->
   <section class="section bg-dusk-50">
     <div class="container-content">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
-        <div class="lg:col-span-7">
-          <p class="eyebrow text-safari-600 mb-4">About this experience</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
-            {exp.data.tagline}
-          </h2>
-          <div class="prose prose-lg max-w-none text-dusk-700 leading-relaxed space-y-5">
-            {exp.data.description ? (
-              <p class="text-lg whitespace-pre-line">{exp.data.description}</p>
-            ) : (
-              <p class="text-lg">{exp.data.summary}</p>
-            )}
-            <Content />
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Left Main Content Column -->
+        <div class="lg:col-span-8 space-y-10">
+          
+          <!-- About Section -->
+          <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-6">
+            <h2 class="text-2xl md:text-3xl font-display font-medium text-safari-900 flex items-center gap-2 pb-4 border-b border-dusk-100">
+              <Info size={20} class="text-safari-600" />
+              Overview of the Experience
+            </h2>
+            <div class="prose prose-lg max-w-none text-dusk-700 leading-relaxed space-y-5">
+              {exp.data.description ? (
+                <p class="text-base md:text-lg whitespace-pre-line leading-relaxed">{exp.data.description}</p>
+              ) : (
+                <p class="text-base md:text-lg leading-relaxed">{exp.data.summary}</p>
+              )}
+              <Content />
+            </div>
           </div>
-        </div>
 
-        <aside class="lg:col-span-5 space-y-6">
-          <div class="bg-white rounded-2xl border border-dusk-100 shadow-soft p-6 md:p-8">
-            <p class="eyebrow text-savannah-700 mb-3">Add to your itinerary</p>
-            <p class="text-dusk-700 leading-relaxed mb-6">
-              This activity can be added to any custom safari itinerary. Let us know you'd like to include it when planning your trip.
-            </p>
+          <!-- Why Choose this Activity -->
+          <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6 md:p-8 space-y-5">
+            <h3 class="text-xl font-display font-medium text-safari-900">What Makes This Activity Special</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+              {exp.data.highlights?.map((h: string) => (
+                <div class="flex items-start gap-3 bg-white p-4 rounded-xl border border-dusk-100">
+                  <span class="w-6 h-6 rounded-full bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check size={12} />
+                  </span>
+                  <p class="text-sm text-dusk-800 leading-relaxed font-medium">{h}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <a href={`/contact?subject=activity&slug=${exp.id}`} class="btn btn-primary w-full justify-center">
-              Inquire about this activity
-              <ArrowRight size={16} />
-            </a>
-            <a href="/tours" class="btn btn-outline w-full justify-center mt-3 border border-dusk-300 text-dusk-800 hover:bg-dusk-50">
-              See ready-made tours
-            </a>
-
-            {exp.data.priceNote && (
-              <div class="border-t border-dusk-100 mt-6 pt-6">
-                <p class="text-xs text-dusk-500 leading-relaxed">{exp.data.priceNote}</p>
+          <!-- Step-By-Step Timeline -->
+          {exp.data.timeline && exp.data.timeline.length > 0 && (
+            <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-8">
+              <div>
+                <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Program Timeline</h3>
+                <p class="text-sm text-dusk-500">Hour-by-hour outline of how the activity unfolds</p>
               </div>
-            )}
-          </div>
 
-          {(exp.data as any).relatedLinks?.length > 0 && (
-            <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6">
-              <p class="eyebrow text-safari-700 mb-4">Related</p>
-              <div class="space-y-3">
-                {(exp.data as any).relatedLinks?.map((l: any) => (
-                  <a
-                    href={l.href}
-                    class="group flex items-start gap-3 p-3 rounded-lg hover:bg-white transition-colors"
-                  >
-                    <span class="w-8 h-8 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
-                      <MapPin size={14} />
+              <div class="relative border-l-2 border-safari-100 ml-4 md:ml-6 space-y-8 pb-2">
+                {exp.data.timeline.map((step: any) => (
+                  <div class="ml-6 md:ml-8 relative">
+                    <span class="absolute -left-[35px] md:-left-[43px] top-1 w-6 h-6 rounded-full bg-safari-600 text-white border-4 border-white flex items-center justify-center text-[9px] font-bold shadow-sm">
+                      ●
                     </span>
-                    <div class="flex-1 min-w-0">
-                      <p class="font-medium text-safari-900 group-hover:text-safari-700 transition-colors">{l.label}</p>
-                      {l.description && (
-                        <p class="text-xs text-dusk-600 mt-0.5">{l.description}</p>
-                      )}
+                    <div>
+                      <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-savannah-700 bg-savannah-50 px-2 py-0.5 rounded mb-1">
+                        {step.time}
+                      </span>
+                      <h4 class="font-display text-lg text-safari-900 mb-1">{step.title}</h4>
+                      <p class="text-sm text-dusk-600 leading-relaxed font-light">{step.body}</p>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             </div>
           )}
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <section class="section bg-white">
-    <div class="container-content max-w-4xl">
-      <p class="eyebrow text-safari-600 mb-3 text-center">When to go</p>
-      <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-10 text-center">
-        Best time for a {exp.data.name.toLowerCase()}
-      </h2>
-
-      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-4">
-        {bestTimeOrdered.map((m) => (
-          <div class={`rounded-xl border p-3 text-center ${ratingColorMap[m.rating]}`}>
-            <p class="text-xs font-semibold uppercase tracking-wider">{m.short}</p>
-            <p class="text-[10px] mt-1 uppercase tracking-wider opacity-80">
-              {m.rating === 'high' ? 'Peak' : 'Off'}
-            </p>
-          </div>
-        ))}
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-dusk-600">
-        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-safari-600"></span>Best months</span>
-        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-dusk-200"></span>Other months</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section bg-dusk-50">
-    <div class="container-content">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="eyebrow text-safari-600 mb-3">What's included</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
-          What makes this trip different
-        </h2>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-        {exp.data.highlights.map((highlight) => (
-          <div class="flex items-start gap-3 p-5 rounded-xl bg-white border border-dusk-100">
-            <span class="w-8 h-8 rounded-lg bg-savannah-100 text-savannah-700 flex items-center justify-center flex-shrink-0">
-              <Check size={16} />
-            </span>
-            <p class="text-dusk-800 leading-relaxed">{highlight}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  {exp.data.sampleItinerary && exp.data.sampleItinerary.length > 0 && (
-    <section class="section bg-white">
-      <div class="container-content max-w-4xl">
-        <div class="text-center mb-12">
-          <p class="eyebrow text-safari-600 mb-3">Sample itinerary</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
-            How the days could look
-          </h2>
-          <p class="text-dusk-700 leading-relaxed max-w-2xl mx-auto">
-            This is one possible version of a 1-day {exp.data.name.toLowerCase()}. Most of our clients change something — a Zanzibar extension, a Kilimanjaro climb, an extra night at one of the lodges.
-          </p>
-        </div>
-
-        <ol class="relative border-l-2 border-safari-200 ml-3 md:ml-6 space-y-8">
-          {exp.data.sampleItinerary.map((day: any) => (
-            <li class="ml-6 md:ml-10 relative">
-              <span class="absolute -left-[34px] md:-left-[46px] top-1.5 w-6 h-6 rounded-full bg-safari-600 text-white flex items-center justify-center text-[10px] font-semibold">
-                {day.day}
-              </span>
+          <!-- Trusted Partners Section (E.g. Hot Air Balloon Operators) -->
+          {exp.data.partners && exp.data.partners.length > 0 && (
+            <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-6">
               <div>
-                <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-1">
-                  Day {day.day}{day.location ? ` · ${day.location}` : ''}
-                </p>
-                <h3 class="font-display text-xl text-safari-900 mb-2">{day.title}</h3>
-                <p class="text-dusk-700 leading-relaxed">{day.body}</p>
+                <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Our Trusted Partners</h3>
+                <p class="text-sm text-dusk-500">We collaborate strictly with the safest, licensed operators in Tanzania</p>
               </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  )}
+              <div class="grid sm:grid-cols-2 gap-4">
+                {exp.data.partners.map((partner: any) => (
+                  <div class="p-5 rounded-xl border border-dusk-100 bg-dusk-50/50 hover:border-safari-200 hover:bg-white transition-all">
+                    <h4 class="font-display text-base text-safari-900 font-semibold mb-2 flex items-center gap-1.5">
+                      <ShieldCheck size={16} class="text-safari-600" />
+                      {partner.name}
+                    </h4>
+                    <p class="text-xs text-dusk-600 leading-relaxed font-light">{partner.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-  {(exp.data as any).faqs?.length > 0 && (
-    <section class="section bg-white">
-      <div class="container-content max-w-3xl">
-        <div class="text-center mb-12">
-          <p class="eyebrow text-safari-600 mb-3">Common questions</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
-            Booking {exp.data.name.toLowerCase()}
-          </h2>
+          <!-- Seasonality Calendar -->
+          <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-6">
+            <div>
+              <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Best Time to Go</h3>
+              <p class="text-sm text-dusk-500">Overview of peak operational months for this activity</p>
+            </div>
+            
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              {bestTimeOrdered.map((t) => (
+                <div class={`rounded-xl border p-3 text-center transition-all ${ratingColorMap[t.rating]} shadow-sm`}>
+                  <p class="text-xs font-bold uppercase tracking-wider">{t.short}</p>
+                  <p class="text-[9px] uppercase tracking-widest mt-1 opacity-90 font-medium">
+                    {t.rating === 'high' ? 'Peak' : '—'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- FAQ Accordions -->
+          {exp.data.faqs && exp.data.faqs.length > 0 && (
+            <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-6">
+              <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Frequently Asked Questions</h3>
+              <div class="space-y-3">
+                {exp.data.faqs.map((f: any) => (
+                  <details class="group bg-dusk-50 rounded-xl border border-dusk-100 overflow-hidden transition-all">
+                    <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-5 hover:bg-dusk-100 transition-colors font-medium">
+                      <h4 class="font-display text-sm md:text-base text-safari-900">{f.q}</h4>
+                      <span class="w-6 h-6 rounded-full bg-white border border-dusk-200 flex items-center justify-center flex-shrink-0 transition-transform group-open:rotate-45">
+                        <span class="w-2.5 h-2.5 relative block">
+                          <span class="absolute top-1/2 left-0 w-full h-px bg-safari-900 -translate-y-1/2"></span>
+                          <span class="absolute top-0 left-1/2 h-full w-px bg-safari-900 -translate-x-1/2"></span>
+                        </span>
+                      </span>
+                    </summary>
+                    <div class="px-5 pb-5 pt-1 text-xs md:text-sm text-dusk-600 leading-relaxed border-t border-dusk-100/50">
+                      {f.a}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
-        <div class="space-y-3">
-          {(exp.data as any).faqs?.map((f: any) => (
-            <details class="group bg-dusk-50 rounded-xl border border-dusk-100 overflow-hidden">
-              <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-5 hover:bg-dusk-100 transition-colors">
-                <h3 class="font-display text-base md:text-lg text-safari-900">{f.q}</h3>
-                <span class="w-7 h-7 rounded-full bg-white border border-dusk-200 flex items-center justify-center flex-shrink-0 transition-transform group-open:rotate-45">
-                  <span class="w-3 h-3 relative block">
-                    <span class="absolute top-1/2 left-0 w-full h-px bg-safari-900 -translate-y-1/2"></span>
-                    <span class="absolute top-0 left-1/2 h-full w-px bg-safari-900 -translate-x-1/2"></span>
-                  </span>
-                </span>
-              </summary>
-              <div class="px-5 pb-5 text-dusk-700 leading-relaxed">
-                {f.a}
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+        <!-- Right Side Sticky Panel Column -->
+        <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+          
+          <!-- Booking Inquiry Form -->
+          <div class="bg-white rounded-2xl border border-dusk-100 shadow-md p-6 md:p-8">
+            <h3 class="text-xl font-display font-medium text-safari-900 mb-2 flex items-center gap-2">
+              <Mail size={18} class="text-safari-600" />
+              Inquire About Activity
+            </h3>
+            <p class="text-xs text-dusk-500 leading-relaxed mb-5">
+              Add this standalone activity to your custom safari plan. Fill out details to request pricing and booking.
+            </p>
 
-  <section class="section bg-dusk-50">
+            <form id="inquiryForm" class="space-y-4">
+              <div>
+                <label for="name" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Your Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  required
+                  placeholder="e.g. John Doe"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Your Email *</label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  placeholder="e.g. john@example.com"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
+                />
+              </div>
+
+              <div>
+                <label for="subject" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Subject</label>
+                <input
+                  type="text"
+                  id="subject"
+                  value={`Inquiry: ${exp.data.name}`}
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 bg-dusk-50 text-dusk-700 text-sm"
+                  readonly
+                />
+              </div>
+
+              <div>
+                <label for="message" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Additional Details</label>
+                <textarea
+                  id="message"
+                  rows="3"
+                  placeholder="Tell us your dates, group size, and any questions..."
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-full justify-center py-3 text-sm font-semibold rounded-xl mt-2">
+                Submit Inquiry
+                <ArrowRight size={14} />
+              </button>
+            </form>
+
+            <div id="successMessage" class="hidden bg-safari-50 border border-safari-200 text-safari-800 rounded-xl p-5 text-center mt-4 font-sans">
+              <p class="font-medium mb-1">Inquiry Sent Successfully!</p>
+              <p class="text-xs text-dusk-600">Our safari team will email you a custom quote within 24 hours.</p>
+            </div>
+          </div>
+
+          <!-- Need to Know & Packing list -->
+          {exp.data.needToKnow && exp.data.needToKnow.length > 0 && (
+            <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6">
+              <h4 class="text-sm font-bold uppercase tracking-wider text-safari-900 mb-4 flex items-center gap-1.5">
+                <Info size={14} class="text-safari-600" />
+                Need to Know
+              </h4>
+              <ul class="space-y-3">
+                {exp.data.needToKnow.map((item: string) => (
+                  <li class="flex items-start gap-2.5 text-xs text-dusk-700">
+                    <span class="w-1.5 h-1.5 rounded-full bg-savannah-500 flex-shrink-0 mt-1.5"></span>
+                    <span class="leading-relaxed font-light">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Compare section -->
+  <section class="section bg-white border-t border-dusk-100">
     <div class="container-content">
       <div class="flex items-end justify-between mb-8">
         <div>
-          <p class="eyebrow text-safari-600 mb-3">Compare</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900">
-            Other Tanzania experiences
+          <p class="eyebrow text-safari-600 mb-2">Compare</p>
+          <h2 class="text-display-sm font-display font-medium tracking-tight text-safari-900">
+            Other Safari Experiences
           </h2>
         </div>
         <a href="/experiences" class="hidden md:inline-flex items-center gap-2 text-safari-700 hover:text-safari-900 font-medium">
-          See all 7
+          See all 7 activities
           <ArrowRight size={16} />
         </a>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {otherExperiences.map((e) => {
           const OtherIcon = iconMap[e.data.icon ?? ''] ?? Sparkles;
           return (
             <a
               href={`/experiences/${e.id}`}
-              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
+              class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
             >
-              <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
+              <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
                 <img
                   src={e.data.hero}
                   alt={e.data.name}
@@ -307,14 +367,14 @@ const ratingColorMap: Record<'high' | 'low', string> = {
                   loading="lazy"
                   decoding="async"
                 />
-              </div>
-              <div class="p-5">
-                <div class="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-savannah-700 mb-2">
-                  <OtherIcon size={11} />
+                <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/90 backdrop-blur text-[9px] uppercase tracking-wider text-safari-800 font-bold">
+                  <OtherIcon size={10} />
                   {e.data.duration}
                 </div>
-                <h3 class="font-display text-xl text-safari-900 mb-2 group-hover:text-safari-700 transition-colors">{e.data.name}</h3>
-                <p class="text-sm text-dusk-600 leading-relaxed line-clamp-2">{e.data.tagline}</p>
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display text-lg text-safari-900 mb-1 group-hover:text-safari-700 transition-colors">{e.data.name}</h3>
+                <p class="text-xs text-dusk-600 leading-relaxed line-clamp-2 font-light">{e.data.tagline}</p>
               </div>
             </a>
           );
@@ -323,29 +383,19 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <section class="section bg-safari-900 text-white">
-    <div class="container-content">
-      <div class="max-w-3xl mx-auto text-center">
-        <p class="eyebrow text-savannah-300 mb-3">Ready to start?</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
-          Plan your {exp.data.name.toLowerCase()}
-        </h2>
-        <p class="text-lg text-dusk-100/90 mb-8">
-          Tell us your dates, your group, and what you want from the trip. We will send a draft itinerary within 24 hours.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href={`/contact?subject=experience&slug=${exp.id}`} class="btn btn-primary px-8 py-3.5">
-            Get a custom quote
-            <ArrowRight size={16} />
-          </a>
-          <a href="/experiences" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
-            Compare experiences
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Interactive script for inquiry form -->
+  <script is:inline>
+    const form = document.getElementById('inquiryForm');
+    const success = document.getElementById('successMessage');
+    
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.classList.add('hidden');
+      success.classList.remove('hidden');
+    });
+  </script>
 
+  <!-- Service Schema metadata -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(withPublisher({
     '@context': 'https://schema.org',
     '@type': 'Service',
