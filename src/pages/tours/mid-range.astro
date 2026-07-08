@@ -1,0 +1,15 @@
+---
+import CategoryPage from '@/components/templates/CategoryPage.astro';
+import { CATEGORY_CONFIG, getToursForCategory } from '@/lib/safari-categories';
+
+const matchingTours = await getToursForCategory('mid-range');
+const config = CATEGORY_CONFIG['mid-range'];
+---
+
+<CategoryPage
+  category={config.pluralLabel}
+  experienceSlug={config.experienceSlug}
+  categoryHref="/tours/mid-range"
+  whenToGo={config.whenToGo}
+  matchingTours={matchingTours}
+/>

@@ -1,0 +1,15 @@
+---
+import CategoryPage from '@/components/templates/CategoryPage.astro';
+import { CATEGORY_CONFIG, getToursForCategory } from '@/lib/safari-categories';
+
+const matchingTours = await getToursForCategory('family');
+const config = CATEGORY_CONFIG.family;
+---
+
+<CategoryPage
+  category={config.pluralLabel}
+  experienceSlug={config.experienceSlug}
+  categoryHref="/tours/family"
+  whenToGo={config.whenToGo}
+  matchingTours={matchingTours}
+/>

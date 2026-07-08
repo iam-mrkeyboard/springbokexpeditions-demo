@@ -1,26 +1,26 @@
 ---
-import { Leaf, Heart, Users, ShieldCheck } from '@lucide/astro';
+import { Leaf, Heart, Users, Compass } from '@lucide/astro';
 
 const promises = [
   {
-    icon: Leaf,
-    title: 'Sustainable Travel',
-    body: 'We partner with locally-owned lodges, employ Tanzanian guides, and contribute a portion of every trip to conservation in the parks we visit.',
-  },
-  {
-    icon: Heart,
-    title: 'Crafted, Not Packaged',
-    body: "Every itinerary starts with you. Tell us your style, pace, and dreams — we'll build around them, not hand you a brochure.",
+    icon: Compass,
+    title: 'Expertly Curated Safaris',
+    body: 'Whether it\'s the Great Migration in the Serengeti, the majestic Ngorongoro Crater, or trekking Mount Kilimanjaro, we provide tailor-made experiences that match your travel style.',
   },
   {
     icon: Users,
-    title: 'Born & Raised Here',
-    body: "Our guides grew up tracking wildlife in the Serengeti and summiting Kilimanjaro. That local knowledge is something you can't fake.",
+    title: 'Local Expertise',
+    body: 'Our guides are highly knowledgeable about Tanzania\'s wildlife, history, and hidden gems.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Safe & Supported',
-    body: '24/7 in-country support, licensed guides, insured vehicles, and emergency protocols. We handle the worry so you can enjoy the wonder.',
+    icon: Leaf,
+    title: 'Sustainable & Ethical Travel',
+    body: 'We support local communities and conservation efforts, ensuring responsible tourism.',
+  },
+  {
+    icon: Heart,
+    title: 'Personalized Service',
+    body: 'Whether you prefer luxury lodges or off-the-grid adventures, we design trips that suit your budget and preferences.',
   },
 ];
 ---
@@ -29,17 +29,19 @@ const promises = [
   <div class="container-content">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       <div>
-        <p class="eyebrow mb-4">Why Springbok</p>
+        <span class="inline-block bg-savannah-100 text-savannah-800 px-2 py-0.5 rounded text-[11px] font-bold tracking-wider uppercase mb-4">
+          Why Springbok
+        </span>
         <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
           A tour operator that <span class="italic text-savannah-700">actually lives</span> in Tanzania
         </h2>
         <p class="text-dusk-700 text-lg leading-relaxed mb-6">
-          We're not a booking platform. We're a small, locally-owned team based in Arusha — the gateway to every Tanzanian safari and the slopes of Kilimanjaro. When you travel with us, you travel with neighbors, not middlemen.
+          We're not a booking platform. We're a small, locally-owned team based in Arusha — the gateway to every Tanzanian safari.
         </p>
         <p class="text-dusk-700 text-lg leading-relaxed mb-8">
           That means better prices, real expertise, and the kind of flexibility that turns a good trip into an unforgettable one.
         </p>
-        <a href="/about" class="btn btn-secondary">Learn more about us</a>
+        <a href="/about" class="btn btn-secondary">Learn more</a>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">

@@ -148,6 +148,21 @@ const experienceSchema = z.object({
   sampleItinerary: z.array(z.any()).optional().default([]),
 }).catchall(z.any());
 
+// ─── Activities ───────────────────────────────────────────────────────────
+const activitySchema = z.object({
+  name: z.string(),
+  tagline: z.string().optional(),
+  summary: z.string().optional(),
+  description: z.string().optional(),
+  hero: z.string().optional(),
+  icon: z.string().optional(),
+  bestMonths: z.array(z.string()).optional().default([]),
+  duration: z.string().optional(),
+  location: z.string().optional(),
+  highlights: z.array(z.string()).optional().default([]),
+  order: z.number().optional(),
+}).catchall(z.any());
+
 // ─── Testimonials ─────────────────────────────────────────────────────────
 const testimonialSchema = z.object({
   name: z.string(),
@@ -186,6 +201,11 @@ const experiences = defineCollection({
   schema: experienceSchema,
 });
 
+const activities = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/activities' }),
+  schema: activitySchema,
+});
+
 const trekking = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/trekking' }),
   schema: trekkingSchema,
@@ -202,6 +222,7 @@ export const collections = {
   blog,
   kilimanjaro,
   experiences,
+  activities,
   trekking,
   testimonials,
 };

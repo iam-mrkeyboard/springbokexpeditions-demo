@@ -1,21 +1,21 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
-import { ArrowRight, Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird } from '@lucide/astro';
+import { ArrowRight, Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird, Wind } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 
-const experiences = (await getCollection('experiences'))
+const experiences = (await getCollection('activities'))
   .sort((a, b) => ((a.data as any).order as number) - ((b.data as any).order as number));
 
 const allTours = await getCollection('tours');
 const allTourCount = allTours.length;
 
 const iconMap: Record<string, typeof Heart> = {
-  Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird,
+  Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird, Wind,
 };
 
 const experienceStats = [
-  { value: '6', label: 'Curated experiences' },
+  { value: '7', label: 'Safari activities' },
   { value: `${allTourCount}+`, label: 'Ready-made tours' },
   { value: '24 hr', label: 'Quote turnaround' },
   { value: '100%', label: 'Private guides' },
@@ -89,8 +89,8 @@ const faqs = [
 ---
 
 <PublicLayout
-  title="Tanzania Safari Experiences — Honeymoon, Family, Migration & More"
-  description="Six ways to experience Tanzania: honeymoon, family, photography, the Great Migration, birding, and cultural. Built around what you want from the trip, with private guides and bespoke routes."
+  title="Tanzania Safari Activities & Experiences — Hot Air Balloon, Walking Safaris & More"
+  description="Seven ways to enhance your Tanzania safari: hot air balloon flights, walking safaris, cultural tours, night game drives, and more. Customize your perfect itinerary."
   ogImage="/og/experiences.png"
   transparentHeader={true}
 >
@@ -108,20 +108,20 @@ const faqs = [
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
-        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">Bespoke Tanzania safaris</p>
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">Safari Activities & Enhancements</p>
 
         <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
-          Six ways to<br />
+          Seven ways to<br />
           <span class="italic font-normal text-savannah-300">experience Tanzania.</span>
         </h1>
 
         <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
-          Every trip we build is a starting point. Pick a starting point below — honeymoon, family, photography, the Great Migration, birding, or cultural Tanzania — and we will design a route around what you actually want from the trip.
+          Make your safari unforgettable. Enhance your journey with our seven standalone activities—from soaring in a hot air balloon at sunrise to tracking wildlife on foot with armed rangers.
         </p>
 
         <div class="flex flex-wrap gap-4">
           <a href="#experiences" class="btn btn-primary px-7 py-3.5">
-            Browse the six experiences
+            Browse the seven experiences
             <ArrowRight size={16} />
           </a>
           <a href="/contact?subject=experiences" class="btn btn-outline-light px-7 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
@@ -150,12 +150,12 @@ const faqs = [
   <section id="experiences" class="section bg-dusk-50">
     <div class="container-content">
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="eyebrow text-safari-600 mb-3">The starting points</p>
+        <p class="eyebrow text-safari-600 mb-3">Activities</p>
         <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-4">
-          Six experiences, built from scratch
+          Seven ways to enhance your safari
         </h2>
         <p class="text-dusk-700 leading-relaxed">
-          Each one is a different way to come home from Tanzania. Pick the one that matches what you want from the trip — we will handle the rest.
+          Add unique experiences to your custom travel plan. Choose from the activities below to make your adventure truly your own.
         </p>
       </div>
 
@@ -177,7 +177,7 @@ const faqs = [
                 />
                 <div class="absolute top-3 left-3 inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-[10px] uppercase tracking-[0.18em] text-safari-800 font-medium">
                   <Icon size={12} />
-                  {exp.data.durationDays} days
+                  {exp.data.duration}
                 </div>
               </div>
               <div class="p-6 flex flex-col flex-1">
