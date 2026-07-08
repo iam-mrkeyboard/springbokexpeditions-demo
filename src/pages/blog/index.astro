@@ -146,44 +146,4 @@ function formatDate(d: string | Date | undefined): string {
     </div>
   </section>
 
-  <!-- Tags -->
-  {allTags.length > 0 && (
-    <section class="section bg-dusk-50">
-      <div class="container-content">
-        <div class="text-center max-w-2xl mx-auto">
-          <p class="eyebrow text-safari-600 mb-3">Browse by topic</p>
-          <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-safari-900 mb-6">
-            What you want to read about
-          </h2>
-          <div class="flex flex-wrap justify-center gap-2">
-            {allTags.map((t) => (
-              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-dusk-200 text-sm text-safari-800">
-                <Tag size={12} />
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- CTA -->
-  <section class="section bg-safari-900 text-white">
-    <div class="container-content">
-      <div class="max-w-3xl mx-auto text-center">
-        <p class="eyebrow text-savannah-300 mb-3">Ready to start planning?</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
-          Get a draft itinerary
-        </h2>
-        <p class="text-lg text-dusk-100/90 mb-8">
-          Tell us when you want to travel, who is coming, and what you want to see. We will send a draft within 24 hours, with prices, lodges, and a map.
-        </p>
-        <a href="/contact" class="btn btn-primary px-8 py-3.5">
-          Get a draft itinerary
-          <ArrowRight size={16} />
-        </a>
-      </div>
-    </div>
-  </section>
 </PublicLayout>
