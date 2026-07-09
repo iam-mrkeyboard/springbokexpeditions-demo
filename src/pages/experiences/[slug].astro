@@ -33,7 +33,7 @@ const iconMap: Record<string, typeof Heart> = {
   transparentHeader={true}
 >
   <!-- Hero Banner -->
-  <section class="relative h-[70vh] min-h-[500px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src={exp.data.hero}
       alt={exp.data.name}
@@ -41,8 +41,10 @@ const iconMap: Record<string, typeof Heart> = {
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+    <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
+    <div class="absolute inset-0 bg-safari-950/35"></div>
+    <!-- Gradient overlay to enhance text legibility at the bottom -->
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16 pt-32">
       <div class="max-w-3xl">
