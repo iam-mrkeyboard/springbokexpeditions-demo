@@ -32,7 +32,7 @@ export const redirects: Redirect[] = [
   { from: '/zanzibar-the-jewel-of-the-indian-ocean/', to: '/zanzibar', reason: 'single page → hub' },
   { from: '/mt-meru-2/', to: '/tours/mount-meru', reason: 'dropped -2 suffix' },
   { from: '/kilimanjaro-expedition/', to: '/kilimanjaro/lemosho', reason: 'route detail' },
-  { from: '/custom-luxury-safaris/', to: '/tours/custom-luxury', reason: 'tour' },
+  { from: '/custom-luxury-safaris/', to: '/tours/signature-northern-circuit-luxury', reason: 'tour' },
   { from: '/tarangire-lake-manyara-safari/', to: '/tours/tarangire-manyara', reason: 'tour' },
 
   // Note: WP placeholder posts (/hello-world/, /hello-world-2/) and Elementor
