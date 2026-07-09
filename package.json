@@ -36,6 +36,7 @@
     "bcryptjs": "^3.0.2",
     "canvaskit-wasm": "^0.41.1",
     "drizzle-orm": "^0.36.4",
+    "gray-matter": "^4.0.3",
     "lucide": "^1.17.0",
     "mysql2": "^3.11.5",
     "resend": "^6.12.4",
