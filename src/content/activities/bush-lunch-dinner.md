@@ -8,7 +8,7 @@ description: |
   Your private table will be set in the middle of the savannah, complete with fine linens, silverware, and comfortable chairs. A dedicated chef and service team will prepare a multi-course gourmet meal right on site, featuring fresh Tanzanian ingredients and international culinary styles.
   
   Surrounded by the sights and sounds of the wild, this exclusive experience is perfect for honeymoons, anniversaries, or celebrating the final night of your Tanzanian safari.
-hero: https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80
+hero: https://images.unsplash.com/photo-1633634558059-3c9c10f33fce?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
 icon: UtensilsCrossed
 bestMonths: ['June', 'July', 'August', 'September', 'October', 'December', 'January', 'February']
 duration: 2-3 hours
