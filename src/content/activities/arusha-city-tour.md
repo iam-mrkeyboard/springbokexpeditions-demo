@@ -8,7 +8,7 @@ description: |
   Begin your discovery at the Maasai Market Curio Shops, a colorful maze of hand-carved wooden sculptures, beaded jewelry, woven baskets, and bright kanga fabrics. Practice your bargaining skills with the local artisans. Next, visit the Cultural Heritage Center, an architectural masterpiece housing one of the largest collections of African art, mask carvings, and fine jewelry on the continent. Here, explore the specialized museum dedicated to Tanzanite, a gemstone a thousand times rarer than diamonds, found only in the foothills of Mount Meru.
   
   Complete your urban adventure with a culinary journey. Taste authentic local Swahili street food, including skewered meat (mishkaki) and the famous Tanzanian french fry omelet (chipsi mayai), freshly prepared at a popular local spot.
-hero: https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=1600&q=80
+hero: https://images.pexels.com/photos/16157043/pexels-photo-16157043.jpeg
 icon: MapPin
 bestMonths: ['January', 'February', 'June', 'July', 'August', 'September', 'October', 'December']
 duration: Half day
