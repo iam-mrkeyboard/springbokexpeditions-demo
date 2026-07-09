@@ -311,12 +311,12 @@ export const CATEGORY_CONFIG: Record<TourCategory, {
 export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   luxury: [
     'luxury-fly-in-serengeti',
-    'custom-luxury',
+    // custom-luxury removed per user request
     'western-serengeti-grumeti',
     'photography-safari',
-    'northern-circuit-classic',
-    'signature-northern-circuit',
-    'mara-river-crossing',
+    'northern-circuit-classic-luxury',
+    'signature-northern-circuit-luxury',
+    'mara-river-crossing-luxury',
   ],
   'mid-range': [
     'northern-circuit-classic',
@@ -334,14 +334,17 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   ],
   budget: [
     'budget-camping-safari',
-    'signature-northern-circuit',
+    'signature-northern-circuit-budget',
+    // ensure unique IDs for budget versions if needed
     'zanzibar-budget-island-hopping',
-    'big-five-express',
-    'tarangire-manyara',
+    'big-five-express-budget',
+    'tarangire-manyara-budget',
   ],
   honeymoon: [
     'zanzibar-honeymoon',
     'honeymoon-safari-zanzibar',
+    'southern-wilderness-zanzibar-honeymoon',
+    'ultimate-bush-private-island-honeymoon',
   ],
   family: [
     'family-safari',
@@ -357,7 +360,7 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   ],
   photography: [
     'photography-safari',
-    'custom-luxury',
+    // custom-luxury removed per request
     'mara-river-crossing',
     'great-migration-calving',
     'luxury-fly-in-serengeti',
