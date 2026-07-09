@@ -3,7 +3,7 @@ import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
 import {
-  ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird, Wind, Clock, Activity, DollarSign, Info, ShieldCheck, Mail
+  ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird, Wind, Clock, Activity, DollarSign, Info, ShieldCheck
 } from '@lucide/astro';
 
 export async function getStaticPaths() {
@@ -27,18 +27,6 @@ const iconMap: Record<string, typeof Heart> = {
 };
 const ExpIcon = iconMap[exp.data.icon ?? ''] ?? Sparkles;
 
-const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const bestTimeOrdered = monthNames.map((m) => ({
-  month: m,
-  short: monthShort[monthNames.indexOf(m)],
-  rating: exp.data.bestMonths.includes(m) ? 'high' as const : 'low' as const,
-}));
-
-const ratingColorMap: Record<'high' | 'low', string> = {
-  high: 'bg-safari-600 text-white border-safari-700',
-  low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
-};
 ---
 
 <PublicLayout
@@ -196,24 +184,7 @@ const ratingColorMap: Record<'high' | 'low', string> = {
             </div>
           )}
 
-          <!-- Seasonality Calendar -->
-          <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-6">
-            <div>
-              <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Best Time to Go</h3>
-              <p class="text-sm text-dusk-500">Overview of peak operational months for this activity</p>
-            </div>
-            
-            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-              {bestTimeOrdered.map((t) => (
-                <div class={`rounded-xl border p-3 text-center transition-all ${ratingColorMap[t.rating]} shadow-sm`}>
-                  <p class="text-xs font-bold uppercase tracking-wider">{t.short}</p>
-                  <p class="text-[9px] uppercase tracking-widest mt-1 opacity-90 font-medium">
-                    {t.rating === 'high' ? 'Peak' : '—'}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+
 
           <!-- FAQ Accordions -->
           {exp.data.faqs && exp.data.faqs.length > 0 && (
@@ -245,71 +216,7 @@ const ratingColorMap: Record<'high' | 'low', string> = {
         <!-- Right Side Sticky Panel Column -->
         <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
           
-          <!-- Booking Inquiry Form -->
-          <div class="bg-white rounded-2xl border border-dusk-100 shadow-md p-6 md:p-8">
-            <h3 class="text-xl font-display font-medium text-safari-900 mb-2 flex items-center gap-2">
-              <Mail size={18} class="text-safari-600" />
-              Inquire About Activity
-            </h3>
-            <p class="text-xs text-dusk-500 leading-relaxed mb-5">
-              Add this standalone activity to your custom safari plan. Fill out details to request pricing and booking.
-            </p>
 
-            <form id="inquiryForm" class="space-y-4">
-              <div>
-                <label for="name" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Your Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  required
-                  placeholder="e.g. John Doe"
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label for="email" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Your Email *</label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  placeholder="e.g. john@example.com"
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label for="subject" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  value={`Inquiry: ${exp.data.name}`}
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 bg-dusk-50 text-dusk-700 text-sm"
-                  readonly
-                />
-              </div>
-
-              <div>
-                <label for="message" class="block text-[10px] uppercase tracking-wider text-dusk-600 mb-1 font-semibold">Additional Details</label>
-                <textarea
-                  id="message"
-                  rows="3"
-                  placeholder="Tell us your dates, group size, and any questions..."
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-dusk-200 focus:outline-none focus:border-safari-500 text-sm"
-                ></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary w-full justify-center py-3 text-sm font-semibold rounded-xl mt-2">
-                Submit Inquiry
-                <ArrowRight size={14} />
-              </button>
-            </form>
-
-            <div id="successMessage" class="hidden bg-safari-50 border border-safari-200 text-safari-800 rounded-xl p-5 text-center mt-4 font-sans">
-              <p class="font-medium mb-1">Inquiry Sent Successfully!</p>
-              <p class="text-xs text-dusk-600">Our safari team will email you a custom quote within 24 hours.</p>
-            </div>
-          </div>
 
           <!-- Need to Know & Packing list -->
           {exp.data.needToKnow && exp.data.needToKnow.length > 0 && (
@@ -383,17 +290,7 @@ const ratingColorMap: Record<'high' | 'low', string> = {
     </div>
   </section>
 
-  <!-- Interactive script for inquiry form -->
-  <script is:inline>
-    const form = document.getElementById('inquiryForm');
-    const success = document.getElementById('successMessage');
-    
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      form.classList.add('hidden');
-      success.classList.remove('hidden');
-    });
-  </script>
+
 
   <!-- Service Schema metadata -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(withPublisher({
