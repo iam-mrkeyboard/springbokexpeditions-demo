@@ -35,28 +35,31 @@ const tagline =
 
 const safariLinks = [
   { label: 'All Safaris', href: '/tours' },
-  { label: 'Wildlife Safaris', href: '/tours?style=wildlife' },
-  { label: 'Luxury Safaris', href: '/tours?style=luxury' },
-  { label: 'Family Safaris', href: '/tours?style=family' },
-  { label: 'Honeymoon Safaris', href: '/tours?style=honeymoon' },
-  { label: 'Day Trips', href: '/tours?style=day-trip' },
+  { label: 'Luxury Safaris', href: '/tours/luxury' },
+  { label: 'Mid-Range Safaris', href: '/tours/mid-range' },
+  { label: 'Budget Safaris', href: '/tours/budget' },
+  { label: 'Honeymoon Safaris', href: '/tours/honeymoon' },
+  { label: 'Family Safaris', href: '/tours/family' },
+  { label: 'Migration Safaris', href: '/tours/migration' },
+  { label: 'Photography Safaris', href: '/tours/photography' },
+  { label: 'Birding Safaris', href: '/tours/birding' },
+  { label: 'Cultural Safaris', href: '/tours/cultural' },
 ];
 
-const allDests = await getCollection('destinations');
-const featuredDests = allDests
-  .slice()
-  .sort((a, b) => a.data.name.localeCompare(b.data.name))
-  .slice(0, 6)
-  .map((d) => ({ label: d.data.name, href: `/destinations/${d.id}` }));
-const destinationLinks = [{ label: 'All Destinations', href: '/destinations' }, ...featuredDests];
+const destinationLinks = [
+  { label: 'All Destinations', href: '/destinations' },
+  { label: 'Serengeti', href: '/destinations/serengeti-national-park' },
+  { label: 'Ngorongoro', href: '/destinations/ngorongoro-crater' },
+  { label: 'Tarangire', href: '/destinations/tarangire-national-park' },
+  { label: 'Lake Manyara', href: '/destinations/lake-manyara-national-park' },
+  { label: 'Kilimanjaro', href: '/kilimanjaro' },
+  { label: 'Mount Meru', href: '/mount-meru' },
+  { label: 'Zanzibar Beach', href: '/destinations/zanzibar-archipelago' },
+];
 
 const companyLinks = [
   { label: 'About Us', href: '/about' },
-  { label: 'Our Team', href: '/about#team' },
-  { label: 'Sustainability', href: '/about#sustainability' },
-  { label: 'Travel Info', href: '/travel-info' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Gallery', href: '/gallery' },
   { label: 'Contact', href: '/contact' },
 ];
 ---
