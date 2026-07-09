@@ -25,6 +25,9 @@ export default defineConfig({
     },
   },
   image: {
+    service: {
+      entrypoint: './src/lib/custom-image-service.ts'
+    },
     domains: ['images.unsplash.com', 'images.pexels.com', 'res.cloudinary.com'],
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
