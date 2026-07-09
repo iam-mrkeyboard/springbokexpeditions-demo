@@ -52,15 +52,18 @@ const relatedTours: {
   ogImage={destination.id === 'serengeti-national-park' ? '/og/destinations/serengeti-national-park.png' : undefined}
   transparentHeader={true}
 >
-  <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
+  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] overflow-hidden bg-safari-900 text-white">
     <img
       src={destination.data.hero}
       alt={destination.data.name}
       class="absolute inset-0 w-full h-full object-cover"
       loading="eager"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/60 to-safari-900/30"></div>
-    <div class="container-content relative h-full flex flex-col justify-end pb-12 md:pb-16">
+    <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
+    <div class="absolute inset-0 bg-safari-950/35"></div>
+    <!-- Gradient overlay to enhance text legibility at the bottom -->
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16">
       <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 text-white px-3 py-1.5 rounded-full text-xs font-medium mb-4 self-start">
         <RegionIcon size={12} />
         {destination.data.region}
