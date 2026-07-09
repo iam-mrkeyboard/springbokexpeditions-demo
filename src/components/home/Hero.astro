@@ -33,7 +33,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-safari-900 text-white">
+<section class="relative h-[100svh] min-h-[500px] sm:min-h-[580px] md:min-h-[640px] lg:min-h-[700px] w-full overflow-hidden bg-safari-900 text-white">
   <!-- Background: Cloudinary-hosted MP4, autoplays muted + loops. Two sources: 720p desktop, 540p mobile. -->
   <div class="absolute inset-0 z-0 overflow-hidden bg-safari-900">
     <video
@@ -54,14 +54,14 @@ const {
   </div>
 
   <!-- Content — bottom-left, leaving the rest of the hero visible -->
-  <div class="container-content relative z-10 h-full flex flex-col justify-end pb-20 md:pb-24 pt-32">
+  <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 pt-28 sm:pb-16 md:pb-24 md:pt-32">
     <div class="max-w-2xl">
       <div class="flex items-center gap-3 mb-5 md:mb-6">
         <span class="h-px w-10 md:w-14 bg-savannah-500"></span>
         <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em]">{eyebrow}</p>
       </div>
 
-      <h1 class="font-display text-[2.6rem] leading-[1.02] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6">
+      <h1 class="font-display text-[2.2rem] leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-5 md:mb-6">
         {headingLine1}<br />
         <span class="text-white/85">{headingLine2}</span><br />
         <span class="italic font-normal text-savannah-300">{headingItalic}</span>
