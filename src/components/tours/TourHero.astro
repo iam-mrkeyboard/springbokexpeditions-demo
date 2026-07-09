@@ -38,14 +38,7 @@ const { tour, typeLabel } = Astro.props;
       <span class="text-dusk-300">{tour.data.title}</span>
     </nav>
 
-    <div class="flex flex-wrap items-center gap-2.5 mb-5">
-      <Badge label={typeLabel} size="md" variant="soft" />
-      {tour.data.featured && (
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sunset-500/95 text-white text-[11px] font-semibold tracking-[0.12em] uppercase ring-1 ring-sunset-600/30 shadow-sm">
-          <Star size={12} fill="currentColor" stroke-width="0" /> Featured
-        </span>
-      )}
-    </div>
+
 
     <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white max-w-3xl mb-4">
       {tour.data.title}
