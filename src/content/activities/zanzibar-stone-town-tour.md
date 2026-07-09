@@ -8,7 +8,7 @@ description: |
   With your local Swahili historian guide, visit critical sites of memory and heritage. Explore the Old Fort, the oldest building in town built by the Omani Arabs, and the Anglican Cathedral of Christ Church, which stands directly over the site of the former East African Slave Market. Enter the underground chambers where slaves were held in tragic conditions to understand the profound history of the island.
   
   After exploring the town, journey into the lush tropical countryside to visit a family-owned organic spice farm. Here, you will touch, smell, and taste fresh cardamom, cloves, cinnamon, and nutmeg straight from the trees. Discover why Zanzibar is celebrated worldwide as the "Spice Island" and finish your excursion with a traditional spiced tea tasting session.
-hero: https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80
+hero: https://images.pexels.com/photos/7101641/pexels-photo-7101641.jpeg
 icon: Ship
 bestMonths: ['January', 'February', 'June', 'July', 'August', 'September', 'October', 'December']
 duration: Half day
