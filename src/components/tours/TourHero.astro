@@ -17,7 +17,7 @@ interface Props {
 const { tour, typeLabel } = Astro.props;
 ---
 
-<section class="relative h-[70vh] min-h-[500px] flex items-end overflow-hidden bg-safari-900 text-white">
+<section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] flex items-end overflow-hidden bg-safari-900 text-white">
   <div class="absolute inset-0 z-0">
     <img
       src={tour.data.hero}
@@ -26,7 +26,10 @@ const { tour, typeLabel } = Astro.props;
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/40 to-safari-900/20"></div>
+    <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
+    <div class="absolute inset-0 bg-safari-950/35"></div>
+    <!-- Gradient overlay to enhance text legibility at the bottom -->
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
   </div>
 
   <div class="container-content relative z-10 pb-12">
