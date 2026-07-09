@@ -1,0 +1,787 @@
+{
+  "totalItineraries": 50,
+  "identicalFullItineraries": [],
+  "duplicateDayObjects": [
+    {
+      "key": "1|Londorossi Gate to Mti Mkubwa||Mti Mkubwa Camp (tents)|LD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "2|Mti Mkubwa to Shira 1 Camp||Shira 1 Camp (tents)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira 1 to Shira 2 Camp||Shira 2 Camp (tents)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Barranco Camp to Karanga Camp||Karanga Camp (tents)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "4|Karanga Camp to Barafu Camp||Barafu Camp (tents)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "5|Summit day: Uhuru Peak, then descend to Mweka Camp||Mweka Camp (tents)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "6|Mweka Camp to Mweka Gate||Hotel in Moshi or Arusha|BL",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "1|Arrival in Arusha and Transfer to Tarangire|Met at Kilimanjaro International Airport and driven south to Tarangire National Park. A late-afternoon game drive introduces you to the park's famous elephant herds and ancient baobabs. Sundowner drinks overlooking the Tarangire River.|Tarangire Tented Camp or Maramboi Tented Lodge|D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/big-five-express.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/tarangire-manyara.mdx"
+      ]
+    },
+    {
+      "key": "3|Tarangire to the Serengeti|A drive through the Ngorongoro Highlands and down onto the Serengeti plains. Afternoon game drive, then a romantic dinner under the stars at your luxury tented camp.|Serengeti Safari Lodge or Kubu Kubu Tented Camp (luxury suite)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "10|Departure|Final breakfast on the beach, then transfer to Zanzibar International Airport for your flight home.|End of trip|B",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "6|Karanga to Barafu Camp|A steady climb to Barafu Camp (4,673m), the high camp from which we will make the summit attempt. We arrive by early afternoon, with time to rest, hydrate, and prepare for the midnight departure. Early dinner and sleep.|Barafu Camp (4,673m)|BLD",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx"
+      ]
+    },
+    {
+      "key": "1|Arrival in Moshi|Welcome to Tanzania. Met at Kilimanjaro International Airport and transferred to your lodge in Moshi. Gear check and a thorough climb briefing with your head guide.|Moshi lodge (pre-climb briefing)|D",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-northern-circuit.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-rongai.mdx"
+      ]
+    },
+    {
+      "key": "1|Momella Gate to Miriakamba Hut||Miriakamba Hut|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/3-day-mount-meru-climb.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/4-day-mount-meru-trekking.mdx"
+      ]
+    },
+    {
+      "key": "1|Machame Gate to Machame Camp||Machame Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "2|Machame Camp to Shira Camp||Shira Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira to Barranco Camp via Lava Tower||Barranco Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "5|Summit day: Barafu to Uhuru Peak, then Mweka Camp||Mweka Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-umbwe-route.mdx"
+      ]
+    },
+    {
+      "key": "6|Mweka Camp to Mweka Gate||Hotel in Arusha|B, L",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-umbwe-route.mdx"
+      ]
+    },
+    {
+      "key": "1|Londorossi Gate to Mti Mkubwa Camp||Mti Mkubwa Camp|B, L, D",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "5|Karanga to Barafu Camp||Barafu Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "6|Summit day: Barafu to Uhuru Peak, then Mweka Camp||Mweka Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "7|Mweka Camp to Mweka Gate||Hotel in Arusha|B, L",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "2|Mti Mkubwa to Shira 1 Camp||Shira 1 Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira 1 to Shira 2 Camp||Shira 2 Camp|B, L, D",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    }
+  ],
+  "duplicateAccommodations": [
+    {
+      "key": "1|Mti Mkubwa Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "2|Shira 1 Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira 2 Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "7|Hotel in Moshi or Arusha",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/rongai.mdx"
+      ]
+    },
+    {
+      "key": "3|Horombo Hut",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-marangu-route.mdx"
+      ]
+    },
+    {
+      "key": "5|Horombo Hut",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/rongai.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-marangu-route.mdx"
+      ]
+    },
+    {
+      "key": "6|Hotel in Moshi or Arusha",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "6|Horombo Hut",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/rongai.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-rongai-route.mdx"
+      ]
+    },
+    {
+      "key": "2|Barranco Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "3|Karanga Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "4|Barafu Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "5|Mweka Camp (tents)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/shira.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/kilimanjaro/umbwe.mdx"
+      ]
+    },
+    {
+      "key": "1|End of day trip (return to hotel)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/arusha-national-park-day-trip.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/day-trips.mdx"
+      ]
+    },
+    {
+      "key": "1|Tarangire Tented Camp or Maramboi Tented Lodge",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/big-five-express.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/tarangire-manyara.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/walking-bush-safari.mdx"
+      ]
+    },
+    {
+      "key": "2|Same lodge",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/big-five-express.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/birding-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/ruaha-nyerere-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/tarangire-ngorongoro-midrange.mdx"
+      ]
+    },
+    {
+      "key": "5|Ngorongoro Serena Safari Lodge or Rhino Lodge",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/birding-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/family-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "6|Same lodge",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/birding-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "7|End of safari (or extension)",
+      "count": 7,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/birding-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/cultural-tanzania.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/custom-luxury.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/great-migration-calving.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/luxury-fly-in-serengeti.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/ruaha-nyerere-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "6|End of safari (or extension)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/budget-camping-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/family-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/walking-bush-safari.mdx"
+      ]
+    },
+    {
+      "key": "1|Arusha Coffee Lodge or similar",
+      "count": 6,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/cultural-tanzania.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/family-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/great-migration-calving.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mara-river-crossing.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "2|Tarangire Tented Camp or Maramboi Tented Lodge",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/cultural-tanzania.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "5|End of trip (or extension)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/cultural-walking-village.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/meru-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "3|Serengeti Safari Lodge (mid-range) or Kubu Kubu Tented Camp (luxury)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/family-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "4|Same as previous night",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/family-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/signature-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Same as previous night",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/great-migration-calving.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mara-river-crossing.mdx"
+      ]
+    },
+    {
+      "key": "1|Arusha Coffee Lodge (luxury suite) or similar",
+      "count": 5,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/luxury-fly-in-serengeti.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "2|Tarangire Treetops or Maramboi Tented Lodge (luxury suite)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "3|Serengeti Safari Lodge or Kubu Kubu Tented Camp (luxury suite)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "5|Ngorongoro Serena Safari Lodge (luxury suite)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "7|Same beach resort",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "8|Same beach resort",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "9|Same beach resort",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "10|End of trip",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/honeymoon-safari-zanzibar.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx"
+      ]
+    },
+    {
+      "key": "1|Moshi lodge (pre-climb briefing)",
+      "count": 5,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-northern-circuit.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-rongai.mdx"
+      ]
+    },
+    {
+      "key": "2|Shira 1 Camp (3,500m)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-northern-circuit.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira 2 Camp (3,900m)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-northern-circuit.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "4|Barranco Camp (3,960m)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "5|Karanga Camp (3,995m)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "6|Barafu Camp (4,673m)",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "7|Mweka Camp (3,100m)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-lemosho.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-safari-combo.mdx"
+      ]
+    },
+    {
+      "key": "7|Moshi lodge (post-climb)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-machame.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-rongai.mdx"
+      ]
+    },
+    {
+      "key": "5|Kibo Hut (4,700m)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-marangu.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/kilimanjaro-rongai.mdx"
+      ]
+    },
+    {
+      "key": "2|Four Seasons Safari Lodge or similar (luxury suite)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/luxury-fly-in-serengeti.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "3|Same lodge",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/luxury-fly-in-serengeti.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "5|Same lodge",
+      "count": 4,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/luxury-fly-in-serengeti.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/walking-bush-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "8|End of safari (or extension)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mara-river-crossing.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx"
+      ]
+    },
+    {
+      "key": "1|Miriakamba Hut (2,500m)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/meru-safari-combo.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mount-meru.mdx"
+      ]
+    },
+    {
+      "key": "2|Saddle Hut (3,570m)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/meru-safari-combo.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mount-meru.mdx"
+      ]
+    },
+    {
+      "key": "3|Miriakamba Hut (2,500m)",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/meru-safari-combo.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/mount-meru.mdx"
+      ]
+    },
+    {
+      "key": "4|Lake Manyara Serena Safari Lodge or similar",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/meru-safari-combo.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx"
+      ]
+    },
+    {
+      "key": "8|Same lodge",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/northern-circuit-classic.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "7|Ngorongoro Serena Safari Lodge (luxury suite) or similar",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/photography-safari.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/western-serengeti-grumeti.mdx"
+      ]
+    },
+    {
+      "key": "4|Same lodge",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/safari-zanzibar-honeymoon.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/tours/tarangire-ngorongoro-midrange.mdx"
+      ]
+    },
+    {
+      "key": "1|Miriakamba Hut",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/3-day-mount-meru-climb.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/4-day-mount-meru-trekking.mdx"
+      ]
+    },
+    {
+      "key": "2|Saddle Hut",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/3-day-mount-meru-climb.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/4-day-mount-meru-trekking.mdx"
+      ]
+    },
+    {
+      "key": "1|Machame Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "2|Shira Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "3|Barranco Camp",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "4|Barafu Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-umbwe-route.mdx"
+      ]
+    },
+    {
+      "key": "5|Mweka Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-umbwe-route.mdx"
+      ]
+    },
+    {
+      "key": "6|Hotel in Arusha",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-marangu-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/6-day-kilimanjaro-umbwe-route.mdx"
+      ]
+    },
+    {
+      "key": "1|Mti Mkubwa Camp",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "4|Karanga Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "5|Barafu Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "6|Mweka Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx"
+      ]
+    },
+    {
+      "key": "7|Hotel in Arusha",
+      "count": 3,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-machame-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/7-day-kilimanjaro-rongai-route.mdx"
+      ]
+    },
+    {
+      "key": "2|Shira 1 Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    },
+    {
+      "key": "3|Shira 2 Camp",
+      "count": 2,
+      "files": [
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/8-day-kilimanjaro-lemosho-route.mdx",
+        "/home/ibuu/Documents/minmax-springbokexpeditions-remix-dsf/src/content/trekking/9-day-kilimanjaro-northern-circuit.mdx"
+      ]
+    }
+  ]
+}
