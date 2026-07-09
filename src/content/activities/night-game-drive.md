@@ -8,7 +8,7 @@ description: |
   Unlike daytime drives, a night safari relies on hearing and thermal sight. You will listen to the sounds of crickets, frogs, and calls of nightjars. With the assistance of powerful filtered spotlights, your guide will locate animal eyes reflecting in the darkness.
   
   This is a highly exclusive activity allowed only in select national parks (like Lake Manyara and Tarangire) and private reserves, offering a rare glimpse into the nocturnal world.
-hero: https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80
+hero: https://images.pexels.com/photos/6465808/pexels-photo-6465808.jpeg
 icon: Moon
 bestMonths: ['June', 'July', 'August', 'September', 'October']
 duration: 2-3 hours
