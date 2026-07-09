@@ -108,11 +108,11 @@ const ExpIcon = iconMap[exp.data.icon ?? ''] ?? Sparkles;
           </div>
 
           <!-- Step-By-Step Timeline -->
-          {exp.data.timeline && exp.data.timeline.length > 0 && (
+          {slug === 'hot-air-balloon-safaris' && exp.data.timeline && exp.data.timeline.length > 0 && (
             <div class="bg-white rounded-2xl border border-dusk-100 shadow-sm p-6 md:p-8 space-y-8">
               <div>
                 <h3 class="text-2xl font-display font-medium text-safari-900 mb-2">Program Timeline</h3>
-                <p class="text-sm text-dusk-500">Hour-by-hour outline of how the activity unfolds</p>
+                <p class="text-sm text-dusk-500">Outline of how the activity unfolds</p>
               </div>
 
               <div class="relative border-l-2 border-safari-100 ml-4 md:ml-6 space-y-8 pb-2">
@@ -122,9 +122,6 @@ const ExpIcon = iconMap[exp.data.icon ?? ''] ?? Sparkles;
                       ●
                     </span>
                     <div>
-                      <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-savannah-700 bg-savannah-50 px-2 py-0.5 rounded mb-1">
-                        {step.time}
-                      </span>
                       <h4 class="font-display text-lg text-safari-900 mb-1">{step.title}</h4>
                       <p class="text-sm text-dusk-600 leading-relaxed font-light">{step.body}</p>
                     </div>
