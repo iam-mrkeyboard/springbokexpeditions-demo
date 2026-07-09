@@ -10,13 +10,11 @@ const sorted = destinations.sort((a, b) =>
 
 const regionIcons: Record<string, typeof TreePalm> = {
   'Northern Circuit': TreePalm,
-  'Southern Circuit': TreePalm,
-  'Western Circuit': Mountain,
   Coastal: Umbrella,
   Mountain: Mountain,
 };
 
-const regions = ['All', 'Northern Circuit', 'Southern Circuit', 'Western Circuit', 'Coastal', 'Mountain'];
+const regions = ['All', 'Northern Circuit', 'Coastal', 'Mountain'];
 const regionCount: Record<string, number> = { All: sorted.length };
 for (const r of regions.slice(1)) {
   regionCount[r] = sorted.filter((d) => d.data.region === r).length;
@@ -43,15 +41,15 @@ for (const r of regions.slice(1)) {
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
-        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">14 national parks · 1 mountain · 1 island archipelago</p>
+        <p class="eyebrow text-savannah-300 text-[11px] md:text-xs uppercase tracking-[0.18em] mb-3">6 national parks · 2 mountains · 1 island archipelago</p>
 
         <h1 class="font-display text-[2.6rem] sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-5 md:mb-6">
           Where will<br />
-          <span class="italic font-normal text-savannah-300">Tanzania take you?</span>
+          <span class="italic font-normal text-savannah-300">Northern Tanzania take you?</span>
         </h1>
 
         <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-8">
-          From the open plains of the Serengeti to the alleys of Stone Town, the glaciers of Kilimanjaro to the forests of Gombe — these are the parks, islands, and mountains that make Tanzania what it is.
+          From the open plains of the Serengeti to the alleys of Stone Town, the glaciers of Kilimanjaro to the ridgelines of Mount Meru — these are the parks, islands, and mountains of Northern Tanzania and Zanzibar.
         </p>
 
         <div class="flex flex-wrap gap-4">
