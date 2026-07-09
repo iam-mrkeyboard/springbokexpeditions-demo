@@ -22,7 +22,7 @@ function formatDate(d: string | Date | undefined): string {
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[70vh] min-h-[480px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
     <img
       src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1920&q=80&auto=format&fit=crop"
       alt="Safari at dusk"
@@ -30,8 +30,10 @@ function formatDate(d: string | Date | undefined): string {
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
+    <div class="absolute inset-0 bg-safari-950/35"></div>
+    <!-- Gradient overlay to enhance text legibility at the bottom -->
+    <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
