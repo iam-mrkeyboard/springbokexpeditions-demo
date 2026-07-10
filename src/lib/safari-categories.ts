@@ -9,7 +9,8 @@ export type TourCategory =
   | 'migration'
   | 'photography'
   | 'birding'
-  | 'cultural';
+  | 'cultural'
+  | 'fly-in';
 
 export interface SeasonNote {
   name: string;
@@ -301,6 +302,36 @@ export const CATEGORY_CONFIG: Record<TourCategory, {
       proTip: 'A half-day stop at Mto wa Mbu fits naturally between Arusha and the parks — it sits directly on the northern circuit route and can be added to almost any itinerary without a detour.',
     },
   },
+  'fly-in': {
+    label: 'Fly-In Safari',
+    pluralLabel: 'Fly-In Safaris',
+    experienceSlug: 'fly-in-safari',
+    whenToGo: {
+      headline: 'Time-efficient safaris straight to the action',
+      intro: 'Fly-in safaris bypass the long, bumpy road transfers from Arusha or Zanzibar, putting you directly in the heart of the Serengeti. Perfect for combining a short safari with a Zanzibar beach vacation.',
+      seasons: [
+        {
+          name: 'Peak dry season',
+          months: 'July – October',
+          hook: 'Dry weather and Mara River crossings',
+          body: 'The most popular time for fly-in safaris. Flights to Seronera or Kogatende airstrips are frequent, and you get immediate access to game drives without spending hours traveling on unpaved roads.',
+        },
+        {
+          name: 'Calving season',
+          months: 'January – March',
+          hook: 'Wildebeest calving in the south',
+          body: 'Flights connect Zanzibar and Arusha directly to the southern Serengeti airstrips. Ideal for watching newborn calves on the plains under beautifully dramatic skies.',
+        },
+        {
+          name: 'Green season value',
+          months: 'November – December & April – May',
+          hook: 'Lush landscapes and low-season rates',
+          body: 'Afternoon rains refresh the park. Flying in ensures you do not get stuck on wet roads, and lodges offer excellent low-season pricing.',
+        },
+      ],
+      proTip: 'Pack light in soft-sided duffel bags. Small aircraft used for safari flights have strict baggage limits, usually 15kg per person.',
+    },
+  },
 };
 
 /**
@@ -387,6 +418,12 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'northern-circuit-classic',
     'signature-northern-circuit',
   ],
+  'fly-in': [
+    'fly-in-safari-3day',
+    'fly-in-safari-4day',
+    'fly-in-safari-5day',
+    'fly-in-safari-6day',
+  ],
 };
 
 export function isValidCategory(slug: string): slug is TourCategory {
@@ -415,4 +452,5 @@ export const ALL_CATEGORIES: TourCategory[] = [
   'photography',
   'birding',
   'cultural',
+  'fly-in',
 ];
