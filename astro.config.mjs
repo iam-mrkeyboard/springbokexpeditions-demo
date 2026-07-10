@@ -4,16 +4,14 @@ import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 
 const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'http://localhost:4321',
   output: 'static',
-  adapter: node({
-    mode: 'standalone',
-  }),
+  adapter: netlify(),
   trailingSlash: 'never',
   compressHTML: true,
   integrations: [
