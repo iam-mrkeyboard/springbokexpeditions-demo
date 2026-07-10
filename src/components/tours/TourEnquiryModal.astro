@@ -34,8 +34,7 @@ const budgetOptions = [
   { value: 'under-2000', label: 'Under $2,000' },
   { value: '2000-4000', label: '$2,000–$4,000' },
   { value: '4000-6000', label: '$4,000–$6,000' },
-  { value: '6000-plus', label: '$6,000+' },
-  { value: 'flexible', label: "I'm flexible" }
+  { value: '6000-plus', label: '$6,000+' }
 ];
 ---
 
@@ -146,12 +145,24 @@ const budgetOptions = [
         <div class="flex flex-wrap gap-2">
           {budgetOptions.map((opt) => (
             <label class="cursor-pointer group flex-1 min-w-[120px]">
-              <input type="radio" name="budget" value={opt.value} class="sr-only peer" />
+              <input type="radio" name="budget" value={opt.value} class="sr-only peer budget-radio" />
               <div class="px-4 py-2.5 text-center text-xs font-medium rounded-xl border border-dusk-200 bg-white text-dusk-700 peer-checked:bg-safari-50 peer-checked:border-safari-600 peer-checked:text-safari-900 hover:bg-dusk-50 transition-colors">
                 {opt.label}
               </div>
             </label>
           ))}
+        </div>
+        <div class="flex items-center mt-3">
+          <input
+            type="checkbox"
+            id={`${modalId}-budget-flexible`}
+            name="budgetFlexible"
+            value="true"
+            class="h-4 w-4 rounded border-dusk-300 text-safari-600 focus:ring-safari-500 cursor-pointer"
+          />
+          <label for={`${modalId}-budget-flexible`} class="ml-2 text-xs font-semibold text-dusk-700 cursor-pointer select-none">
+            I'm flexible with my budget
+          </label>
         </div>
       </div>
 
@@ -462,6 +473,28 @@ const budgetOptions = [
       });
     }
 
+    // Mutual exclusion logic for budget "I'm flexible" checkbox
+    const budgetRadios = dialog.querySelectorAll('.budget-radio');
+    const flexibleBudgetCB = document.getElementById(`${modalId}-budget-flexible`);
+
+    if (flexibleBudgetCB) {
+      flexibleBudgetCB.addEventListener('change', () => {
+        if (flexibleBudgetCB.checked) {
+          budgetRadios.forEach(radio => {
+            radio.checked = false;
+          });
+        }
+      });
+    }
+
+    budgetRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked && flexibleBudgetCB) {
+          flexibleBudgetCB.checked = false;
+        }
+      });
+    });
+
     // Step display helper
     function showStep(stepNum) {
       currentStep = stepNum;
@@ -589,6 +622,11 @@ const budgetOptions = [
           }
         });
         data.activities = selectedActivities;
+
+        // Map budgetFlexible checkbox value to 'flexible' budget value
+        if (data.budgetFlexible === 'true') {
+          data.budget = 'flexible';
+        }
 
         // Parse adults and children count and calculate total travelers
         const adultsVal = data.adults ? parseInt(data.adults) : 2;
