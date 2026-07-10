@@ -1,11 +1,14 @@
 ---
 import { Mail, MessageCircle } from '@lucide/astro';
+import TourEnquiryModal from './TourEnquiryModal.astro';
 
 interface Props {
   tour: {
     id: string;
     data: {
       title: string;
+      durationDays: number;
+      type: string;
     };
   };
 }
@@ -18,13 +21,14 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 <div class="bg-white border border-dusk-100 rounded-2xl shadow-soft overflow-hidden">
   <!-- Booking buttons -->
   <div class="p-6 space-y-3">
-    <a
-      href={`/contact?tour=${tour.id}`}
-      class="btn btn-primary w-full justify-center"
+    <button
+      type="button"
+      id={`open-enquiry-btn-${tour.id}`}
+      class="btn btn-primary w-full justify-center cursor-pointer"
     >
       <Mail size={16} />
-      Enquire About This Tour
-    </a>
+      Request a Custom Quote
+    </button>
     <a
       href={whatsappLink}
       target="_blank"
@@ -35,6 +39,20 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       Chat on WhatsApp
     </a>
   </div>
+
+  <TourEnquiryModal tour={tour} />
+
+  <script is:inline define:vars={{ tourId: tour.id }}>
+    (function() {
+      const btn = document.getElementById(`open-enquiry-btn-${tourId}`);
+      const modal = document.getElementById(`enquiry-modal-${tourId}`);
+      if (btn && modal) {
+        btn.addEventListener('click', () => {
+          modal.dispatchEvent(new CustomEvent('open-enquiry'));
+        });
+      }
+    })();
+  </script>
 
   <!-- Trust signals -->
   <div class="px-6 pb-6 pt-2 space-y-2 text-xs text-dusk-600">
