@@ -4,7 +4,13 @@ import { lookupRedirect } from './lib/redirects';
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
-  if (url.pathname === '/404' || url.pathname === '/api/contact' || url.pathname.startsWith('/og/')) {
+  if (
+    url.pathname === '/404' ||
+    url.pathname === '/api/contact' ||
+    url.pathname === '/api/enquire' ||
+    url.pathname === '/api/plan-trip' ||
+    url.pathname.startsWith('/og/')
+  ) {
     return next();
   }
 
