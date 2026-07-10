@@ -1,13 +1,25 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
+import { getCollection } from 'astro:content';
 import {
   Compass, Mountain, Sun, Map, Umbrella, Users,
-  Clock, Search, CircleCheck, Crown, Star, Tent, Layers,
-  ArrowRight, ArrowLeft, Send, Sparkles,
+  Clock, CircleCheck, Crown, Star, Tent, Layers,
+  ArrowRight, ArrowLeft, Send, Sparkles, MapPin
 } from '@lucide/astro';
 
 const today = new Date().toISOString().split('T')[0];
+
+// Load destinations and activities from content collections
+const destinations = await getCollection('destinations');
+const sortedDestinations = destinations.sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
+
+const activities = await getCollection('activities');
+const sortedActivities = activities.sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
 
 const countryCodes = [
   { code: '', label: 'Select' },
@@ -45,6 +57,9 @@ const trustCards = [
   description="Answer a few questions and receive a custom Tanzania itinerary — safari, Kilimanjaro, Meru, or Zanzibar — within 24 hours."
   transparentHeader={true}
 >
+  <!-- Flatpickr CDN stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <!-- Hero -->
   <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
     <img
@@ -81,11 +96,11 @@ const trustCards = [
       <!-- Progress bar -->
       <div class="mb-10">
         <div class="flex items-center justify-between mb-3">
-          <p class="text-xs uppercase tracking-[0.18em] text-savannah-700 font-semibold" id="step-label">Step 1 of 8</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-savannah-700 font-semibold" id="step-label">Step 1 of 6</p>
           <p class="text-xs text-dusk-500" id="step-title-display">Trip type</p>
         </div>
         <div class="w-full h-2 bg-dusk-200 rounded-full overflow-hidden">
-          <div id="progress-fill" class="h-full bg-safari-600 rounded-full transition-all duration-500 ease-out" style="width: 12.5%"></div>
+          <div id="progress-fill" class="h-full bg-safari-600 rounded-full transition-all duration-500 ease-out" style="width: 16.6%"></div>
         </div>
       </div>
 
@@ -94,17 +109,15 @@ const trustCards = [
         class="bg-white rounded-2xl border border-dusk-100 shadow-soft overflow-hidden"
       >
         <!-- Step 1: Trip type -->
-        <div class="step p-8 md:p-10" data-step="1" data-required="true" data-auto-advance="true" data-label="Trip type" data-field="tripType">
+        <div class="step p-8 md:p-10" data-step="trip-type" data-required="true" data-auto-advance="true" data-label="Trip type" data-field="tripType">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">What type of trip are you interested in?</h2>
           <p class="text-dusk-600 mb-8">Choose one — we'll build everything around it.</p>
           <div class="grid sm:grid-cols-2 gap-3">
             {[
-              { value: 'safari', label: 'Wildlife Safari', sub: 'Serengeti, Ngorongoro, Tarangire', icon: Compass },
-              { value: 'kilimanjaro', label: 'Kilimanjaro Climb', sub: '6 routes · 5,895m · Roof of Africa', icon: Mountain },
-              { value: 'meru', label: 'Mount Meru Climb', sub: '4,566m · Arusha National Park', icon: Mountain },
-              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Spice Island · Stone Town · Coast', icon: Sun },
-              { value: 'combined', label: 'Combined Tour', sub: 'Safari + trek or beach', icon: Map },
-              { value: 'not-sure', label: 'Not sure yet', sub: 'Help me decide — surprise me', icon: Sparkles },
+              { value: 'safari', label: 'Wildlife Safari', sub: 'Serengeti, Ngorongoro, Tarangire, etc.', icon: Compass },
+              { value: 'trekking', label: 'Trekking Climb', sub: 'Kilimanjaro & Mount Meru climbs', icon: Mountain },
+              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Stone Town & coastal resorts', icon: Sun },
+              { value: 'combined', label: 'Combined Tour', sub: 'Combine safari with trekking or beach', icon: Map },
             ].map((o) => (
               <label class="step-card cursor-pointer group">
                 <input type="radio" name="tripType" value={o.value} class="sr-only peer" required />
@@ -127,70 +140,39 @@ const trustCards = [
           </div>
           <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="tripType">Please select a trip type.</p>
         </div>
-        <div class="step p-8 md:p-10 hidden" data-step="2" data-label="Add-ons" data-field="addons">
-          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Would you like to add anything?</h2>
-          <p class="text-dusk-600 mb-8">Select any that interest you — or none at all.</p>
+
+        <!-- Step 2: Destinations (Conditional for Safari / Combined) -->
+        <div class="step p-8 md:p-10 hidden" data-step="destinations" data-required="true" data-label="Destinations" data-field="destinations">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Which destinations would you like to visit?</h2>
+          <p class="text-dusk-600 mb-8">Select all that interest you — we will link them together in a seamless route.</p>
           <div class="grid sm:grid-cols-2 gap-3">
-            {[
-              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Add a few days on the Spice Island', icon: Umbrella },
-              { value: 'cultural', label: 'Cultural Experiences', sub: 'Maasai village visits, local communities', icon: Users },
-              { value: 'day-trips', label: 'Day Trips from Arusha', sub: 'Materuni waterfalls, hot springs', icon: Clock },
-              { value: 'none', label: 'None, thanks', sub: 'Just the main trip is perfect', icon: CircleCheck },
-            ].map((o) => (
+            {sortedDestinations.map((dest) => (
               <label class="step-card cursor-pointer group">
-                <input type="checkbox" name="addons" value={o.value} class="sr-only peer" />
-                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-savannah-600 peer-checked:bg-savannah-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                <input type="checkbox" name="destinations" value={dest.id} class="sr-only peer" />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
                   <div class="flex items-start gap-4">
-                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
-                      <o.icon size={20} />
-                    </span>
+                    <div class="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
+                      <img src={dest.data.hero} alt={dest.data.name} class="w-full h-full object-cover" />
+                    </div>
                     <div>
-                      <p class="font-display text-lg text-safari-900">{o.label}</p>
-                      <p class="text-sm text-dusk-500">{o.sub}</p>
+                      <p class="font-display text-lg text-safari-900 leading-tight">{dest.data.name}</p>
+                      <p class="text-xs text-dusk-500 mt-1">{dest.data.region}</p>
                     </div>
                   </div>
-                  <div class="card-dot dot-addon absolute top-4 right-4 w-5 h-5 rounded border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded border-2 border-dusk-300 flex items-center justify-center transition-colors">
                     <svg class="check-mark w-3 h-3 text-white opacity-0 transition-opacity" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg>
                   </div>
                 </div>
               </label>
             ))}
           </div>
+          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="destinations">Please select at least one destination.</p>
         </div>
 
-        <!-- Step 3: Planning stage -->
-        <div class="step p-8 md:p-10 hidden" data-step="3" data-required="true" data-auto-advance="true" data-label="Planning stage" data-field="stage">
-          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">How far along are you in your planning?</h2>
-          <p class="text-dusk-600 mb-8">No wrong answer — just helps us tailor the reply.</p>
-          <div class="grid sm:grid-cols-2 gap-3">
-            {[
-              { value: 'researching', label: 'Still researching', sub: 'Exploring options, gathering ideas', icon: Search },
-              { value: 'ready-to-book', label: 'Ready to book', sub: "I know what I want — let's go", icon: CircleCheck },
-            ].map((o) => (
-              <label class="step-card cursor-pointer group">
-                <input type="radio" name="stage" value={o.value} class="sr-only peer" required />
-                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
-                  <div class="flex items-start gap-4">
-                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
-                      <o.icon size={20} />
-                    </span>
-                    <div>
-                      <p class="font-display text-lg text-safari-900">{o.label}</p>
-                      <p class="text-sm text-dusk-500">{o.sub}</p>
-                    </div>
-                  </div>
-                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
-                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
-                  </div>
-                </div>
-              </label>
-            ))}
-          </div>
-          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="stage">Please select your planning stage.</p>
-        </div>
+
 
         <!-- Step 4: Group size -->
-        <div class="step p-8 md:p-10 hidden" data-step="4" data-required="true" data-label="Group size" data-field="adults">
+        <div class="step p-8 md:p-10 hidden" data-step="group" data-required="true" data-label="Group size" data-field="adults">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">How many people are in your group?</h2>
           <p class="text-dusk-600 mb-8">This helps us recommend the right vehicle and lodges.</p>
           <div class="grid sm:grid-cols-2 gap-5 max-w-md">
@@ -218,7 +200,7 @@ const trustCards = [
         </div>
 
         <!-- Step 5: Budget -->
-        <div class="step p-8 md:p-10 hidden" data-step="5" data-required="true" data-auto-advance="true" data-label="Budget" data-field="budget">
+        <div class="step p-8 md:p-10 hidden" data-step="budget" data-required="true" data-auto-advance="true" data-label="Budget" data-field="budget">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">What's your budget per person?</h2>
           <p class="text-dusk-600 mb-8">Excluding international flights. Rough estimates are perfect.</p>
           <div class="grid sm:grid-cols-2 gap-3">
@@ -245,33 +227,54 @@ const trustCards = [
           <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="budget">Please select a budget range.</p>
         </div>
 
-        <!-- Step 6: Dates + Duration -->
-        <div class="step p-8 md:p-10 hidden" data-step="6" data-required="true" data-label="Dates & duration" data-field="dates">
+        <!-- Step 6: Dates, Duration & Activities -->
+        <div class="step p-8 md:p-10 hidden" data-step="dates" data-required="true" data-label="Dates & duration" data-field="dates">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">When are you thinking of traveling?</h2>
           <p class="text-dusk-600 mb-8">If you're not sure of exact dates, just give us a rough idea.</p>
-          <div class="space-y-6 max-w-md">
+          <div class="space-y-6 max-w-lg">
+            <!-- Activities Options Chips -->
+            <div>
+              <label class="block text-sm font-medium text-safari-900 mb-3">Activities of interest</label>
+              <div class="flex flex-wrap gap-2">
+                {sortedActivities.map((act) => (
+                  <label class="cursor-pointer">
+                    <input type="checkbox" name="activities" value={act.id} class="sr-only peer" />
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-dusk-200 bg-dusk-50 text-xs text-dusk-700 peer-checked:bg-safari-50 peer-checked:border-safari-600 peer-checked:text-safari-800 transition-all duration-200 hover:border-dusk-300">
+                      <span class="bullet w-1.5 h-1.5 rounded-full bg-dusk-400 transition-colors"></span>
+                      {act.data.name}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <!-- Date Picker (Approximate Start Date) -->
             <div>
               <label class="block text-sm font-medium text-safari-900 mb-2">Approximate start date</label>
               <input
-                type="date"
+                type="text"
                 name="dates"
                 id="trip-date"
-                min={today}
+                placeholder="Select date"
                 class="w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg"
               />
               <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="dates">Please select a travel date.</p>
             </div>
+
+            <!-- Flexible Dates Option -->
             <div class="mt-3">
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" id="flexible-dates" class="sr-only peer" />
                 <span class="w-4 h-4 rounded border-2 border-dusk-300 peer-checked:border-savannah-600 peer-checked:bg-savannah-600 flex items-center justify-center transition-colors">
                   <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg>
                 </span>
-                <span class="text-sm text-dusk-700">My dates are flexible</span>
+                <span class="text-sm text-dusk-700 font-medium">My dates are flexible</span>
               </label>
               <input type="text" id="flexible-dates-text" class="hidden w-full px-4 py-3 bg-dusk-50 border border-dusk-200 rounded-xl text-dusk-900 mt-2 focus:outline-none focus:ring-2 focus:ring-safari-600 focus:border-transparent transition text-lg" placeholder="e.g. July–August 2026, or 'late December'" />
               <p class="field-error text-sm text-sunset-600 mt-1.5 hidden" data-error="flexibleDatesText">Please tell us which month or season.</p>
             </div>
+
+            <!-- Duration Options -->
             <div>
               <label class="block text-sm font-medium text-safari-900 mb-3">How long would you like to travel for?</label>
               <div class="flex flex-wrap gap-2">
@@ -289,8 +292,8 @@ const trustCards = [
           </div>
         </div>
 
-        <!-- Step 7: Accommodation + Details -->
-        <div class="step p-8 md:p-10 hidden" data-step="7" data-label="Accommodation & details" data-field="accommodation">
+        <!-- Step 7: Accommodation Preference & Details -->
+        <div class="step p-8 md:p-10 hidden" data-step="accommodation" data-label="Accommodation & details" data-field="accommodation">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Accommodation preference?</h2>
           <p class="text-dusk-600 mb-6">This helps us pick the right lodges and camps for you.</p>
           <div class="grid sm:grid-cols-2 gap-3 mb-8">
@@ -329,15 +332,31 @@ const trustCards = [
           ></textarea>
         </div>
 
-        <!-- Step 8: Contact + Review -->
-        <div class="step p-8 md:p-10 hidden" data-step="8" data-required="true" data-label="Contact details" data-field="firstName">
+        <!-- Step 8: Contact & Summary Review -->
+        <div class="step p-8 md:p-10 hidden" data-step="contact" data-required="true" data-label="Contact details" data-field="firstName">
           <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">Your contact details</h2>
           <p class="text-dusk-600 mb-8">Our team will contact you with your custom itinerary within 24 hours.</p>
 
-          <!-- Review summary -->
-          <div id="review-summary" class="bg-dusk-50 rounded-xl p-5 mb-8 border border-dusk-100">
-            <p class="text-xs uppercase tracking-[0.18em] text-savannah-700 font-semibold mb-3">Your plan summary</p>
-            <div id="review-content" class="space-y-2 text-sm text-dusk-700"></div>
+          <!-- Professional review summary dashboard -->
+          <div id="review-summary" class="bg-gradient-to-br from-safari-900 to-safari-950 text-white rounded-2xl p-6 md:p-8 mb-8 border border-safari-800 shadow-lg relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-6">
+                <span class="w-8 h-8 rounded-lg bg-white/10 text-savannah-300 flex items-center justify-center font-display font-bold">
+                  ★
+                </span>
+                <div>
+                  <h3 class="font-display text-lg text-white font-medium">Your Custom Tanzania Profile</h3>
+                  <p class="text-xs text-white/60">Our experts will craft an itinerary based on these choices.</p>
+                </div>
+              </div>
+              
+              <div id="review-content" class="grid sm:grid-cols-2 gap-x-8 gap-y-6 text-sm">
+                <!-- Dynamically generated summary sections inject here -->
+              </div>
+            </div>
           </div>
 
           <div class="space-y-5">
@@ -458,12 +477,12 @@ const trustCards = [
 </PublicLayout>
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script>
-  // ── Step navigation ──
-  const steps = Array.from(document.querySelectorAll('.step')) as HTMLElement[];
-  const totalSteps = steps.length;
-  let currentStep = 1;
+<!-- Flatpickr CDN library script -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<script>
+  // Identify steps by id
+  const steps = Array.from(document.querySelectorAll('.step')) as HTMLElement[];
   const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
   const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
@@ -473,16 +492,23 @@ const trustCards = [
   const formStatus = document.getElementById('form-status') as HTMLParagraphElement;
   const reviewContent = document.getElementById('review-content') as HTMLDivElement;
 
-  const stepNames: Record<number, string> = {};
-  steps.forEach((s) => {
-    const n = parseInt(s.dataset.step!);
-    stepNames[n] = s.dataset.label!;
-  });
+  // Initial routing path state (updated dynamically when selections change)
+  let currentStepId = 'trip-type';
+  let activePath: string[] = ['trip-type', 'group', 'budget', 'dates', 'accommodation', 'contact'];
 
-  function showStep(n: number) {
+  function updateActivePath() {
+    const tripTypeVal = (document.querySelector('input[name="tripType"]:checked') as HTMLInputElement)?.value;
+    
+    if (tripTypeVal === 'safari' || tripTypeVal === 'combined') {
+      activePath = ['trip-type', 'destinations', 'group', 'budget', 'dates', 'accommodation', 'contact'];
+    } else {
+      activePath = ['trip-type', 'group', 'budget', 'dates', 'accommodation', 'contact'];
+    }
+  }
+
+  function showStep(stepId: string) {
     steps.forEach((s) => {
-      const sn = parseInt(s.dataset.step!);
-      if (sn === n) {
+      if (s.dataset.step === stepId) {
         s.classList.remove('hidden');
         s.style.animation = 'fadeSlideIn 0.35s ease-out';
       } else {
@@ -490,23 +516,35 @@ const trustCards = [
       }
     });
 
-    currentStep = n;
-    const pct = Math.round((n / totalSteps) * 100);
-    progressFill.style.width = pct + '%';
-    stepLabel.textContent = `Step ${n} of ${totalSteps}`;
-    stepTitleDisplay.textContent = stepNames[n] ?? '';
+    currentStepId = stepId;
+    const currentIndex = activePath.indexOf(stepId);
+    const pathLength = activePath.length;
+    
+    // Update progress bar percentage & labels
+    if (currentIndex !== -1) {
+      const pct = Math.round(((currentIndex + 1) / pathLength) * 100);
+      progressFill.style.width = pct + '%';
+      stepLabel.textContent = `Step ${currentIndex + 1} of ${pathLength}`;
+      
+      const stepEl = steps.find(s => s.dataset.step === stepId);
+      stepTitleDisplay.textContent = stepEl?.dataset.label || '';
+    }
 
-    prevBtn!.classList.toggle('hidden', n === 1);
-    nextBtn!.classList.toggle('hidden', n === totalSteps);
-    submitBtn!.classList.toggle('hidden', n !== totalSteps);
+    // Toggle back / next / submit button visibility
+    const isFirst = currentIndex === 0;
+    const isLast = currentIndex === pathLength - 1;
 
-    // Build review summary on step 8
-    if (n === totalSteps) {
+    prevBtn!.classList.toggle('hidden', isFirst);
+    nextBtn!.classList.toggle('hidden', isLast);
+    submitBtn!.classList.toggle('hidden', !isLast);
+
+    // Build the summary dashboard on final page
+    if (isLast) {
       buildReview();
       initTurnstile();
     }
 
-    // Scroll to top of form on step change
+    // Scroll to top of form wrapper
     const form = document.getElementById('plan-trip-form');
     if (form) {
       const top = form.getBoundingClientRect().top + window.scrollY - 120;
@@ -515,7 +553,7 @@ const trustCards = [
   }
 
   function currentStepData(): HTMLElement | undefined {
-    return steps.find((s) => parseInt(s.dataset.step!) === currentStep);
+    return steps.find((s) => s.dataset.step === currentStepId);
   }
 
   function validateCurrentStep(): boolean {
@@ -524,18 +562,25 @@ const trustCards = [
     if (!step) return true;
     if (step.dataset.required !== 'true') return true;
 
-    const fieldName = step.dataset.field!;
-    if (fieldName === 'adults') {
+    const stepId = step.dataset.step!;
+
+    if (stepId === 'trip-type') {
+      const checked = step.querySelector('input[type="radio"]:checked') as HTMLInputElement;
+      if (!checked) { showFieldError('tripType', 'Please select a trip type.'); return false; }
+    }
+    if (stepId === 'destinations') {
+      const checked = step.querySelectorAll('input[type="checkbox"]:checked');
+      if (checked.length === 0) { showFieldError('destinations', 'Please select at least one destination.'); return false; }
+    }
+    if (stepId === 'group') {
       const sel = step.querySelector('select[name="adults"]') as HTMLSelectElement;
       if (!sel?.value) { showFieldError('adults', 'Please select the number of adults.'); return false; }
-      return true;
     }
-    if (fieldName === 'tripType' || fieldName === 'stage' || fieldName === 'budget') {
+    if (stepId === 'budget') {
       const checked = step.querySelector('input[type="radio"]:checked') as HTMLInputElement;
-      if (!checked) { showFieldError(fieldName, 'Please make a selection.'); return false; }
-      return true;
+      if (!checked) { showFieldError('budget', 'Please select a budget range.'); return false; }
     }
-    if (fieldName === 'dates') {
+    if (stepId === 'dates') {
       const flexible = step.querySelector('#flexible-dates') as HTMLInputElement;
       if (flexible?.checked) {
         const ft = step.querySelector('#flexible-dates-text') as HTMLInputElement;
@@ -546,16 +591,14 @@ const trustCards = [
       }
       const dur = step.querySelector('input[name="duration"]:checked') as HTMLInputElement;
       if (!dur) { showFieldError('duration', 'Please select a trip duration.'); return false; }
-      return true;
     }
-    if (fieldName === 'firstName') {
+    if (stepId === 'contact') {
       const fn = step.querySelector('input[name="firstName"]') as HTMLInputElement;
       const ln = step.querySelector('input[name="lastName"]') as HTMLInputElement;
       const em = step.querySelector('input[name="email"]') as HTMLInputElement;
       if (!fn?.value.trim()) { showFieldError('firstName', 'Please enter your first name.'); return false; }
       if (!ln?.value.trim()) { showFieldError('lastName', 'Please enter your last name.'); return false; }
       if (!em?.value.trim() || !em.value.includes('@')) { showFieldError('email', 'Please enter a valid email address.'); return false; }
-      return true;
     }
     return true;
   }
@@ -629,105 +672,211 @@ const trustCards = [
   function buildReview() {
     if (!reviewContent) return;
     const labels: Record<string, string> = {
-      safari: 'Wildlife Safari', kilimanjaro: 'Kilimanjaro Climb', meru: 'Mount Meru Climb',
-      zanzibar: 'Zanzibar Beach', combined: 'Combined Tour', 'not-sure': 'Not sure yet',
-      researching: 'Still researching', 'ready-to-book': 'Ready to book',
-      'under-2000': 'Under $2,000/person', '2000-4000': '$2,000–4,000/person',
-      '4000-6000': '$4,000–6,000/person', '6000-10000': '$6,000–10,000/person',
-      '10000-plus': '$10,000+/person', flexible: 'Flexible budget',
+      safari: 'Wildlife Safari', trekking: 'Trekking Climb', zanzibar: 'Zanzibar Beach',
+      combined: 'Combined Tour',
+      'under-2000': 'Under $2,000 / person', '2000-4000': '$2,000–$4,000 / person',
+      '4000-6000': '$4,000–$6,000 / person', '6000-10000': '$6,000–$10,000 / person',
+      '10000-plus': '$10,000+ / person', flexible: 'Flexible budget',
       '1-5': '1–5 days', '6-10': '6–10 days', '11-15': '11–15 days', '16-plus': '16+ days',
-      luxury: 'Luxury', 'mid-range': 'Mid-range', budget: 'Budget', mixed: 'Mixed',
+      luxury: 'Luxury (High-end)', 'mid-range': 'Mid-range (Comfort)', budget: 'Budget (Camping)', mixed: 'Mixed style',
     };
 
-    const items: [string, string][] = [];
-    const tripType = document.querySelector('input[name="tripType"]:checked') as HTMLInputElement;
-    if (tripType) items.push(['Trip type', labels[tripType.value] ?? tripType.value]);
+    const tripTypeVal = (document.querySelector('input[name="tripType"]:checked') as HTMLInputElement)?.value;
+    const accommodationVal = (document.querySelector('input[name="accommodation"]:checked') as HTMLInputElement)?.value;
+    const budgetVal = (document.querySelector('input[name="budget"]:checked') as HTMLInputElement)?.value;
+    const durationVal = (document.querySelector('input[name="duration"]:checked') as HTMLInputElement)?.value;
+    
+    const adultsVal = (document.querySelector('select[name="adults"]') as HTMLSelectElement)?.value;
+    const kidsVal = (document.querySelector('select[name="kids"]') as HTMLSelectElement)?.value;
+    const travelersDisplay = adultsVal ? `${adultsVal} adult${adultsVal !== '1' ? 's' : ''}${kidsVal && kidsVal !== '0' ? `, ${kidsVal} kid${kidsVal !== '1' ? 's' : ''}` : ''}` : '';
 
-    const addons = Array.from(document.querySelectorAll('input[name="addons"]:checked'));
-    if (addons.length) items.push(['Add-ons', addons.map((a: any) => a.value === 'none' ? 'None' : labels[a.value] ?? a.value).join(', ')]);
+    const datesInput = document.getElementById('trip-date') as HTMLInputElement;
+    const flexibleCheckbox = document.getElementById('flexible-dates') as HTMLInputElement;
+    const flexibleText = document.getElementById('flexible-dates-text') as HTMLInputElement;
+    const datesDisplay = flexibleCheckbox?.checked && flexibleText?.value ? flexibleText.value : (datesInput?.value || '');
 
-    const stage = document.querySelector('input[name="stage"]:checked') as HTMLInputElement;
-    if (stage) items.push(['Stage', labels[stage.value] ?? stage.value]);
+    // Selected Destinations
+    const selectedDests = Array.from(document.querySelectorAll('input[name="destinations"]:checked')).map((el: any) => {
+      const card = el.closest('.step-card');
+      return card ? card.querySelector('.font-display')?.textContent?.trim() || el.value : el.value;
+    });
 
-    const a = document.querySelector('select[name="adults"]') as HTMLSelectElement;
-    const k = document.querySelector('select[name="kids"]') as HTMLSelectElement;
-    if (a?.value) items.push(['Group', `${a.value} adult${a.value !== '1' ? 's' : ''}${k?.value && k.value !== '0' ? `, ${k.value} kid${k.value !== '1' ? 's' : ''}` : ''}`]);
 
-    const budget = document.querySelector('input[name="budget"]:checked') as HTMLInputElement;
-    if (budget) items.push(['Budget', labels[budget.value] ?? budget.value]);
 
-    const dates = document.querySelector('input[name="dates"]') as HTMLInputElement;
-    const flexible = document.getElementById('flexible-dates') as HTMLInputElement;
-    const flexText = document.getElementById('flexible-dates-text') as HTMLInputElement;
-    const duration = document.querySelector('input[name="duration"]:checked') as HTMLInputElement;
-    const dateDisplay = flexible?.checked && flexText?.value ? flexText.value : (dates?.value || '');
-    if (dateDisplay) items.push(['Dates', dateDisplay]);
-    if (duration) items.push(['Duration', labels[duration.value] ?? duration.value]);
+    // Selected Activities
+    const selectedActivities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map((el: any) => {
+      return el.closest('label')?.textContent?.trim() || el.value;
+    });
 
-    const acc = document.querySelector('input[name="accommodation"]:checked') as HTMLInputElement;
-    if (acc) items.push(['Style', labels[acc.value] ?? acc.value]);
+    let html = '';
 
-    reviewContent.innerHTML = items.map(([k, v]) =>
-      `<div class="flex justify-between"><span class="text-dusk-500">${k}</span><span class="font-medium text-safari-900 text-right">${v}</span></div>`
-    ).join('');
+    // Col 1: Trip Concept
+    html += `
+      <div class="space-y-4">
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Trip Type</span>
+          <span class="text-savannah-300 font-medium text-base">${labels[tripTypeVal] || 'Not selected'}</span>
+        </div>
+    `;
+
+    if (selectedDests.length > 0) {
+      html += `
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1.5">Destinations</span>
+          <div class="flex flex-wrap gap-1.5 max-w-xs">
+            ${selectedDests.map(d => `<span class="inline-flex items-center px-2 py-0.5 rounded bg-white/15 text-xs text-white">${d}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+
+
+    html += `
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Accommodation Preference</span>
+          <span class="text-white font-medium text-sm block">${labels[accommodationVal] || 'Not selected'}</span>
+        </div>
+      </div>
+    `;
+
+    // Col 2: Logistics & Activities
+    html += `
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Dates</span>
+            <span class="text-white font-medium text-sm block">${datesDisplay || 'Not specified'}</span>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Duration</span>
+            <span class="text-white font-medium text-sm block">${labels[durationVal] || 'Not specified'}</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Travelers</span>
+            <span class="text-white font-medium text-sm block">${travelersDisplay || 'Not specified'}</span>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Budget Per Person</span>
+            <span class="text-white font-medium text-sm block">${labels[budgetVal] || 'Not specified'}</span>
+          </div>
+        </div>
+    `;
+
+    if (selectedActivities.length > 0) {
+      html += `
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1.5">Preferred Activities</span>
+          <div class="flex flex-wrap gap-1 max-w-xs">
+            ${selectedActivities.map(act => `<span class="inline-flex items-center px-2.5 py-0.5 rounded bg-savannah-500/20 text-xs text-savannah-300 font-medium border border-savannah-500/30">${act}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    html += `
+      </div>
+    `;
+
+    reviewContent.innerHTML = html;
   }
 
+  // ── Step progression Event Listeners ──
   prevBtn?.addEventListener('click', () => {
-    if (currentStep > 1) showStep(currentStep - 1);
+    updateActivePath();
+    const currentIndex = activePath.indexOf(currentStepId);
+    if (currentIndex > 0) {
+      showStep(activePath[currentIndex - 1]);
+    }
   });
 
   nextBtn?.addEventListener('click', () => {
+    updateActivePath();
     if (!validateCurrentStep()) return;
-    if (currentStep < totalSteps) showStep(currentStep + 1);
+    const currentIndex = activePath.indexOf(currentStepId);
+    if (currentIndex !== -1 && currentIndex < activePath.length - 1) {
+      showStep(activePath[currentIndex + 1]);
+    }
   });
 
-  // ── Auto-advance on single-choice radio steps (only steps with data-auto-advance) ──
+  // ── Auto-advance on radio selection steps with auto-advance attribute ──
   steps.forEach((step) => {
     if (step.dataset.autoAdvance !== 'true') return;
     const radios = step.querySelectorAll('input[type="radio"]');
     radios.forEach((r) => {
       r.addEventListener('change', () => {
-        if (currentStepData() === step && validateCurrentStep() && currentStep < totalSteps) {
-          setTimeout(() => showStep(currentStep + 1), 300);
+        updateActivePath();
+        if (currentStepId === step.dataset.step && validateCurrentStep()) {
+          const currentIndex = activePath.indexOf(currentStepId);
+          if (currentIndex !== -1 && currentIndex < activePath.length - 1) {
+            setTimeout(() => showStep(activePath[currentIndex + 1]), 300);
+          }
         }
       });
     });
   });
 
-  // ── Addon mutual exclusivity: "None, thanks" disables others ──
-  const noneCheckbox = document.querySelector('input[name="addons"][value="none"]') as HTMLInputElement;
-  const addonCheckboxes = Array.from(document.querySelectorAll('input[name="addons"]:not([value="none"])')) as HTMLInputElement[];
 
-  function setAddonDisabledState(disabled: boolean) {
-    addonCheckboxes.forEach((cb) => {
-      if (disabled) cb.checked = false;
-      cb.disabled = disabled;
-      cb.closest('.step-card')?.classList.toggle('opacity-40', disabled);
-    });
+
+  // ── Flexible dates toggle ──
+  const flexibleCheckbox = document.getElementById('flexible-dates') as HTMLInputElement;
+  const tripDateInput = document.getElementById('trip-date') as HTMLInputElement;
+  const flexibleText = document.getElementById('flexible-dates-text') as HTMLInputElement;
+
+  // Initialize Flatpickr Datepicker Instance
+  let fpInstance: any = null;
+  const initDatepicker = () => {
+    const tripDateEl = document.getElementById('trip-date');
+    if (tripDateEl && typeof (window as any).flatpickr !== 'undefined') {
+      fpInstance = (window as any).flatpickr(tripDateEl, {
+        minDate: 'today',
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'F j, Y',
+        onChange: () => {
+          clearFieldError('dates');
+        }
+      });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDatepicker);
+  } else {
+    initDatepicker();
   }
 
-  noneCheckbox?.addEventListener('change', () => {
-    setAddonDisabledState(noneCheckbox.checked);
-  });
-
-  addonCheckboxes.forEach((cb) => {
-    cb.addEventListener('change', () => {
-      const anyChecked = addonCheckboxes.some((c) => c.checked);
-      if (anyChecked) {
-        noneCheckbox.checked = false;
-        noneCheckbox.disabled = true;
-        noneCheckbox.closest('.step-card')?.classList.add('opacity-40');
-      } else {
-        noneCheckbox.disabled = false;
-        noneCheckbox.closest('.step-card')?.classList.remove('opacity-40');
+  flexibleCheckbox?.addEventListener('change', () => {
+    if (flexibleCheckbox.checked) {
+      if (fpInstance) {
+        fpInstance.clear();
+        // Flatpickr altInput must be disabled/hidden
+        const altInput = tripDateInput.nextSibling as HTMLInputElement;
+        if (altInput && altInput.classList.contains('flatpickr-input')) {
+          altInput.disabled = true;
+        }
       }
-    });
+      tripDateInput.disabled = true;
+      tripDateInput.value = '';
+      flexibleText.classList.remove('hidden');
+    } else {
+      if (fpInstance) {
+        const altInput = tripDateInput.nextSibling as HTMLInputElement;
+        if (altInput && altInput.classList.contains('flatpickr-input')) {
+          altInput.disabled = false;
+        }
+      }
+      tripDateInput.disabled = false;
+      flexibleText.classList.add('hidden');
+      flexibleText.value = '';
+    }
   });
 
-  // ── Form submission ──
+  // ── Form submission handler ──
   const form = document.getElementById('plan-trip-form') as HTMLFormElement;
 
-  // Clear field errors on input/change
   form?.addEventListener('input', (e) => {
     const t = e.target as HTMLInputElement;
     if (t.name) clearFieldError(t.name);
@@ -740,33 +889,29 @@ const trustCards = [
   const tsField = document.getElementById('_ts') as HTMLInputElement;
   if (tsField) tsField.value = String(Date.now());
 
-  // ── Flexible dates toggle ──
-  const flexibleCheckbox = document.getElementById('flexible-dates') as HTMLInputElement;
-  const tripDateInput = document.getElementById('trip-date') as HTMLInputElement;
-  const flexibleText = document.getElementById('flexible-dates-text') as HTMLInputElement;
-
-  flexibleCheckbox?.addEventListener('change', () => {
-    if (flexibleCheckbox.checked) {
-      tripDateInput.disabled = true;
-      tripDateInput.value = '';
-      flexibleText.classList.remove('hidden');
-    } else {
-      tripDateInput.disabled = false;
-      flexibleText.classList.add('hidden');
-      flexibleText.value = '';
-    }
-  });
-
-  // Plan another trip — reset and start over
+  // Plan another trip reset
   document.getElementById('plan-another-btn')?.addEventListener('click', () => {
     form?.reset();
+    if (fpInstance) {
+      fpInstance.clear();
+      const altInput = tripDateInput.nextSibling as HTMLInputElement;
+      if (altInput && altInput.classList.contains('flatpickr-input')) {
+        altInput.disabled = false;
+      }
+    }
+    tripDateInput.disabled = false;
+    flexibleText.classList.add('hidden');
+    flexibleText.value = '';
+
     form.classList.remove('hidden');
     const progressSection = document.getElementById('wizard')?.querySelector('.mb-10') as HTMLElement;
     if (progressSection) progressSection.classList.remove('hidden');
     document.getElementById('success-state')?.classList.add('hidden');
     turnstileRendered = false;
     document.getElementById('turnstile-widget')?.classList.add('hidden');
-    showStep(1);
+    
+    updateActivePath();
+    showStep('trip-type');
     document.getElementById('wizard')?.scrollIntoView({ behavior: 'smooth' });
   });
 
@@ -786,11 +931,15 @@ const trustCards = [
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      // Process addons — FormData gives multiple entries for same name
-      const addonsArr = formData.getAll('addons') as string[];
-      (data as any).addons = addonsArr;
+      // Process array fields
 
-      // Process dates — if flexible, use the flexible text
+      const destinationsArr = formData.getAll('destinations') as string[];
+      (data as any).destinations = destinationsArr;
+
+      const activitiesArr = formData.getAll('activities') as string[];
+      (data as any).activities = activitiesArr;
+
+      // Process dates
       if (flexibleCheckbox?.checked && flexibleText?.value.trim()) {
         (data as any).dates = flexibleText.value.trim();
       }
@@ -807,12 +956,12 @@ const trustCards = [
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({ error: 'Something went wrong' }));
-        // Jump to the step containing the errored field
         if (body.field) {
           for (const step of steps) {
-            const sn = parseInt(step.dataset.step!);
+            const stepId = step.dataset.step!;
             if (step.dataset.field === body.field || step.querySelector(`[name="${body.field}"]`)) {
-              showStep(sn);
+              updateActivePath();
+              showStep(stepId);
               break;
             }
           }
@@ -830,7 +979,7 @@ const trustCards = [
       if (successState) successState.classList.remove('hidden');
       document.getElementById('wizard')?.closest('section')?.scrollIntoView({ behavior: 'smooth' });
     } catch (err: any) {
-      if (!formStatus.textContent) {
+      if (!formStatus.textContent || formStatus.textContent === 'Sending your plan…') {
         formStatus.classList.remove('hidden');
         formStatus.className = 'text-sm text-center px-8 pb-6 text-sunset-600 font-medium';
         formStatus.textContent = err.message === 'Submit failed' || err.message === 'Please check this field.'
@@ -840,13 +989,14 @@ const trustCards = [
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send Your Plan';
+        submitBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline-block mr-1.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send Your Plan';
       }
     }
   });
 
-  // On page load, show first step
-  showStep(1);
+  // Initial load
+  updateActivePath();
+  showStep('trip-type');
 </script>
 
 <style>
@@ -861,11 +1011,53 @@ const trustCards = [
     border-color: var(--color-safari-600);
     background-color: var(--color-safari-600);
   }
-  .step-card:has(input:checked) .dot-addon {
-    border-color: var(--color-savannah-600);
-    background-color: var(--color-savannah-600);
-  }
+
   .step-card:has(input:checked) .check-mark {
     opacity: 1;
+  }
+
+  /* Flatpickr Theme Adjustments */
+  .flatpickr-calendar {
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-dusk-200);
+    font-family: inherit;
+    background: #fff;
+  }
+  .flatpickr-day.selected, 
+  .flatpickr-day.startRange, 
+  .flatpickr-day.endRange, 
+  .flatpickr-day.selected.inRange, 
+  .flatpickr-day.startRange.inRange, 
+  .flatpickr-day.endRange.inRange, 
+  .flatpickr-day.selected:focus, 
+  .flatpickr-day.startRange:focus, 
+  .flatpickr-day.endRange:focus, 
+  .flatpickr-day.selected:hover, 
+  .flatpickr-day.startRange:hover, 
+  .flatpickr-day.endRange:hover, 
+  .flatpickr-day.prevMonthDay.selected, 
+  .flatpickr-day.nextMonthDay.selected {
+    background: #2b5c3f !important;
+    border-color: #2b5c3f !important;
+    color: #fff !important;
+  }
+  .flatpickr-day:hover {
+    background: #f1f5f9;
+  }
+  .flatpickr-months .flatpickr-prev-month:hover svg, 
+  .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #2b5c3f !important;
+  }
+
+  /* Checkbox input chips custom styling */
+  input:checked + span {
+    border-color: var(--color-safari-600);
+    background-color: var(--color-safari-50);
+    color: var(--color-safari-900);
+    font-weight: 500;
+  }
+  input:checked + span .bullet {
+    background-color: var(--color-safari-600);
   }
 </style>
