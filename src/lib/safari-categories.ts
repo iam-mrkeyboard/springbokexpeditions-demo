@@ -321,7 +321,11 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   'mid-range': [
     'northern-circuit-classic',
     'signature-northern-circuit',
-    'great-migration-calving',
+    'calving-migration-safari',
+    'calving-migration-5day',
+    'calving-migration-6day',
+    'calving-migration-8day',
+    'great-migration-6day',
     'birding-safari',
     'cultural-tanzania',
     'mara-river-crossing',
@@ -354,7 +358,11 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   ],
   migration: [
     'mara-river-crossing',
-    'great-migration-calving',
+    'great-migration-6day',
+    'calving-migration-safari',
+    'calving-migration-5day',
+    'calving-migration-6day',
+    'calving-migration-8day',
     'western-serengeti-grumeti',
     'signature-northern-circuit',
   ],
@@ -362,7 +370,10 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'photography-safari',
     // custom-luxury removed per request
     'mara-river-crossing',
-    'great-migration-calving',
+    'calving-migration-safari',
+    'calving-migration-5day',
+    'calving-migration-6day',
+    'calving-migration-8day',
     'luxury-fly-in-serengeti',
   ],
   birding: [
