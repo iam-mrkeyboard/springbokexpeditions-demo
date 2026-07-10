@@ -1,7 +1,7 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
-import { MapPin, Calendar, ListFilter, ArrowRight } from '@lucide/astro';
+import { ListFilter, ArrowRight } from '@lucide/astro';
 import { isValidStyleTier, isValidExperienceBadge, STYLE_TIERS, getStyleTier, getExperienceBadge } from '@/lib/badges';
 import Badge from '@/components/ui/Badge.astro';
 
@@ -163,17 +163,6 @@ const typeLabels: Record<string, string> = {
                     })}
                   </div>
                 )}
-
-                <div class="flex items-center gap-4 text-xs text-dusk-600">
-                  <span class="flex items-center gap-1.5">
-                    <Calendar size={13} />
-                    {tour.data.durationDays} {tour.data.durationDays === 1 ? 'day' : 'days'}
-                  </span>
-                  <span class="flex items-center gap-1.5">
-                    <MapPin size={13} />
-                    {tour.data.destinations.length} {tour.data.destinations.length === 1 ? 'park' : 'parks'}
-                  </span>
-                </div>
               </div>
             </a>
           );
