@@ -5,6 +5,8 @@ export interface EnquiryData {
   tourTitle: string;
   activities?: string[];
   travelers?: number;
+  adults?: number;
+  children?: number;
   when?: string;
   budget?: string;
   name: string;
@@ -21,6 +23,19 @@ export async function sendEnquiryEmail(data: EnquiryData): Promise<{ success: bo
   const formattedActivities = data.activities && data.activities.length > 0
     ? data.activities.map(a => a.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())).join(', ')
     : 'None selected';
+
+  let travelersBreakdown = 'Not specified';
+  if (data.travelers) {
+    travelersBreakdown = `${data.travelers} ${data.travelers === 1 ? 'traveler' : 'travelers'}`;
+    if (data.adults || data.children !== undefined) {
+      const parts = [];
+      if (data.adults) parts.push(`${data.adults} ${data.adults === 1 ? 'adult' : 'adults'}`);
+      if (data.children !== undefined && data.children > 0) parts.push(`${data.children} ${data.children === 1 ? 'child' : 'children'}`);
+      if (parts.length > 0) {
+        travelersBreakdown += ` (${parts.join(', ')})`;
+      }
+    }
+  }
 
   // Build the Internal Notification HTML
   const internalHtml = `
@@ -70,7 +85,7 @@ export async function sendEnquiryEmail(data: EnquiryData): Promise<{ success: bo
             </tr>
             <tr>
               <th>Travelers</th>
-              <td>${data.travelers || 'Not specified'}</td>
+              <td>${travelersBreakdown}</td>
             </tr>
             <tr>
               <th>Travel Dates</th>
@@ -136,7 +151,7 @@ export async function sendEnquiryEmail(data: EnquiryData): Promise<{ success: bo
             <h4>Enquiry Summary</h4>
             <ul>
               <li><strong>Tour:</strong> ${data.tourTitle}</li>
-              <li><strong>Travelers:</strong> ${data.travelers || 'Not specified'}</li>
+              <li><strong>Travelers:</strong> ${travelersBreakdown}</li>
               <li><strong>Preferred Dates:</strong> ${data.when || 'Not specified'}</li>
               <li><strong>Selected Activities:</strong> ${formattedActivities}</li>
             </ul>
