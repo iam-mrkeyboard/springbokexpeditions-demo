@@ -12,10 +12,7 @@ interface Props {
     };
   };
 }
-
 const { tour } = Astro.props;
-const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP || '255784136616';
-const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi Springbok! I'm interested in the "${tour.data.title}" tour. Could you share more details and availability?`)}`;
 ---
 
 <div class="bg-white border border-dusk-100 rounded-2xl shadow-soft overflow-hidden">
@@ -29,15 +26,14 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       <Mail size={16} />
       Request a Custom Quote
     </button>
-    <a
-      href={whatsappLink}
-      target="_blank"
-      rel="noopener"
-      class="btn bg-[#25D366] text-white hover:bg-[#20ba5a] w-full justify-center"
+    <button
+      type="button"
+      id={`open-whatsapp-btn-${tour.id}`}
+      class="btn bg-[#25D366] text-white hover:bg-[#20ba5a] w-full justify-center cursor-pointer"
     >
       <MessageCircle size={16} />
       Chat on WhatsApp
-    </a>
+    </button>
   </div>
 
   <TourEnquiryModal tour={tour} />
@@ -45,10 +41,17 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
   <script is:inline define:vars={{ tourId: tour.id }}>
     (function() {
       const btn = document.getElementById(`open-enquiry-btn-${tourId}`);
+      const waBtn = document.getElementById(`open-whatsapp-btn-${tourId}`);
       const modal = document.getElementById(`enquiry-modal-${tourId}`);
+      
       if (btn && modal) {
         btn.addEventListener('click', () => {
-          modal.dispatchEvent(new CustomEvent('open-enquiry'));
+          modal.dispatchEvent(new CustomEvent('open-enquiry', { detail: { source: 'email' } }));
+        });
+      }
+      if (waBtn && modal) {
+        waBtn.addEventListener('click', () => {
+          modal.dispatchEvent(new CustomEvent('open-enquiry', { detail: { source: 'whatsapp' } }));
         });
       }
     })();
