@@ -48,7 +48,7 @@ const budgetOptions = [
   <!-- Modal Header / Tour Info -->
   <div class="bg-safari-900 text-white px-6 py-4 flex items-center justify-between border-b border-safari-800">
     <div>
-      <p class="text-[10px] md:text-xs uppercase tracking-[0.18em] text-savannah-300 font-semibold mb-0.5">Custom Quote Request</p>
+      <p id={`${modalId}-top-label`} class="text-[10px] md:text-xs uppercase tracking-[0.18em] text-savannah-300 font-semibold mb-0.5">Custom Quote Request</p>
       <h3 id={`${modalId}-title`} class="font-display text-base md:text-lg font-medium text-white truncate max-w-[400px] md:max-w-[500px]">
         {tour.data.title}
       </h3>
@@ -291,7 +291,7 @@ const budgetOptions = [
         id={`${modalId}-submit-btn`}
         class="btn btn-primary justify-center text-xs px-5 py-2 hidden cursor-pointer"
       >
-        <Send size={14} /> Send Quote Request
+        <Send size={14} /> <span id={`${modalId}-submit-btn-text`}>Send Quote Request</span>
       </button>
     </div>
   </form>
@@ -304,7 +304,7 @@ const budgetOptions = [
     
     <div class="space-y-2">
       <h4 class="font-display text-xl md:text-2xl text-safari-900 font-bold">Jambo! Request Received</h4>
-      <p class="text-sm text-dusk-600 max-w-md mx-auto leading-relaxed">
+      <p id={`${modalId}-success-text`} class="text-sm text-dusk-600 max-w-md mx-auto leading-relaxed">
         Your enquiry for the <strong>{tour.data.title}</strong> is on its way to our team in Arusha. We will get back to you with a custom quote within 24 hours.
       </p>
     </div>
@@ -368,7 +368,7 @@ const budgetOptions = [
       });
     }
 
-        // Wizard logic
+    // Wizard logic
     let currentStep = 1;
     const totalSteps = 3;
     const stepsPanes = dialog.querySelectorAll('.step-pane');
@@ -382,6 +382,7 @@ const budgetOptions = [
     const successPane = document.getElementById(`${modalId}-success-pane`);
     const generalError = document.getElementById(`${modalId}-general-error`);
     const tsField = document.getElementById(`${modalId}-ts`);
+    let submissionSource = 'email';
 
     // Reset wizard and open handler
     dialog.addEventListener('close', () => {
@@ -401,12 +402,26 @@ const budgetOptions = [
     });
 
     // Listen to custom event to open the modal
-    dialog.addEventListener('open-enquiry', () => {
+    dialog.addEventListener('open-enquiry', (e) => {
+      submissionSource = e.detail?.source || 'email';
+      
+      // Update top header label
+      const topLabel = document.getElementById(`${modalId}-top-label`);
+      if (topLabel) {
+        topLabel.textContent = submissionSource === 'whatsapp' ? 'WhatsApp Enquiry' : 'Custom Quote Request';
+      }
+
+      // Reset step 3 submit button text if needed
+      const submitTextSpan = document.getElementById(`${modalId}-submit-btn-text`);
+      if (submitTextSpan) {
+        submitTextSpan.textContent = submissionSource === 'whatsapp' ? 'Start WhatsApp Chat' : 'Send Quote Request';
+      }
+
       if (tsField) tsField.value = String(Date.now());
       dialog.showModal();
     });
 
-        // Mutual exclusion logic for "none" optional activity card
+    // Mutual exclusion logic for "none" optional activity card
     const activityCBs = dialog.querySelectorAll('.activity-cb');
     const noneCB = document.getElementById(`${modalId}-none-cb`);
 
@@ -464,7 +479,13 @@ const budgetOptions = [
 
       if (stepNum === totalSteps) {
         if (nextBtn) nextBtn.classList.add('hidden');
-        if (submitBtn) submitBtn.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.classList.remove('hidden');
+          const submitTextSpan = document.getElementById(`${modalId}-submit-btn-text`);
+          if (submitTextSpan) {
+            submitTextSpan.textContent = submissionSource === 'whatsapp' ? 'Start WhatsApp Chat' : 'Send Quote Request';
+          }
+        }
       } else {
         if (nextBtn) nextBtn.classList.remove('hidden');
         if (submitBtn) submitBtn.classList.add('hidden');
@@ -483,7 +504,7 @@ const budgetOptions = [
     });
 
     function validateCurrentStep() {
-            // Clear errors
+      // Clear errors
       generalError.classList.add('hidden');
       document.getElementById(`${modalId}-error-name`).classList.add('hidden');
       document.getElementById(`${modalId}-error-email`).classList.add('hidden');
@@ -519,7 +540,8 @@ const budgetOptions = [
       // Disable buttons
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="animate-pulse">Sending Quote Request...</span>';
+        const msg = submissionSource === 'whatsapp' ? 'Opening WhatsApp...' : 'Sending Quote Request...';
+        submitBtn.innerHTML = `<span class="animate-pulse">${msg}</span>`;
       }
       if (backBtn) backBtn.disabled = true;
 
@@ -554,13 +576,59 @@ const budgetOptions = [
           throw new Error(result.error || 'Failed to submit quote request. Please try again.');
         }
 
-                // Setup WhatsApp link on success
+        // Format a beautiful pre-filled message for WhatsApp
+        const tourTitleVal = data.tourTitle;
+        const nameVal = data.name;
+        const dateVal = data.when;
+        const travelersVal = data.travelers;
+        const budgetVal = data.budget;
+        const requestsVal = data.requests;
+        
+        let activitiesVal = 'None';
+        if (Array.isArray(data.activities) && data.activities.length > 0) {
+          activitiesVal = data.activities.map(a => {
+            return a.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+          }).join(', ');
+        }
+
+        let budgetLabel = '';
+        if (budgetVal === 'under-2000') budgetLabel = 'Under $2,000';
+        else if (budgetVal === '2000-4000') budgetLabel = '$2,000-$4,000';
+        else if (budgetVal === '4000-6000') budgetLabel = '$4,000-$6,000';
+        else if (budgetVal === '6000-plus') budgetLabel = '$6,000+';
+        else if (budgetVal === 'flexible') budgetLabel = 'Flexible';
+
+        let waMessage = `Hi Springbok! My name is ${nameVal}. I am interested in the "${tourTitleVal}" safari tour.\n\n`;
+        waMessage += `My travel preferences:\n`;
+        if (dateVal) waMessage += `- Preferred Date: ${dateVal}\n`;
+        if (travelersVal) waMessage += `- Travelers: ${travelersVal}\n`;
+        if (budgetLabel) waMessage += `- Estimated Budget: ${budgetLabel}\n`;
+        if (activitiesVal && activitiesVal !== 'None') waMessage += `- Added Activities: ${activitiesVal}\n`;
+        if (requestsVal) waMessage += `- Special Requests: ${requestsVal}\n`;
+        waMessage += `\nEmail: ${data.email}`;
+        if (data.phone) waMessage += `\nPhone: ${data.phone}`;
+
+        const waLink = `https://wa.me/255784136616?text=${encodeURIComponent(waMessage)}`;
+
+        // Setup WhatsApp link on success
         const whatsappBtn = document.getElementById(`${modalId}-whatsapp-success-btn`);
         if (whatsappBtn) {
-          const tourTitleVal = data.tourTitle;
-          const nameVal = data.name;
-          const waMessage = `Hi Springbok! My name is ${nameVal}. I just requested a custom quote for the "${tourTitleVal}" safari tour. I am looking forward to it!`;
-          whatsappBtn.href = `https://wa.me/255784136616?text=${encodeURIComponent(waMessage)}`;
+          whatsappBtn.href = waLink;
+        }
+
+        // Dynamically update success message text
+        const successText = document.getElementById(`${modalId}-success-text`);
+        if (successText) {
+          if (submissionSource === 'whatsapp') {
+            successText.innerHTML = `Your details for the <strong>${tourTitleVal}</strong> have been recorded. We are redirecting you to WhatsApp to start your chat. If the chat didn't open automatically, please click the button below.`;
+          } else {
+            successText.innerHTML = `Your enquiry for the <strong>${tourTitleVal}</strong> is on its way to our team in Arusha. We will get back to you with a custom quote within 24 hours.`;
+          }
+        }
+
+        // Redirect directly if selected source is WhatsApp
+        if (submissionSource === 'whatsapp') {
+          window.open(waLink, '_blank');
         }
 
         // Transition to success screen
@@ -575,7 +643,8 @@ const budgetOptions = [
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = '<svg class="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send Quote Request';
+          const btnText = submissionSource === 'whatsapp' ? 'Start WhatsApp Chat' : 'Send Quote Request';
+          submitBtn.innerHTML = `<svg class="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> <span id="${modalId}-submit-btn-text">${btnText}</span>`;
         }
         if (backBtn) backBtn.disabled = false;
       }
