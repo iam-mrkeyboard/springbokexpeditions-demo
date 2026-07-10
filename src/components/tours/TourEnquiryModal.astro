@@ -66,7 +66,7 @@ const budgetOptions = [
   <div class="px-6 pt-4 modal-progress-bar">
     <div class="flex items-center justify-between mb-1.5">
       <p class="text-[10px] uppercase tracking-[0.15em] text-savannah-700 font-bold" id={`${modalId}-step-label`}>Step 1 of 3</p>
-      <p class="text-[10px] text-dusk-500 font-medium" id={`${modalId}-step-title`}>Choose Activities</p>
+      <p class="text-[10px] text-dusk-500 font-medium" id={`${modalId}-step-title`}>Trip Details</p>
     </div>
     <div class="w-full h-1 bg-dusk-100 rounded-full overflow-hidden">
       <div id={`${modalId}-progress-fill`} class="h-full bg-safari-600 rounded-full transition-all duration-300 ease-out" style="width: 33.3%"></div>
@@ -78,11 +78,104 @@ const budgetOptions = [
     <input type="hidden" name="tourId" value={tour.id} />
     <input type="hidden" name="tourTitle" value={tour.data.title} />
 
-    <!-- STEP 1: Activities Checkboxes -->
-    <div class="step-pane space-y-4" data-step="1" data-title="Choose Activities">
+    <!-- STEP 1: Travel Details -->
+    <div class="step-pane space-y-4" data-step="1" data-title="Trip Details">
+      <div class="text-center sm:text-left mb-2">
+        <h4 class="font-display text-lg text-safari-900 font-semibold mb-1">Tell us about your plans</h4>
+        <p class="text-xs text-dusk-500">Provide details so we can tailor the pricing and options.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label for={`${modalId}-adults`} class="block text-xs font-semibold text-safari-900 mb-1">
+              Adults
+            </label>
+            <select
+              id={`${modalId}-adults`}
+              name="adults"
+              class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition"
+            >
+              <option value="2">2 adults (Standard)</option>
+              <option value="1">1 adult (Solo)</option>
+              <option value="3">3 adults</option>
+              <option value="4">4 adults</option>
+              <option value="5">5 adults</option>
+              <option value="6">6 adults</option>
+              <option value="7">7 adults</option>
+              <option value="8">8+ adults</option>
+            </select>
+          </div>
+          <div>
+            <label for={`${modalId}-children`} class="block text-xs font-semibold text-safari-900 mb-1">
+              Children <span class="text-dusk-400 font-normal">(optional)</span>
+            </label>
+            <select
+              id={`${modalId}-children`}
+              name="children"
+              class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition"
+            >
+              <option value="0">None</option>
+              <option value="1">1 child</option>
+              <option value="2">2 children</option>
+              <option value="3">3 children</option>
+              <option value="4">4 children</option>
+              <option value="5">5+ children</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for={`${modalId}-when`} class="block text-xs font-semibold text-safari-900 mb-1">
+            Preferred travel date <span class="text-sunset-500">*</span>
+          </label>
+          <input
+            type="date"
+            id={`${modalId}-when`}
+            name="when"
+            min={today}
+            required
+            class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition"
+          />
+          <p class="text-[10px] text-sunset-600 mt-1 hidden" id={`${modalId}-error-when`}>Please select a preferred travel date.</p>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-safari-900 mb-2">
+          Estimated budget per person <span class="text-dusk-400 font-normal">(USD)</span>
+        </label>
+        <div class="flex flex-wrap gap-2">
+          {budgetOptions.map((opt) => (
+            <label class="cursor-pointer group flex-1 min-w-[120px]">
+              <input type="radio" name="budget" value={opt.value} class="sr-only peer" />
+              <div class="px-3 py-2 text-center text-xs font-medium rounded-lg border border-dusk-200 bg-white text-dusk-700 peer-checked:bg-safari-50 peer-checked:border-safari-600 peer-checked:text-safari-900 hover:bg-dusk-50 transition-colors">
+                {opt.label}
+              </div>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label for={`${modalId}-message`} class="block text-xs font-semibold text-safari-900 mb-1">
+          Special requests or details
+        </label>
+        <textarea
+          id={`${modalId}-message`}
+          name="message"
+          rows="3"
+          class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition resize-none"
+          placeholder="e.g. Diet requirements, specific accommodations, celebrating a special occasion, etc."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 2: Activities Checkboxes -->
+    <div class="step-pane space-y-4 hidden" data-step="2" data-title="Choose Activities">
       <div class="text-center sm:text-left mb-4">
         <h4 class="font-display text-lg text-safari-900 font-semibold mb-1">Add activities to your itinerary</h4>
-        <p class="text-xs text-dusk-500">Select any experiences you'd like to combine with your tour.</p>
+        <p class="text-xs text-dusk-500">Select any optional experiences you'd like to combine with your tour.</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-1">
@@ -121,78 +214,6 @@ const budgetOptions = [
           </div>
         </div>
       </label>
-    </div>
-
-    <!-- STEP 2: Travel Details -->
-    <div class="step-pane space-y-4 hidden" data-step="2" data-title="Trip Details">
-      <div class="text-center sm:text-left mb-2">
-        <h4 class="font-display text-lg text-safari-900 font-semibold mb-1">Tell us about your plans</h4>
-        <p class="text-xs text-dusk-500">Provide details so we can tailor the pricing and options.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label for={`${modalId}-travelers`} class="block text-xs font-semibold text-safari-900 mb-1">
-            Number of travelers
-          </label>
-          <select
-            id={`${modalId}-travelers`}
-            name="travelers"
-            class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition"
-          >
-            <option value="2">2 travelers (Standard)</option>
-            <option value="1">1 traveler (Solo)</option>
-            <option value="3">3 travelers</option>
-            <option value="4">4 travelers</option>
-            <option value="5">5 travelers</option>
-            <option value="6">6 travelers</option>
-            <option value="7">7 travelers</option>
-            <option value="8">8+ travelers (Group)</option>
-          </select>
-        </div>
-
-        <div>
-          <label for={`${modalId}-when`} class="block text-xs font-semibold text-safari-900 mb-1">
-            Preferred travel date
-          </label>
-          <input
-            type="date"
-            id={`${modalId}-when`}
-            name="when"
-            min={today}
-            class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-safari-900 mb-2">
-          Estimated budget per person <span class="text-dusk-400 font-normal">(USD)</span>
-        </label>
-        <div class="flex flex-wrap gap-2">
-          {budgetOptions.map((opt) => (
-            <label class="cursor-pointer group flex-1 min-w-[120px]">
-              <input type="radio" name="budget" value={opt.value} class="sr-only peer" />
-              <div class="px-3 py-2 text-center text-xs font-medium rounded-lg border border-dusk-200 bg-white text-dusk-700 peer-checked:bg-safari-50 peer-checked:border-safari-600 peer-checked:text-safari-900 hover:bg-dusk-50 transition-colors">
-                {opt.label}
-              </div>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label for={`${modalId}-message`} class="block text-xs font-semibold text-safari-900 mb-1">
-          Special requests or details
-        </label>
-        <textarea
-          id={`${modalId}-message`}
-          name="message"
-          rows="3"
-          class="w-full px-3 py-2 bg-dusk-50 border border-dusk-200 rounded-lg text-sm text-dusk-900 focus:outline-hidden focus:ring-1 focus:ring-safari-600 focus:border-transparent transition resize-none"
-          placeholder="e.g. Diet requirements, specific accommodations, celebrating a special occasion, etc."
-        ></textarea>
-      </div>
     </div>
 
     <!-- STEP 3: Contact Information -->
@@ -508,6 +529,17 @@ const budgetOptions = [
       generalError.classList.add('hidden');
       document.getElementById(`${modalId}-error-name`).classList.add('hidden');
       document.getElementById(`${modalId}-error-email`).classList.add('hidden');
+      const whenError = document.getElementById(`${modalId}-error-when`);
+      if (whenError) whenError.classList.add('hidden');
+
+      if (currentStep === 1) {
+        const whenInput = document.getElementById(`${modalId}-when`);
+        if (!whenInput || !whenInput.value) {
+          if (whenError) whenError.classList.remove('hidden');
+          return false;
+        }
+        return true;
+      }
 
       if (currentStep === 3) {
         const nameInput = document.getElementById(`${modalId}-name`);
@@ -560,9 +592,12 @@ const budgetOptions = [
         });
         data.activities = selectedActivities;
 
-        if (data.travelers) {
-          data.travelers = parseInt(data.travelers);
-        }
+        // Parse adults and children count and calculate total travelers
+        const adultsVal = data.adults ? parseInt(data.adults) : 2;
+        const childrenVal = data.children ? parseInt(data.children) : 0;
+        data.adults = adultsVal;
+        data.children = childrenVal;
+        data.travelers = adultsVal + childrenVal;
 
         const res = await fetch('/api/enquire', {
           method: 'POST',
@@ -580,9 +615,8 @@ const budgetOptions = [
         const tourTitleVal = data.tourTitle;
         const nameVal = data.name;
         const dateVal = data.when;
-        const travelersVal = data.travelers;
         const budgetVal = data.budget;
-        const requestsVal = data.requests;
+        const requestsVal = data.message;
         
         let activitiesVal = 'None';
         if (Array.isArray(data.activities) && data.activities.length > 0) {
@@ -601,7 +635,13 @@ const budgetOptions = [
         let waMessage = `Hi Springbok! My name is ${nameVal}. I am interested in the "${tourTitleVal}" safari tour.\n\n`;
         waMessage += `My travel preferences:\n`;
         if (dateVal) waMessage += `- Preferred Date: ${dateVal}\n`;
-        if (travelersVal) waMessage += `- Travelers: ${travelersVal}\n`;
+        
+        let groupBreakdown = `${adultsVal} ${adultsVal === 1 ? 'adult' : 'adults'}`;
+        if (childrenVal > 0) {
+          groupBreakdown += `, ${childrenVal} ${childrenVal === 1 ? 'child' : 'children'}`;
+        }
+        waMessage += `- Group Size: ${groupBreakdown} (Total ${adultsVal + childrenVal} travelers)\n`;
+        
         if (budgetLabel) waMessage += `- Estimated Budget: ${budgetLabel}\n`;
         if (activitiesVal && activitiesVal !== 'None') waMessage += `- Added Activities: ${activitiesVal}\n`;
         if (requestsVal) waMessage += `- Special Requests: ${requestsVal}\n`;
