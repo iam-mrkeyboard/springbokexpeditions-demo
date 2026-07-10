@@ -341,7 +341,6 @@ export const CATEGORY_CONFIG: Record<TourCategory, {
  */
 export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   luxury: [
-    'luxury-fly-in-serengeti',
     // custom-luxury removed per user request
     'western-serengeti-grumeti',
     'photography-safari',
@@ -405,7 +404,6 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'calving-migration-5day',
     'calving-migration-6day',
     'calving-migration-8day',
-    'luxury-fly-in-serengeti',
   ],
   birding: [
     'birding-safari',
