@@ -8,13 +8,18 @@
   backdrop-filter: none;
   border-bottom: 1px solid transparent;
 }
-.site-header--transparent a:not(.btn):not(#mobile-menu a),
-.site-header--transparent button:not(.btn):not(#mobile-menu button) {
+
+/* White text for top level links and mobile menu button when transparent */
+.site-header--transparent .header-contact-link,
+.site-header--transparent nav > div > a,
+.site-header--transparent #mobile-menu-btn {
   color: #ffffff;
 }
+
 .site-header--transparent .header-logo-img {
   filter: brightness(0) invert(1);
 }
+
 .site-header--transparent.is-scrolled,
 .site-header--transparent.mobile-menu-open {
   background-color: rgba(255, 255, 255, 0.97);
@@ -23,16 +28,21 @@
   border-bottom-color: var(--color-dusk-100);
   box-shadow: 0 1px 3px rgba(15, 42, 28, 0.04);
 }
-.site-header--transparent.is-scrolled a:not(.btn):not(#mobile-menu a),
-.site-header--transparent.is-scrolled button:not(.btn):not(#mobile-menu button),
-.site-header--transparent.mobile-menu-open a:not(.btn):not(#mobile-menu a),
-.site-header--transparent.mobile-menu-open button:not(.btn):not(#mobile-menu button) {
+
+/* Dark text for top level links and mobile menu button when scrolled or menu open */
+.site-header--transparent.is-scrolled nav > div > a,
+.site-header--transparent.is-scrolled #mobile-menu-btn,
+.site-header--transparent.mobile-menu-open nav > div > a,
+.site-header--transparent.mobile-menu-open #mobile-menu-btn {
   color: var(--color-dusk-900);
 }
+
 .site-header--transparent.is-scrolled .header-logo-img,
 .site-header--transparent.mobile-menu-open .header-logo-img {
   filter: none;
 }
+
+/* Specific contact link overrides when scrolled or menu open */
 .site-header--transparent.is-scrolled .header-contact-link,
 .site-header--transparent.mobile-menu-open .header-contact-link {
   color: var(--color-dusk-700);
