@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* Header: transparent at top of page, switches to solid white when scrolled.
+/* Header: transparent at top of page, switches to solid white when scrolled or when mobile menu is open.
    The initial transparent state is set by Tailwind classes; .is-scrolled is
    added by JS once the user scrolls past 60px. */
 .site-header--transparent {
@@ -8,34 +8,41 @@
   backdrop-filter: none;
   border-bottom: 1px solid transparent;
 }
-.site-header--transparent a:not(.btn),
-.site-header--transparent button:not(.btn) {
+.site-header--transparent a:not(.btn):not(#mobile-menu a),
+.site-header--transparent button:not(.btn):not(#mobile-menu button) {
   color: #ffffff;
 }
 .site-header--transparent .header-logo-img {
   filter: brightness(0) invert(1);
 }
-.site-header--transparent.is-scrolled {
+.site-header--transparent.is-scrolled,
+.site-header--transparent.mobile-menu-open {
   background-color: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--color-dusk-100);
   box-shadow: 0 1px 3px rgba(15, 42, 28, 0.04);
 }
-.site-header--transparent.is-scrolled a:not(.btn),
-.site-header--transparent.is-scrolled button:not(.btn) {
+.site-header--transparent.is-scrolled a:not(.btn):not(#mobile-menu a),
+.site-header--transparent.is-scrolled button:not(.btn):not(#mobile-menu button),
+.site-header--transparent.mobile-menu-open a:not(.btn):not(#mobile-menu a),
+.site-header--transparent.mobile-menu-open button:not(.btn):not(#mobile-menu button) {
   color: var(--color-dusk-900);
 }
-.site-header--transparent.is-scrolled .header-logo-img {
+.site-header--transparent.is-scrolled .header-logo-img,
+.site-header--transparent.mobile-menu-open .header-logo-img {
   filter: none;
 }
-.site-header--transparent.is-scrolled .header-contact-link {
+.site-header--transparent.is-scrolled .header-contact-link,
+.site-header--transparent.mobile-menu-open .header-contact-link {
   color: var(--color-dusk-700);
 }
-.site-header--transparent.is-scrolled .header-contact-link:hover {
+.site-header--transparent.is-scrolled .header-contact-link:hover,
+.site-header--transparent.mobile-menu-open .header-contact-link:hover {
   color: var(--color-savannah-600);
 }
-.site-header--transparent.is-scrolled .header-contact-border {
+.site-header--transparent.is-scrolled .header-contact-border,
+.site-header--transparent.mobile-menu-open .header-contact-border {
   border-color: var(--color-dusk-100);
 }
 
