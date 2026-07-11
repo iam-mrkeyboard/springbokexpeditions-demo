@@ -58,59 +58,63 @@ const typeLabels: Record<string, string> = {
   </section>
 
   <!-- Filters -->
-  <section class="bg-white border-b border-dusk-100 sticky top-0 z-30">
-    <div class="container-content py-4 space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
-          <ListFilter size={16} /> Type:
+  <section class="bg-white border-b border-dusk-100 sticky top-[79px] md:top-[80px] z-30">
+    <div class="container-content py-3.5 space-y-2.5">
+      <div class="flex items-center gap-3 w-full overflow-hidden">
+        <span class="text-xs sm:text-sm font-medium text-dusk-700 flex items-center gap-1.5 shrink-0">
+          <ListFilter size={15} /> Type:
         </span>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-filter-type="all" data-filter-style="">
-          All ({sortedTours.length})
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="safari" data-filter-style="">
-          Safaris
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="kilimanjaro" data-filter-style="">
-          Kilimanjaro
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="meru" data-filter-style="">
-          Mt. Meru
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="migration" data-filter-style="">
-          Migration
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="zanzibar" data-filter-style="">
-          Zanzibar
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="cultural" data-filter-style="">
-          Cultural
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="honeymoon" data-filter-style="">
-          Honeymoon
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="family" data-filter-style="">
-          Family
-        </button>
-        <button class="tour-filter px-3 py-1.5 text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200" data-filter-type="day-trip" data-filter-style="">
-          Day Trip
-        </button>
+        <div class="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-1 -mb-1 whitespace-nowrap w-full">
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-safari-700 text-white cursor-pointer shrink-0" data-filter-type="all" data-filter-style="">
+            All ({sortedTours.length})
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="safari" data-filter-style="">
+            Safaris
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="kilimanjaro" data-filter-style="">
+            Kilimanjaro
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="meru" data-filter-style="">
+            Mt. Meru
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="migration" data-filter-style="">
+            Migration
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="zanzibar" data-filter-style="">
+            Zanzibar
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="cultural" data-filter-style="">
+            Cultural
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="honeymoon" data-filter-style="">
+            Honeymoon
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="family" data-filter-style="">
+            Family
+          </button>
+          <button class="tour-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-dusk-100 text-dusk-700 hover:bg-dusk-200 cursor-pointer shrink-0" data-filter-type="day-trip" data-filter-style="">
+            Day Trip
+          </button>
+        </div>
       </div>
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="text-sm font-medium text-dusk-700 flex items-center gap-2 mr-2">
+      <div class="flex items-center gap-3 w-full overflow-hidden">
+        <span class="text-xs sm:text-sm font-medium text-dusk-700 shrink-0">
           Style:
         </span>
-        <button class="style-filter px-3 py-1.5 text-sm rounded-full bg-safari-700 text-white" data-style="" data-orig-bg="bg-safari-700 text-white">
-          Any style
-        </button>
-        {Object.entries(STYLE_TIERS).map(([key, tier]) => (
-          <button
-            class={`style-filter px-3 py-1.5 text-sm rounded-full ${tier.bg} hover:opacity-80`}
-            data-style={key}
-            data-orig-bg={`style-filter px-3 py-1.5 text-sm rounded-full ${tier.bg} hover:opacity-80`}
-          >
-            {tier.label}
+        <div class="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-1 -mb-1 whitespace-nowrap w-full">
+          <button class="style-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-safari-700 text-white cursor-pointer shrink-0" data-style="" data-orig-bg="style-filter px-3 py-1.5 text-xs sm:text-sm rounded-full bg-safari-700 text-white cursor-pointer shrink-0">
+            Any style
           </button>
-        ))}
+          {Object.entries(STYLE_TIERS).map(([key, tier]) => (
+            <button
+              class={`style-filter px-3 py-1.5 text-xs sm:text-sm rounded-full ${tier.bg} hover:opacity-80 cursor-pointer shrink-0`}
+              data-style={key}
+              data-orig-bg={`style-filter px-3 py-1.5 text-xs sm:text-sm rounded-full ${tier.bg} hover:opacity-80 cursor-pointer shrink-0`}
+            >
+              {tier.label}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   </section>
