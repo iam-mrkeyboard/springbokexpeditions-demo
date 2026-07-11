@@ -465,9 +465,13 @@ const currentPath = Astro.url.pathname;
   const menu = document.getElementById('mobile-menu');
   const iconOpen = document.getElementById('menu-icon-open');
   const iconClose = document.getElementById('menu-icon-close');
+  const header = document.getElementById('site-header');
 
   btn?.addEventListener('click', () => {
     const isOpen = menu?.classList.toggle('open');
+    if (header) {
+      header.classList.toggle('mobile-menu-open', isOpen);
+    }
     if (isOpen) {
       iconOpen?.classList.add('hidden');
       iconClose?.classList.remove('hidden');
@@ -492,7 +496,6 @@ const currentPath = Astro.url.pathname;
   });
 
   // Scroll-based header background: transparent at top, solid white once scrolled
-  const header = document.getElementById('site-header');
   if (header && header.dataset.transparent === 'true') {
     const SCROLL_THRESHOLD = 60;
     let ticking = false;
