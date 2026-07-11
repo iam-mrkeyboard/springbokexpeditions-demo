@@ -63,15 +63,15 @@ const relatedTours: {
     <div class="absolute inset-0 bg-safari-950/35"></div>
     <!-- Gradient overlay to enhance text legibility at the bottom -->
     <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
-    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16">
+    <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16 pt-36 sm:pt-32">
       <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 text-white px-3 py-1.5 rounded-full text-xs font-medium mb-4 self-start">
         <RegionIcon size={12} />
         {destination.data.region}
       </div>
-      <h1 class="text-display-md md:text-display-lg font-display font-medium tracking-tight text-white mb-4 max-w-3xl">
+      <h1 class="text-3xl xs:text-4xl md:text-display-md lg:text-display-lg font-display font-medium tracking-tight text-white mb-4 max-w-3xl">
         {destination.data.name}
       </h1>
-      <p class="text-lg md:text-xl text-dusk-100/95 max-w-2xl leading-relaxed">
+      <p class="text-base md:text-lg lg:text-xl text-dusk-100/95 max-w-2xl leading-relaxed">
         {destination.data.summary}
       </p>
     </div>
