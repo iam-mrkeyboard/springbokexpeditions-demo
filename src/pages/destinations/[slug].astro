@@ -151,29 +151,31 @@ const relatedTours: {
                 </>
                 )}
               </p>
-              <div class="grid grid-cols-12 gap-1.5">
-                {bestTimeOrdered.map((m) => (
-                  <div class="text-center">
-                    <div
-                      class:list={[
-                        'h-20 rounded-md flex items-center justify-center mb-1.5',
-                        m.rating === 'high' ? 'bg-savannah-500' : '',
-                        m.rating === 'med' ? 'bg-savannah-200' : '',
-                        m.rating === 'low' ? 'bg-dusk-100' : '',
-                      ]}
-                    >
-                      <span
+              <div class="overflow-x-auto pb-2 w-full">
+                <div class="grid grid-cols-12 gap-1.5 min-w-[600px] md:min-w-0">
+                  {bestTimeOrdered.map((m) => (
+                    <div class="text-center">
+                      <div
                         class:list={[
-                          'text-xs font-semibold',
-                          m.rating === 'high' ? 'text-safari-900' : 'text-dusk-500',
+                          'h-20 rounded-md flex items-center justify-center mb-1.5',
+                          m.rating === 'high' ? 'bg-savannah-500' : '',
+                          m.rating === 'med' ? 'bg-savannah-200' : '',
+                          m.rating === 'low' ? 'bg-dusk-100' : '',
                         ]}
                       >
-                        {m.rating === 'high' ? 'Peak' : m.rating === 'med' ? 'Good' : 'Low'}
-                      </span>
+                        <span
+                          class:list={[
+                            'text-xs font-semibold',
+                            m.rating === 'high' ? 'text-safari-900' : 'text-dusk-500',
+                          ]}
+                        >
+                          {m.rating === 'high' ? 'Peak' : m.rating === 'med' ? 'Good' : 'Low'}
+                        </span>
+                      </div>
+                      <span class="text-[10px] uppercase tracking-wider text-dusk-600 font-medium">{m.short}</span>
                     </div>
-                    <span class="text-[10px] uppercase tracking-wider text-dusk-600 font-medium">{m.short}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               <div class="flex items-center gap-4 mt-4 text-xs text-dusk-600">
                 <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-savannah-500"></span> Peak</span>
