@@ -273,8 +273,9 @@ const currentPath = Astro.url.pathname;
               {item.children && (
                 <div class='invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-3 w-105 z-10'>
                   <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1'>
-                    {item.children.map((child: any) =>
-                      child.subChildren ? (
+                    {item.children.map((child: any, index: number) => {
+                      const isNearBottom = item.children.length > 4 && index >= item.children.length - 4;
+                      return child.subChildren ? (
                         <div class='relative subgroup group/sub'>
                           <a
                             href={child.href}
@@ -294,7 +295,10 @@ const currentPath = Astro.url.pathname;
                               class='-rotate-90 text-dusk-400'
                             />
                           </a>
-                          <div class='subgroup-panel opacity-0 pointer-events-none group-hover/sub:opacity-100 group-focus-within/sub:opacity-100 group-hover/sub:pointer-events-auto group-focus-within/sub:pointer-events-auto transition-opacity duration-200 absolute left-full top-0 w-90 z-20'>
+                          <div class:list={[
+                            'subgroup-panel opacity-0 pointer-events-none group-hover/sub:opacity-100 group-focus-within/sub:opacity-100 group-hover/sub:pointer-events-auto group-focus-within/sub:pointer-events-auto transition-opacity duration-200 absolute left-full w-90 z-20',
+                            isNearBottom ? 'bottom-0' : 'top-0'
+                          ]}>
                             <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1 max-h-120 overflow-y-auto'>
                               {child.subChildren.map((sub: any) => (
                                 <a
@@ -319,8 +323,8 @@ const currentPath = Astro.url.pathname;
                             </span>
                           )}
                         </a>
-                      ),
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
               )}
