@@ -2,7 +2,12 @@
 import { Phone, Mail, Menu, X, ChevronDown } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { CATEGORY_CONFIG, getToursForCategory, ALL_CATEGORIES, type TourCategory } from '@/lib/safari-categories';
+import {
+  CATEGORY_CONFIG,
+  getToursForCategory,
+  ALL_CATEGORIES,
+  type TourCategory,
+} from '@/lib/safari-categories';
 
 interface Props {
   transparent?: boolean;
@@ -32,7 +37,7 @@ const safariCategories = await Promise.all(
         href: `/tours/${t.id}`,
       })),
     };
-  })
+  }),
 );
 
 const navItems = [
@@ -50,13 +55,41 @@ const navItems = [
     label: 'Destinations',
     href: '/destinations',
     children: [
-      { label: 'Serengeti', href: '/destinations/serengeti-national-park', desc: 'Endless plains · Iconic wildlife' },
-      { label: 'Ngorongoro', href: '/destinations/ngorongoro-crater', desc: 'Natural wonder · African Eden' },
-      { label: 'Tarangire', href: '/destinations/tarangire-national-park', desc: 'Elephants · Ancient baobabs' },
-      { label: 'Lake Manyara', href: '/destinations/lake-manyara-national-park', desc: 'Tree-climbing lions · Flamingos' },
-      { label: 'Kilimanjaro', href: '/kilimanjaro', desc: 'Roof of Africa · 5,895m' },
-      { label: 'Mount Meru', href: '/mount-meru', desc: '4,566m · Best Kili acclimatization' },
-      { label: 'Zanzibar Beach', href: '/destinations/zanzibar-archipelago', desc: 'Spice Island · White sand beaches' },
+      {
+        label: 'Serengeti',
+        href: '/destinations/serengeti-national-park',
+        desc: 'Endless plains · Iconic wildlife',
+      },
+      {
+        label: 'Ngorongoro',
+        href: '/destinations/ngorongoro-crater',
+        desc: 'Natural wonder · African Eden',
+      },
+      {
+        label: 'Tarangire',
+        href: '/destinations/tarangire-national-park',
+        desc: 'Elephants · Ancient baobabs',
+      },
+      {
+        label: 'Lake Manyara',
+        href: '/destinations/lake-manyara-national-park',
+        desc: 'Tree-climbing lions · Flamingos',
+      },
+      {
+        label: 'Kilimanjaro',
+        href: '/kilimanjaro',
+        desc: 'Roof of Africa · 5,895m',
+      },
+      {
+        label: 'Mount Meru',
+        href: '/mount-meru',
+        desc: '4,566m · Best Kili acclimatization',
+      },
+      {
+        label: 'Zanzibar Beach',
+        href: '/destinations/zanzibar-archipelago',
+        desc: 'Spice Island · White sand beaches',
+      },
     ],
   },
   {
@@ -172,7 +205,7 @@ const currentPath = Astro.url.pathname;
     ]}
   >
     <div
-      class='container-content flex justify-end items-center gap-6 py-2 text-xs'
+      class='container-wide flex justify-end items-center gap-6 py-2 text-xs'
     >
       <a
         href='tel:+255784136616'
@@ -200,16 +233,17 @@ const currentPath = Astro.url.pathname;
   </div>
 
   <!-- Main nav -->
-  <div class='container-content'>
-    <div class='flex items-center justify-between h-20'>
+  <div class='container-wide'>
+    <div class='flex items-center justify-between'>
       <!-- Logo -->
-      <a href='/' class='flex items-center gap-3 group'>
+      <a href='/' class='flex items-center gap-2 group'>
         <Image
+          quality={100}
           src='/logo.png'
           alt='Springbok Expeditions'
-          class='object-cover header-logo-img'
-          height={50}
-          width={200}
+          class='h-30 w-auto object-contain header-logo-img'
+          height={90}
+          width={100}
         />
       </a>
 
@@ -237,9 +271,9 @@ const currentPath = Astro.url.pathname;
                 )}
               </a>
               {item.children && (
-                <div class='invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[420px] z-10'>
+                <div class='invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-3 w-105 z-10'>
                   <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1'>
-                    {item.children.map((child: any) => (
+                    {item.children.map((child: any) =>
                       child.subChildren ? (
                         <div class='relative subgroup group/sub'>
                           <a
@@ -255,15 +289,17 @@ const currentPath = Astro.url.pathname;
                                 </span>
                               )}
                             </div>
-                            <ChevronDown size={12} class='-rotate-90 text-dusk-400' />
+                            <ChevronDown
+                              size={12}
+                              class='-rotate-90 text-dusk-400'
+                            />
                           </a>
-                          <div class='subgroup-panel opacity-0 pointer-events-none group-hover/sub:opacity-100 group-focus-within/sub:opacity-100 group-hover/sub:pointer-events-auto group-focus-within/sub:pointer-events-auto transition-opacity duration-200 absolute left-full top-0 w-[360px] z-20'>
-                            <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1 max-h-[480px] overflow-y-auto'>
+                          <div class='subgroup-panel opacity-0 pointer-events-none group-hover/sub:opacity-100 group-focus-within/sub:opacity-100 group-hover/sub:pointer-events-auto group-focus-within/sub:pointer-events-auto transition-opacity duration-200 absolute left-full top-0 w-90 z-20'>
+                            <div class='bg-white rounded-xl shadow-elevated border border-dusk-100 p-3 grid grid-cols-1 gap-1 max-h-120 overflow-y-auto'>
                               {child.subChildren.map((sub: any) => (
                                 <a
                                   href={sub.href}
-                                  class='block px-3 py-2 rounded-lg hover:bg-dusk-50 transition-colors text-sm text-dusk-800 hover:text-savannah-700'
-                                >
+                                  class='block px-3 py-2 rounded-lg hover:bg-dusk-50 transition-colors text-sm text-dusk-800 hover:text-savannah-700'>
                                   {sub.label}
                                 </a>
                               ))}
@@ -283,8 +319,8 @@ const currentPath = Astro.url.pathname;
                             </span>
                           )}
                         </a>
-                      )
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
               )}
@@ -327,32 +363,31 @@ const currentPath = Astro.url.pathname;
             </a>
             {item.children && (
               <div class='pl-4 space-y-1'>
-                {item.children.map((child: any) => (
+                {item.children.map((child: any) =>
                   child.subChildren ? (
                     <div class='mobile-accordion'>
                       <button
                         type='button'
                         class='mobile-accordion-toggle flex items-center justify-between w-full px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'
-                        data-target={`mob-${item.label.toLowerCase()}-${child.label.toLowerCase().replace(/\s+/g, '-')}`}
-                      >
+                        data-target={`mob-${item.label.toLowerCase()}-${child.label.toLowerCase().replace(/\s+/g, '-')}`}>
                         <span>{child.label}</span>
-                        <ChevronDown size={14} class='mobile-chevron transition-transform' />
+                        <ChevronDown
+                          size={14}
+                          class='mobile-chevron transition-transform'
+                        />
                       </button>
                       <div
                         id={`mob-${item.label.toLowerCase()}-${child.label.toLowerCase().replace(/\s+/g, '-')}`}
-                        class='mobile-submenu pl-3 pb-1 space-y-0.5'
-                      >
+                        class='mobile-submenu pl-3 pb-1 space-y-0.5'>
                         <a
                           href={child.href}
-                          class='block px-3 py-1.5 text-xs text-savannah-700 font-medium'
-                        >
+                          class='block px-3 py-1.5 text-xs text-savannah-700 font-medium'>
                           View all {child.label.toLowerCase()} →
                         </a>
                         {child.subChildren.map((sub: any) => (
                           <a
                             href={sub.href}
-                            class='block px-3 py-1.5 text-xs text-dusk-600 hover:text-savannah-700'
-                          >
+                            class='block px-3 py-1.5 text-xs text-dusk-600 hover:text-savannah-700'>
                             {sub.label}
                           </a>
                         ))}
@@ -364,15 +399,17 @@ const currentPath = Astro.url.pathname;
                       class='block px-3 py-2 text-sm text-dusk-700 hover:text-savannah-700'>
                       {child.label}
                     </a>
-                  )
-                ))}
+                  ),
+                )}
               </div>
             )}
           </div>
         ))
       }
       <div class='pt-4'>
-        <a href='/plan-my-trip' class='btn btn-primary w-full'>Plan Your Safari</a>
+        <a href='/plan-my-trip' class='btn btn-primary w-full'
+          >Plan Your Safari</a
+        >
       </div>
     </nav>
   </div>
@@ -384,26 +421,29 @@ const currentPath = Astro.url.pathname;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
-    transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0ms linear 350ms;
+    transition:
+      max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0ms linear 350ms;
   }
   .mobile-menu-panel.open {
     max-height: 80vh;
     opacity: 1;
     visibility: visible;
     overflow-y: auto;
-    transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0ms linear 0ms;
+    transition:
+      max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0ms linear 0ms;
   }
 
   .mobile-submenu {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .mobile-submenu.open {
     max-height: 600px;
