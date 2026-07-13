@@ -4,7 +4,7 @@ import { Map, Mountain, Users, Umbrella, ArrowRight } from '@lucide/astro';
 const features = [
   {
     Icon: Map,
-    title: '',
+    title: 'Wildlife Safaris',
     body: 'Track the Big Five across the Serengeti, Ngorongoro Crater, and Tarangire with expert local guides who know every watering hole and pride of lions.',
     link: '/tours?style=wildlife',
   },
@@ -43,7 +43,7 @@ const features = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {features.map((f) => (
-        <a href={f.link} class="card card-hover p-8 group block">
+        <a href={f.link} class="card card-hover p-8 group block" aria-label={`Learn more about ${f.title}`}>
           <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
             <f.Icon size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
