@@ -1,6 +1,7 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { Mail, Phone, MapPin, MessageCircle, Clock, Send, Calendar, Heart, Compass, Check } from '@lucide/astro';
+import { Image } from 'astro:assets';
 
 const contactMethods = [
   {
@@ -91,11 +92,14 @@ const faqs = [
   <!-- Hero -->
   <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
     <div class="absolute inset-0 z-0">
-      <img
+      <Image
         src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=1920&q=80&auto=format&fit=crop"
         alt="Mount Kilimanjaro at sunset"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover scale-105"
         loading="eager"
+        fetchpriority="high"
       />
       <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
       <div class="absolute inset-0 bg-safari-950/35"></div>

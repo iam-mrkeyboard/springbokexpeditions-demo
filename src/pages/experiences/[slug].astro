@@ -2,8 +2,9 @@
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
+import { Image } from 'astro:assets';
 import {
-  ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, Moon, Star, Bird, Wind, Info, ShieldCheck
+  ArrowRight, ArrowLeft, Check, Info, ShieldCheck
 } from '@lucide/astro';
 
 export async function getStaticPaths() {
@@ -21,10 +22,6 @@ const otherExperiences = allExperiences
   .filter((e) => e.id !== exp.id)
   .sort((a, b) => ((a.data as any).order as number) - ((b.data as any).order as number))
   .slice(0, 3);
-
-const iconMap: Record<string, typeof Heart> = {
-  Heart, Tent, Camera, Sparkles, Trees, Users, MapPin, UtensilsCrossed, Ship, Sun, Moon, Star, Bird, Wind,
-};
 ---
 
 <PublicLayout
@@ -34,9 +31,11 @@ const iconMap: Record<string, typeof Heart> = {
 >
   <!-- Hero Banner -->
   <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
-      src={exp.data.hero}
+    <Image
+      src={exp.data.hero || ''}
       alt={exp.data.name}
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -224,16 +223,17 @@ const iconMap: Record<string, typeof Heart> = {
       
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {otherExperiences.map((e) => {
-          const OtherIcon = iconMap[e.data.icon ?? ''] ?? Sparkles;
           return (
             <a
               href={`/experiences/${e.id}`}
               class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
             >
               <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
-                <img
-                  src={e.data.hero}
+                <Image
+                  src={e.data.hero || ''}
                   alt={e.data.name}
+                  width={600}
+                  height={450}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"

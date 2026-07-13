@@ -20,17 +20,6 @@ const { slug } = Astro.params;
 const tour = (await getEntry('tours', slug!))!;
 const { Content } = await render(tour as any);
 
-const typeLabels: Record<string, string> = {
-  safari: 'Wildlife Safari',
-  kilimanjaro: 'Kilimanjaro Climb',
-  meru: 'Mount Meru',
-  zanzibar: 'Zanzibar Holiday',
-  'day-trip': 'Day Trip',
-  honeymoon: 'Honeymoon',
-  family: 'Family',
-  cultural: 'Cultural',
-  migration: 'Migration Safari',
-};
 ---
 
 <PublicLayout
@@ -39,7 +28,7 @@ const typeLabels: Record<string, string> = {
   ogImage={tour.id === 'signature-northern-circuit' ? '/og/tours/signature-northern-circuit.png' : undefined}
   transparentHeader={true}
 >
-  <TourHero tour={tour} typeLabel={typeLabels[tour.data.type] || tour.data.type} />
+  <TourHero tour={tour} />
 
   <section class="section bg-white">
     <div class="container-content">

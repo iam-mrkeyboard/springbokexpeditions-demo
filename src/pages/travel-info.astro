@@ -1,6 +1,7 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowRight, Calendar, Plane, Heart, Wallet, Globe, BookOpen, Briefcase, Shield, ThermometerSun, Droplet, Sun, TriangleAlert, Check, Stethoscope } from '@lucide/astro';
+import { Image } from 'astro:assets';
 
 const sections = [
   { id: 'when-to-go', label: 'When to go', icon: Calendar },
@@ -143,9 +144,11 @@ const faqs = [
 >
   <!-- Hero -->
   <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
+    <Image
       src="https://images.unsplash.com/photo-1504432842672-1a79f78e4084?w=1920&q=80&auto=format&fit=crop"
       alt="Tanzania landscape"
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -191,7 +194,7 @@ const faqs = [
   </section>
 
   <!-- When to go -->
-  <section id="when-to-go" class="section bg-dusk-50 scroll-mt-32">
+  <section id="when-to-go" class="section bg-dusk-50 scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">01</p>
@@ -260,7 +263,7 @@ const faqs = [
   </section>
 
   <!-- Visas -->
-  <section id="visas" class="section bg-white scroll-mt-32">
+  <section id="visas" class="section bg-white scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">02</p>
@@ -315,7 +318,7 @@ const faqs = [
   </section>
 
   <!-- Flights -->
-  <section id="flights" class="section bg-dusk-50 scroll-mt-32">
+  <section id="flights" class="section bg-dusk-50 scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">03</p>
@@ -351,7 +354,7 @@ const faqs = [
   </section>
 
   <!-- Health -->
-  <section id="health" class="section bg-white scroll-mt-32">
+  <section id="health" class="section bg-white scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">04</p>
@@ -424,7 +427,7 @@ const faqs = [
   </section>
 
   <!-- Money -->
-  <section id="money" class="section bg-dusk-50 scroll-mt-32">
+  <section id="money" class="section bg-dusk-50 scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">05</p>
@@ -505,7 +508,7 @@ const faqs = [
   </section>
 
   <!-- Language -->
-  <section id="language" class="section bg-white scroll-mt-32">
+  <section id="language" class="section bg-white scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">06</p>
@@ -530,7 +533,7 @@ const faqs = [
   </section>
 
   <!-- Culture -->
-  <section id="culture" class="section bg-dusk-50 scroll-mt-32">
+  <section id="culture" class="section bg-dusk-50 scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">07</p>
@@ -554,7 +557,7 @@ const faqs = [
   </section>
 
   <!-- Packing -->
-  <section id="packing" class="section bg-white scroll-mt-32">
+  <section id="packing" class="section bg-white scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">08</p>
@@ -585,7 +588,7 @@ const faqs = [
   </section>
 
   <!-- Safety -->
-  <section id="safety" class="section bg-dusk-50 scroll-mt-32">
+  <section id="safety" class="section bg-dusk-50 scroll-mt-32 section-lazy">
     <div class="container-content">
       <div class="max-w-3xl mb-12">
         <p class="eyebrow text-safari-600 mb-3">09</p>
@@ -609,7 +612,7 @@ const faqs = [
   </section>
 
   <!-- FAQs -->
-  <section id="faqs" class="section bg-white scroll-mt-32">
+  <section id="faqs" class="section bg-white scroll-mt-32 section-lazy">
     <div class="container-content max-w-3xl">
       <div class="text-center mb-12">
         <p class="eyebrow text-safari-600 mb-3">10</p>

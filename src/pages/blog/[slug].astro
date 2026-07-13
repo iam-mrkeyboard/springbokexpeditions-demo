@@ -1,7 +1,8 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
-import { ArrowRight, ArrowLeft, Calendar, Clock, Tag, User } from '@lucide/astro';
+import { ArrowLeft, Calendar, Clock, Tag, User } from '@lucide/astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -30,9 +31,11 @@ function formatDate(d: string | Date | undefined): string {
   transparentHeader={true}
 >
   <section class="relative h-[60vh] min-h-[420px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
-      src={post.data.hero}
+    <Image
+      src={post.data.hero || ''}
       alt={post.data.title}
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -120,9 +123,11 @@ function formatDate(d: string | Date | undefined): string {
               class="group bg-white rounded-2xl border border-dusk-100 overflow-hidden hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
             >
               <div class="aspect-[5/3] overflow-hidden bg-dusk-200">
-                <img
-                  src={p.data.hero}
+                <Image
+                  src={p.data.hero || ''}
                   alt={p.data.title}
+                  width={600}
+                  height={360}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
+import { Image } from 'astro:assets';
 import {
   ArrowRight, Mountain, Users, Check, TrendingUp, Shield, HeartPulse,
   Tent, UtensilsCrossed, Stethoscope, Briefcase, Leaf, Droplets,
@@ -71,9 +72,11 @@ const tazamaImages = {
 >
   <!-- Hero -->
   <section class="relative h-[92vh] min-h-[700px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
+    <Image
       src={tazamaImages.hero}
       alt="Mount Kilimanjaro snow-capped peak above the clouds"
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -145,9 +148,11 @@ const tazamaImages = {
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-4 mt-10">
             <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-              <img
+              <Image
                 src={tazamaImages.scenery2}
                 alt="Kilimanjaro crater rim above the clouds"
+                width={600}
+                height={800}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
@@ -156,9 +161,11 @@ const tazamaImages = {
           </div>
           <div class="space-y-4">
             <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-              <img
+              <Image
                 src={tazamaImages.scenery3}
                 alt="Trekkers on the Kilimanjaro summit ridge"
+                width={600}
+                height={800}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
@@ -173,9 +180,11 @@ const tazamaImages = {
   <!-- Safety first -->
   <section class="section bg-safari-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
-      <img
+      <Image
         src={tazamaImages.scenery4}
-        alt=""
+        alt="Safety background mountain scenery"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover"
         loading="lazy"
       />
@@ -411,9 +420,11 @@ const tazamaImages = {
 
         <div class="relative">
           <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
-            <img
+            <Image
               src={tazamaImages.cta}
               alt="Kilimanjaro climbing team on the trail"
+              width={800}
+              height={600}
               class="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -572,9 +583,11 @@ const tazamaImages = {
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div class="order-2 lg:order-1">
           <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
-            <img
+            <Image
               src={tazamaImages.scenery1}
               alt="Kilimanjaro trekker silhouetted against the summit glaciers"
+              width={800}
+              height={600}
               class="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -636,9 +649,11 @@ const tazamaImages = {
               class="group bg-white rounded-2xl overflow-hidden border border-dusk-100 hover:border-savannah-300/60 hover:shadow-lifted hover:-translate-y-1 transition-all"
             >
               <div class="aspect-[16/10] overflow-hidden bg-dusk-200">
-                <img
-                  src={trek.data.hero}
+                <Image
+                  src={trek.data.hero || ''}
                   alt={trek.data.title}
+                  width={800}
+                  height={500}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
@@ -721,9 +736,11 @@ const tazamaImages = {
   <!-- Final CTA -->
   <section class="section bg-safari-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-15">
-      <img
+      <Image
         src={tazamaImages.scenery4}
-        alt=""
+        alt="Mountain trail scenery background"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover"
         loading="lazy"
       />

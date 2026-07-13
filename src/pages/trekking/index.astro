@@ -2,6 +2,7 @@
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { ArrowRight, Mountain, Compass, MapPin, Check, Users, TrendingUp } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
 const allTreks = await getCollection('trekking');
@@ -77,9 +78,11 @@ const whyTrek = [
 >
   <!-- Hero -->
   <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
+    <Image
       src="https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920"
       alt="Mount Kilimanjaro summit at sunrise"
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -160,9 +163,11 @@ const whyTrek = [
             class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all flex flex-col"
           >
             <div class="aspect-[16/10] overflow-hidden bg-dusk-200 relative">
-              <img
+              <Image
                 src={peak.image}
                 alt={peak.name}
+                width={800}
+                height={500}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
                 decoding="async"
@@ -233,9 +238,11 @@ const whyTrek = [
             class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
           >
             <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
-              <img
-                src={trek.data.hero}
+              <Image
+                src={trek.data.hero || ''}
                 alt={trek.data.title}
+                width={600}
+                height={450}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
                 decoding="async"
@@ -279,9 +286,11 @@ const whyTrek = [
               class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-savannah-300 hover:shadow-lifted transition-all"
             >
               <div class="aspect-[4/3] overflow-hidden bg-dusk-200 relative">
-                <img
-                  src={trek.data.hero}
+                <Image
+                  src={trek.data.hero || ''}
                   alt={trek.data.title}
+                  width={600}
+                  height={450}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"

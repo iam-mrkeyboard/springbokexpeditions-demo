@@ -2,6 +2,7 @@
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { withPublisher } from '@/lib/jsonld';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import {
   ArrowRight, Users, Check, Mountain, TrendingUp, Camera, Trees,
   Shield, Tent, Sparkles, CalendarDays,
@@ -54,9 +55,11 @@ const gallery = [
 >
   <!-- Hero -->
   <section class="relative h-[90vh] min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
+    <Image
       src="https://res.cloudinary.com/drhl0yu7y/image/upload/v1762857871/meru/mount_meru_d0q59d.jpg"
       alt="Mount Meru rises above the savanna at golden hour"
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -163,9 +166,11 @@ const gallery = [
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-4 mt-8">
               <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-                <img
+                <Image
                   src={gallery[0].src}
                   alt={gallery[0].alt}
+                  width={600}
+                  height={800}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                   decoding="async"
@@ -174,9 +179,11 @@ const gallery = [
             </div>
             <div class="space-y-4">
               <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-                <img
+                <Image
                   src={gallery[2].src}
                   alt={gallery[2].alt}
+                  width={600}
+                  height={800}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                   decoding="async"
@@ -218,9 +225,11 @@ const gallery = [
   <!-- The Scenery -->
   <section class="section bg-safari-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
-      <img
+      <Image
         src={gallery[1].src}
-        alt=""
+        alt="Mountain landscape background"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover"
         loading="lazy"
       />
@@ -283,9 +292,11 @@ const gallery = [
             The only route used to climb Mount Meru. It is well-maintained, hut-based, and passes through rainforest, moorland, and alpine desert before the dramatic final ridge.
           </p>
           <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
-            <img
+            <Image
               src={gallery[1].src}
               alt="Mount Meru rising above the savanna"
+              width={800}
+              height={600}
               class="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -443,9 +454,11 @@ const gallery = [
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-4 mt-8">
             <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-              <img
+              <Image
                 src={gallery[0].src}
                 alt={gallery[0].alt}
+                width={600}
+                height={800}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
@@ -454,9 +467,11 @@ const gallery = [
           </div>
           <div class="space-y-4">
             <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lifted">
-              <img
+              <Image
                 src={gallery[1].src}
                 alt={gallery[1].alt}
+                width={600}
+                height={800}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
@@ -492,9 +507,11 @@ const gallery = [
               class="group relative overflow-hidden rounded-2xl bg-dusk-50 border border-dusk-100 hover:border-savannah-300 hover:shadow-lifted transition-all"
             >
               <div class="aspect-[16/9] overflow-hidden bg-dusk-200">
-                <img
-                  src={trek.data.hero}
+                <Image
+                  src={trek.data.hero || ''}
                   alt={trek.data.title}
+                  width={800}
+                  height={450}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"

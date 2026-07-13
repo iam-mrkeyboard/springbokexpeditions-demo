@@ -1,7 +1,8 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection } from 'astro:content';
-import { ListFilter, ArrowRight } from '@lucide/astro';
+import { ListFilter } from '@lucide/astro';
+import { Image } from 'astro:assets';
 import { isValidStyleTier, isValidExperienceBadge, STYLE_TIERS, getStyleTier, getExperienceBadge } from '@/lib/badges';
 import Badge from '@/components/ui/Badge.astro';
 
@@ -31,9 +32,11 @@ const typeLabels: Record<string, string> = {
 >
   <!-- Hero -->
   <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
+    <Image
       src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
       alt="Tanzania safari at sunset"
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -136,9 +139,11 @@ const typeLabels: Record<string, string> = {
               data-styles={tour.data.styles.join(',')}
             >
               <div class="relative aspect-[4/3] overflow-hidden">
-                <img
+                <Image
                   src={tour.data.hero}
                   alt={tour.data.title}
+                  width={600}
+                  height={450}
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />

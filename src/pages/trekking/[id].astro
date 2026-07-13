@@ -1,6 +1,7 @@
 ---
 import { getEntry, getCollection, render } from 'astro:content';
 import PublicLayout from '@/layouts/PublicLayout.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const treks = await getCollection('trekking');
@@ -47,9 +48,11 @@ const tazamaImages = {
   transparentHeader={true}
 >
   <section class="relative h-[85vh] min-h-[620px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
-      src={trek.data.hero ?? route?.data.hero}
+    <Image
+      src={(trek.data.hero ?? route?.data.hero) || ''}
       alt={`${trek.data.title} landscape`}
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -271,9 +274,11 @@ const tazamaImages = {
   <!-- Safety & comfort -->
   <section class="section bg-safari-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
-      <img
+      <Image
         src={tazamaImages.cta}
-        alt=""
+        alt="Mountain landscape background"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover"
         loading="lazy"
       />
@@ -356,9 +361,11 @@ const tazamaImages = {
           </div>
         </div>
         <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-lifted">
-          <img
+          <Image
             src={tazamaImages.prep}
             alt="Kilimanjaro trekking team preparing for the day's hike"
+            width={800}
+            height={600}
             class="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
@@ -410,9 +417,11 @@ const tazamaImages = {
 
   <section class="section bg-safari-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-15">
-      <img
+      <Image
         src={tazamaImages.cta}
-        alt=""
+        alt="Mountain landscape background"
+        width={1920}
+        height={1080}
         class="w-full h-full object-cover"
         loading="lazy"
       />
