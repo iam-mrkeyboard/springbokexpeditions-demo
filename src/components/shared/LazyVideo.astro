@@ -1,0 +1,68 @@
+---
+interface Props {
+  desktopSrc: string;
+  mobileSrc?: string;
+  posterUrl?: string;
+  class?: string;
+}
+
+const {
+  desktopSrc,
+  mobileSrc,
+  posterUrl,
+  class: className = '',
+} = Astro.props;
+
+// Generate a unique ID for this instance to select it in the script
+const id = `lazy-video-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<video
+  id={id}
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={posterUrl}
+  class:list={['lazy-video w-full h-full object-cover', className]}
+  data-desktop-src={desktopSrc}
+  data-mobile-src={mobileSrc}
+>
+  {posterUrl && <slot name="fallback" />}
+</video>
+
+<script is:inline define:vars={{ id }}>
+  (function() {
+    var video = document.getElementById(id);
+    if (!video) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          // Play the video and load source if not already loaded
+          if (!video.dataset.loaded) {
+            video.dataset.loaded = 'true';
+            var isMobile = window.innerWidth <= 768;
+            var src = (isMobile && video.dataset.mobileSrc) ? video.dataset.mobileSrc : video.dataset.desktopSrc;
+            
+            var source = document.createElement('source');
+            source.src = src;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.load();
+          }
+          video.play().catch(function() {
+            // Autoplay blocked or not ready
+          });
+        } else {
+          // Pause when not in viewport to save CPU/GPU resources
+          if (video.dataset.loaded) {
+            video.pause();
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(video);
+  })();
+</script>
