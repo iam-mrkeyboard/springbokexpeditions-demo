@@ -2,6 +2,7 @@
 import { ArrowRight } from '@lucide/astro';
 import { isValidStyleTier, isValidExperienceBadge, getStyleTier, getExperienceBadge } from '@/lib/badges';
 import Badge from '@/components/ui/Badge.astro';
+import { Image } from 'astro:assets';
 
 interface Tour {
   slug: string;
@@ -57,9 +58,11 @@ const {
         return (
           <a href={`/tours/${tour.slug}`} class="card card-hover group block">
             <div class="relative aspect-[4/3] overflow-hidden">
-              <img
+              <Image
                 src={tour.hero}
                 alt={tour.title}
+                width={600}
+                height={450}
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
               />

@@ -1,6 +1,5 @@
 ---
-import { Star } from '@lucide/astro';
-import Badge from '@/components/ui/Badge.astro';
+import { Image } from 'astro:assets';
 
 interface Props {
   tour: {
@@ -11,17 +10,18 @@ interface Props {
       featured?: boolean;
     };
   };
-  typeLabel: string;
 }
 
-const { tour, typeLabel } = Astro.props;
+const { tour } = Astro.props;
 ---
 
 <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] flex items-end overflow-hidden bg-safari-900 text-white">
   <div class="absolute inset-0 z-0">
-    <img
+    <Image
       src={tour.data.hero}
       alt={tour.data.title}
+      width={1920}
+      height={1080}
       class="w-full h-full object-cover"
       loading="eager"
       fetchpriority="high"

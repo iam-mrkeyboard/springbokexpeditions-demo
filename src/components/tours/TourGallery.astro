@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
   images: string[];
   title: string;
@@ -20,9 +22,11 @@ const { images, title } = Astro.props;
           i === 0 ? 'col-span-2 row-span-2' : '',
         ]}
       >
-        <img
+        <Image
           src={img.replace('w=1600', 'w=800')}
           alt={`${title} photo ${i + 1}`}
+          width={800}
+          height={800}
           class:list={[
             'w-full object-cover group-hover:scale-105 transition-transform duration-500',
             i === 0 ? 'h-full aspect-square' : 'aspect-square',

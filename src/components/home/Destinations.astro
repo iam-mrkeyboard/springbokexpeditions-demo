@@ -68,27 +68,17 @@ const allCards = [
         const name = nameOverrides[card.id] || card.data.name || '';
         const region = card.data.region || '';
         const summary = card.data.summary || '';
-        const isLocalImage = card.link === '/trekking';
         return (
           <a href={card.link} class="group relative aspect-[4/5] overflow-hidden rounded-2xl block">
             {hero && (
-              isLocalImage ? (
-                <img
-                  src={hero}
-                  alt={name}
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-              ) : (
-                <Image
-                  src={hero}
-                  alt={name}
-                  width={400}
-                  height={500}
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-              )
+              <Image
+                src={hero}
+                alt={name}
+                width={400}
+                height={500}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
             )}
             <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/30 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 p-6 text-white">

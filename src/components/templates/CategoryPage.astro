@@ -2,6 +2,7 @@
 import PublicLayout from '@/layouts/PublicLayout.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { withPublisher } from '@/lib/jsonld';
+import { Image } from 'astro:assets';
 import {
   ArrowRight, ArrowLeft, MapPin, Sparkles, Heart, Tent, Camera, Trees, Users, UtensilsCrossed, Ship, Check, Sun, CloudSun, CloudRain, Moon, Star, Bird, Compass,
 } from '@lucide/astro';
@@ -66,9 +67,11 @@ const EXPERIENCE_TO_CATEGORY: Record<string, string> = {
   transparentHeader={true}
 >
   <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
-    <img
-      src={exp.data.hero}
+    <Image
+      src={exp.data.hero || ''}
       alt={exp.data.name}
+      width={1920}
+      height={1080}
       class="absolute inset-0 w-full h-full object-cover scale-105"
       loading="eager"
       fetchpriority="high"
@@ -305,9 +308,11 @@ const EXPERIENCE_TO_CATEGORY: Record<string, string> = {
               class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
             >
               <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
-                <img
+                <Image
                   src={tour.data.hero}
                   alt={tour.data.title}
+                  width={600}
+                  height={450}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
@@ -382,9 +387,11 @@ const EXPERIENCE_TO_CATEGORY: Record<string, string> = {
               class="group relative overflow-hidden rounded-2xl bg-white border border-dusk-100 hover:border-safari-300 hover:shadow-lifted transition-all"
             >
               <div class="aspect-[4/3] overflow-hidden bg-dusk-200">
-                <img
-                  src={e.data.hero}
+                <Image
+                  src={e.data.hero || ''}
                   alt={e.data.name}
+                  width={600}
+                  height={450}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
