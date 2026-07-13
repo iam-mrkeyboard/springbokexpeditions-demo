@@ -1,5 +1,6 @@
 ---
-import '@fontsource-variable/fraunces/wght.css';
+import '@fontsource-variable/cormorant-garamond/wght.css';
+import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/inter/wght.css';
 import '@/styles/global.css';
 import Header from '@/components/layout/Header.astro';
@@ -112,7 +113,7 @@ const finalImageAlt = imageAlt || fullTitle;
       }}
       extend={{
         link: [
-          { rel: 'preconnect', href: 'https://images.unsplash.com' },
+          { rel: 'dns-prefetch', href: 'https://images.unsplash.com' },
           { rel: 'preconnect', href: 'https://res.cloudinary.com' },
           { rel: 'dns-prefetch', href: 'https://res.cloudinary.com' },
         ],
@@ -123,7 +124,24 @@ const finalImageAlt = imageAlt || fullTitle;
     />
 
     <slot name="head" />
-    <script is:inline src="//code.tidio.co/ged3fqw7scmaz4htuobj6gkqhbjwahip.js" async></script>
+    <script is:inline>
+      (function() {
+        var loaded = false;
+        function loadTidio() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '//code.tidio.co/ged3fqw7scmaz4htuobj6gkqhbjwahip.js';
+          s.async = true;
+          document.head.appendChild(s);
+        }
+        var events = ['scroll', 'click', 'touchstart', 'mousemove'];
+        events.forEach(function(e) {
+          window.addEventListener(e, loadTidio, { once: true, passive: true });
+        });
+        setTimeout(loadTidio, 4000);
+      })();
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-dusk-50 text-dusk-900">
     {!hideHeader && <Header transparent={transparentHeader} siteName={resolvedName} />}
