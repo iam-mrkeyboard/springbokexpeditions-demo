@@ -1,11 +1,11 @@
 ---
 name: Cultural Tours
 tagline: Meet the Maasai, Hadzabe, and local tribes
-summary: Genuine cultural encounters with Tanzania’s traditional tribes—Maasai bomas, Hadzabe hunter-gatherer walks, and Datoga blacksmiths.
+summary: Genuine cultural encounters with Tanzania’s traditional tribes - Maasai bomas, Hadzabe hunter-gatherer walks, and Datoga blacksmiths.
 description: |
   Go beyond the parks and connect with the people. Tanzania is home to over 120 tribes, each with its own language, customs, and history. Our cultural tours offer authentic, community-supported interactions that benefit local villages directly.
   
-  Walk with Hadzabe bushmen—one of the last hunter-gatherer tribes in Africa—as they forage and hunt using hand-carved bows. Visit an authentic Maasai boma to learn about their pastoralist lifestyle, traditional dances, and cattle herding. Observe Datoga blacksmiths shaping scrap metal into arrows and jewelry using ancient furnace techniques.
+  Walk with Hadzabe bushmen - one of the last hunter-gatherer tribes in Africa - as they forage and hunt using hand-carved bows. Visit an authentic Maasai boma to learn about their pastoralist lifestyle, traditional dances, and cattle herding. Observe Datoga blacksmiths shaping scrap metal into arrows and jewelry using ancient furnace techniques.
   
   These excursions are organized respectfully with tribal elders, promoting cultural exchange and supporting local schools and healthcare initiatives.
 hero: https://images.pexels.com/photos/12592433/pexels-photo-12592433.jpeg?auto=compress&cs=tinysrgb&w=1600

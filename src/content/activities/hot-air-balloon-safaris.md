@@ -7,7 +7,7 @@ description: |
   
   Your adventure begins in the early morning, before sunrise. While the sky is still painted with stars, you’ll be transferred to the launch site where the balloon is prepared. As the burners ignite and the canopy rises, excitement builds. Soon, you’ll gently lift off the ground and drift silently over the plains, with only the soft roar of the flame breaking the silence.
   
-  Once you touch down, tradition calls for a champagne toast in the bush, honoring the very first hot air balloon adventurers. This is followed by a freshly prepared gourmet bush breakfast set in the open savannah—a feast complete with tropical fruits, baked breads, hot coffee, and Tanzanian specialties.
+  Once you touch down, tradition calls for a champagne toast in the bush, honoring the very first hot air balloon adventurers. This is followed by a freshly prepared gourmet bush breakfast set in the open savannah - a feast complete with tropical fruits, baked breads, hot coffee, and Tanzanian specialties.
 hero: https://images.pexels.com/photos/15994191/pexels-photo-15994191.jpeg
 icon: Wind
 bestMonths: ['June', 'July', 'August', 'September', 'October', 'December', 'January', 'February']

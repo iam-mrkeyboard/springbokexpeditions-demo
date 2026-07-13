@@ -3,7 +3,7 @@ name: Zanzibar Stone Town Tour
 tagline: Explore historic Stone Town and local spice farms
 summary: Walk through the atmospheric, winding alleys of UNESCO-listed Stone Town, discover the tragic slave trade history, and experience the aromatic countryside spice farms.
 description: |
-  Stone Town is the cultural heart of Zanzibar, a magical Swahili coastal port where history, mystery, and spices blend into a UNESCO World Heritage treasure. On this privately guided tour, you will wander through the labyrinthine streets where Persian, Indian, Arabic, and European cultures have merged for centuries. Marvel at the grand, intricately carved wooden doors—some dating back generations—which symbolize the social status of the historic residents.
+  Stone Town is the cultural heart of Zanzibar, a magical Swahili coastal port where history, mystery, and spices blend into a UNESCO World Heritage treasure. On this privately guided tour, you will wander through the labyrinthine streets where Persian, Indian, Arabic, and European cultures have merged for centuries. Marvel at the grand, intricately carved wooden doors - some dating back generations - which symbolize the social status of the historic residents.
   
   With your local Swahili historian guide, visit critical sites of memory and heritage. Explore the Old Fort, the oldest building in town built by the Omani Arabs, and the Anglican Cathedral of Christ Church, which stands directly over the site of the former East African Slave Market. Enter the underground chambers where slaves were held in tragic conditions to understand the profound history of the island.
   

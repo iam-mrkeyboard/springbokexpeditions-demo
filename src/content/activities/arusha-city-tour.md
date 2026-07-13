@@ -3,7 +3,7 @@ name: Arusha City Tour
 tagline: Discover local markets, Tanzanite, and Maasai culture
 summary: Explore the vibrant safari gateway of Arusha, visiting Maasai curio markets, local historical hubs, and tasting authentic Tanzanian street food.
 description: |
-  Arusha is much more than just a passing gateway to the northern safari circuit—it is a bustling metropolis rich in Swahili heritage, culture, and colonial history. On this privately guided tour, you will dive into the heartbeat of the city. Guided by a passionate local expert, you'll walk through the historical German Boma, explore busy curio markets, and uncover the mysteries behind the rare blue gemstone of East Africa.
+  Arusha is much more than just a passing gateway to the northern safari circuit - it is a bustling metropolis rich in Swahili heritage, culture, and colonial history. On this privately guided tour, you will dive into the heartbeat of the city. Guided by a passionate local expert, you'll walk through the historical German Boma, explore busy curio markets, and uncover the mysteries behind the rare blue gemstone of East Africa.
   
   Begin your discovery at the Maasai Market Curio Shops, a colorful maze of hand-carved wooden sculptures, beaded jewelry, woven baskets, and bright kanga fabrics. Practice your bargaining skills with the local artisans. Next, visit the Cultural Heritage Center, an architectural masterpiece housing one of the largest collections of African art, mask carvings, and fine jewelry on the continent. Here, explore the specialized museum dedicated to Tanzanite, a gemstone a thousand times rarer than diamonds, found only in the foothills of Mount Meru.
   
