@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import PublicLayout from '../layouts/PublicLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import Features from '../components/home/Features.astro';
@@ -13,6 +12,7 @@ import TrekkingVideo from '../components/home/TrekkingVideo.astro';
 import ZanzibarVideo from '../components/home/ZanzibarVideo.astro';
 import { siteInfo, absoluteUrl } from '../lib/site';
 import { organizationJsonLd, websiteId, organizationId } from '../lib/jsonld';
+import { getToursForCategory } from '../lib/safari-categories';
 
 const orgGraph = {
   ...organizationJsonLd(),
@@ -49,8 +49,30 @@ const orgGraph = {
   ],
 };
 
-// Featured tours - dynamically loaded from MDX, sorted by featured flag then publishedAt
-const allTours = await getCollection('tours');
+const categories = [
+  'luxury',
+  'mid-range',
+  'budget',
+  'honeymoon',
+  'family',
+  'migration',
+  'photography',
+  'cultural',
+  'fly-in'
+] as const;
+
+const selectedToursList = [];
+const selectedTourIds = new Set<string>();
+
+for (const cat of categories) {
+  const catTours = await getToursForCategory(cat);
+  // Find first tour that isn't selected yet in this list
+  const tour = catTours.find((t) => !selectedTourIds.has(t.id)) || catTours[0];
+  if (tour) {
+    selectedToursList.push(tour);
+    selectedTourIds.add(tour.id);
+  }
+}
 
 const typeLabels: Record<string, string> = {
   safari: 'Wildlife Safari',
@@ -64,22 +86,18 @@ const typeLabels: Record<string, string> = {
   migration: 'Migration',
 };
 
-const featuredTours = allTours
-  .filter((t) => t.data.featured)
-  .sort((a, b) => new Date(b.data.publishedAt ?? '').getTime() - new Date(a.data.publishedAt ?? '').getTime())
-  .slice(0, 8)
-  .map((tour) => ({
-    slug: tour.id,
-    title: tour.data.title,
-    durationDays: tour.data.durationDays,
-    summary: tour.data.excerpt,
-    hero: tour.data.hero,
-    destination: tour.data.destinations[0]?.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'Tanzania',
-    type: tour.data.type,
-    typeLabel: typeLabels[tour.data.type] || tour.data.type,
-    styles: tour.data.styles,
-    badges: tour.data.badges || [],
-  }));
+const featuredTours = selectedToursList.map((tour) => ({
+  slug: tour.id,
+  title: tour.data.title,
+  durationDays: tour.data.durationDays,
+  summary: tour.data.excerpt,
+  hero: tour.data.hero,
+  destination: tour.data.destinations[0]?.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'Tanzania',
+  type: tour.data.type,
+  typeLabel: typeLabels[tour.data.type] || tour.data.type,
+  styles: tour.data.styles,
+  badges: tour.data.badges || [],
+}));
 ---
 
 <PublicLayout
