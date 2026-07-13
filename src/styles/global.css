@@ -128,7 +128,7 @@
   --color-dusk-900: #1B1A17;
 
   /* ---------- Typography ---------- */
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-display: 'Cormorant Garamond Variable', ui-serif, Georgia, serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* ---------- Type scale (additions to Tailwind defaults) ---------- */
@@ -389,3 +389,9 @@
   margin: 2rem 0;
 }
 .prose strong { color: var(--color-safari-900); font-weight: 600; }
+
+/* ---------- CSS Containment & Performance ---------- */
+.section-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
