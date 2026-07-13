@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { verifyTurnstileToken } from '../../lib/turnstile';
-import { sendPlanTripEmail } from '../../lib/email';
+import { verifyTurnstileToken } from '@/lib/turnstile';
+import { sendPlanTripEmail } from '@/lib/email';
 
 export const prerender = false;
 
