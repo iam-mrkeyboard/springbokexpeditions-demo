@@ -384,7 +384,11 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   ],
   migration: [
     'mara-river-crossing',
+    'great-migration-6day',
     'calving-migration-safari',
+    'calving-migration-5day',
+    'calving-migration-6day',
+    'calving-migration-8day',
     'western-serengeti-grumeti',
     'signature-northern-circuit',
   ],
