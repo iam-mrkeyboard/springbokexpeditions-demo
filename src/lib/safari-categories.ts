@@ -352,9 +352,6 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'northern-circuit-classic',
     'signature-northern-circuit',
     'calving-migration-safari',
-    'calving-migration-5day',
-    'calving-migration-6day',
-    'calving-migration-8day',
     'great-migration-6day',
     'birding-safari',
     'cultural-tanzania',
@@ -390,20 +387,16 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'mara-river-crossing',
     'great-migration-6day',
     'calving-migration-safari',
-    'calving-migration-5day',
-    'calving-migration-6day',
-    'calving-migration-8day',
     'western-serengeti-grumeti',
     'signature-northern-circuit',
   ],
   photography: [
     'photography-safari',
-    // custom-luxury removed per request
+    'lens-express-photo-safari',
+    'calving-season-photo-masterclass',
+    'serengeti-shadows-photo-expedition',
     'mara-river-crossing',
     'calving-migration-safari',
-    'calving-migration-5day',
-    'calving-migration-6day',
-    'calving-migration-8day',
   ],
   birding: [
     'birding-safari',
@@ -452,3 +445,38 @@ export const ALL_CATEGORIES: TourCategory[] = [
   'cultural',
   'fly-in',
 ];
+
+export const TOUR_ALTERNATE_DURATIONS: Record<string, { label: string; id: string }[]> = {
+  'calving-migration-5day': [
+    { label: '5 Days', id: 'calving-migration-5day' },
+    { label: '6 Days', id: 'calving-migration-6day' },
+    { label: '7 Days', id: 'calving-migration-safari' },
+    { label: '8 Days', id: 'calving-migration-8day' },
+  ],
+  'calving-migration-6day': [
+    { label: '5 Days', id: 'calving-migration-5day' },
+    { label: '6 Days', id: 'calving-migration-6day' },
+    { label: '7 Days', id: 'calving-migration-safari' },
+    { label: '8 Days', id: 'calving-migration-8day' },
+  ],
+  'calving-migration-safari': [
+    { label: '5 Days', id: 'calving-migration-5day' },
+    { label: '6 Days', id: 'calving-migration-6day' },
+    { label: '7 Days', id: 'calving-migration-safari' },
+    { label: '8 Days', id: 'calving-migration-8day' },
+  ],
+  'calving-migration-8day': [
+    { label: '5 Days', id: 'calving-migration-5day' },
+    { label: '6 Days', id: 'calving-migration-6day' },
+    { label: '7 Days', id: 'calving-migration-safari' },
+    { label: '8 Days', id: 'calving-migration-8day' },
+  ],
+  'great-migration-6day': [
+    { label: '6 Days', id: 'great-migration-6day' },
+    { label: '8 Days', id: 'mara-river-crossing' },
+  ],
+  'mara-river-crossing': [
+    { label: '6 Days', id: 'great-migration-6day' },
+    { label: '8 Days', id: 'mara-river-crossing' },
+  ],
+};
