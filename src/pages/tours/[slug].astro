@@ -45,9 +45,9 @@ const { Content } = await render(tour as any);
           <TourHighlights highlights={tour.data.highlights} />
           <TourItinerary itinerary={tour.data.itinerary} />
 
-          {tour.data.gallery.length > 0 && (
+          {/* tour.data.gallery.length > 0 && (
             <TourGallery images={tour.data.gallery} title={tour.data.title} />
-          )}
+          ) */}
 
           <TourIncludes inclusions={tour.data.inclusions} exclusions={tour.data.exclusions} />
         </div>
