@@ -387,7 +387,7 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'calving-migration-5day',
     'calving-migration-6day',
     'calving-migration-8day',
-    'western-serengeti-grumeti',
+    'western-serengeti-grumeti-migration',
     'signature-northern-circuit',
   ],
   photography: [
