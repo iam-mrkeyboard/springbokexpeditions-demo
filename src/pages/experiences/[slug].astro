@@ -22,6 +22,8 @@ const otherExperiences = allExperiences
   .filter((e) => e.id !== exp.id)
   .sort((a, b) => ((a.data as any).order as number) - ((b.data as any).order as number))
   .slice(0, 3);
+
+const heroUrl = exp.data.hero ? exp.data.hero.replace(/w=800/g, 'w=1920') : '';
 ---
 
 <PublicLayout
@@ -30,13 +32,14 @@ const otherExperiences = allExperiences
   transparentHeader={true}
 >
   <!-- Hero Banner -->
-  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
-      src={exp.data.hero || ''}
+      src={heroUrl || ''}
       alt={exp.data.name}
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: exp.data.heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />

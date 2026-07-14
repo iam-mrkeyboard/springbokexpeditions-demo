@@ -45,6 +45,8 @@ const relatedTours: {
   id: string;
   data: { title: string; durationDays: number };
 }[] = allDests ? [] : [];
+
+const heroUrl = destination.data.hero ? destination.data.hero.replace(/w=800/g, 'w=1920') : '';
 ---
 
 <PublicLayout
@@ -53,13 +55,14 @@ const relatedTours: {
   ogImage={destination.id === 'serengeti-national-park' ? '/og/destinations/serengeti-national-park.png' : undefined}
   transparentHeader={true}
 >
-  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] overflow-hidden bg-safari-900 text-white">
     <Image
-      src={destination.data.hero}
+      src={heroUrl}
       alt={destination.data.name}
       width={1920}
       height={1080}
       class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: (destination.data as any).heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />

@@ -40,6 +40,9 @@ const tazamaImages = {
   cta: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759133537/kilimanjaro/call-to-action/cta-3_rhubqu.jpg',
   prep: 'https://res.cloudinary.com/drhl0yu7y/image/upload/v1759229190/kilimanjaro/main-page/kilimanjaro5_y8r9ru.webp',
 };
+
+const rawHero = (trek.data.hero ?? route?.data.hero) || '';
+const heroUrl = rawHero ? rawHero.replace(/w=800/g, 'w=1920') : '';
 ---
 
 <PublicLayout
@@ -47,13 +50,14 @@ const tazamaImages = {
   description={trek.data.seo?.description ?? trek.data.excerpt}
   transparentHeader={true}
 >
-  <section class="relative h-[85vh] min-h-[620px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
-      src={(trek.data.hero ?? route?.data.hero) || ''}
+      src={heroUrl || ''}
       alt={`${trek.data.title} landscape`}
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: (trek.data as any).heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />

@@ -48,6 +48,8 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
   med: 'bg-savannah-200 text-savannah-900 border-savannah-300',
   low: 'bg-dusk-100 text-dusk-500 border-dusk-200',
 };
+
+const heroUrl = area.hero ? area.hero.replace(/w=800/g, 'w=1920') : '';
 ---
 
 <PublicLayout
@@ -55,13 +57,14 @@ const ratingColorMap: Record<'high' | 'med' | 'low', string> = {
   description={`Plan your visit to ${area.name}: best beaches, top things to do, where to stay, how to get there, and best time to visit. ${area.tagline}`}
   transparentHeader={true}
 >
-  <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
-      src={area.hero}
+      src={heroUrl}
       alt={area.name}
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: (area as any).heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />

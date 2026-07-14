@@ -59,6 +59,8 @@ const EXPERIENCE_TO_CATEGORY: Record<string, string> = {
   'cultural-tanzania': 'cultural',
   'fly-in-safari': 'fly-in',
 };
+
+const heroUrl = exp.data.hero ? exp.data.hero.replace(/w=800/g, 'w=1920') : '';
 ---
 
 <PublicLayout
@@ -66,13 +68,14 @@ const EXPERIENCE_TO_CATEGORY: Record<string, string> = {
   description={exp.data.summary}
   transparentHeader={true}
 >
-  <section class="relative h-[80vh] min-h-[560px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
-      src={exp.data.hero || ''}
+      src={heroUrl || ''}
       alt={exp.data.name}
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: exp.data.heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />
