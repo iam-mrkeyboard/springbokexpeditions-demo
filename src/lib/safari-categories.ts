@@ -351,10 +351,8 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   'mid-range': [
     'northern-circuit-classic',
     'signature-northern-circuit',
-    'calving-migration-safari',
     'birding-safari',
     'cultural-tanzania',
-    'mara-river-crossing',
     'family-safari',
     'walking-bush-safari',
     'cultural-walking-village',
