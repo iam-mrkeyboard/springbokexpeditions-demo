@@ -10,6 +10,7 @@ import TourBookingCTA from '@/components/tours/TourBookingCTA.astro';
 import TourGallery from '@/components/tours/TourGallery.astro';
 import { ArrowLeft, MapPin } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
+import { TOUR_ALTERNATE_DURATIONS } from '@/lib/safari-categories';
 
 export async function getStaticPaths() {
   const tours = await getCollection('tours');
@@ -19,6 +20,7 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const tour = (await getEntry('tours', slug!))!;
 const { Content } = await render(tour as any);
+const alternates = TOUR_ALTERNATE_DURATIONS[slug!] || [];
 
 ---
 
@@ -41,6 +43,26 @@ const { Content } = await render(tour as any);
               <Content />
             </div>
           </div>
+
+          {alternates.length > 0 && (
+            <div class="bg-safari-50 border border-safari-100 rounded-2xl p-6">
+              <p class="text-xs uppercase tracking-wider text-safari-800 font-semibold mb-3">Available Durations</p>
+              <div class="flex flex-wrap gap-2">
+                {alternates.map((alt) => (
+                  <a
+                    href={`/tours/${alt.id}`}
+                    class={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                      alt.id === slug
+                        ? 'bg-safari-600 text-white shadow-sm'
+                        : 'bg-white text-dusk-700 hover:bg-safari-100 border border-dusk-200'
+                    }`}
+                  >
+                    {alt.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           <TourHighlights highlights={tour.data.highlights} />
           <TourItinerary itinerary={tour.data.itinerary} />
