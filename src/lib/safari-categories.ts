@@ -397,8 +397,6 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'lens-express-photo-safari',
     'calving-season-photo-masterclass',
     'serengeti-shadows-photo-expedition',
-    'mara-river-crossing',
-    'calving-migration-safari',
   ],
   birding: [
     'birding-safari',
