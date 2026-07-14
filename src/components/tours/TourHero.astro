@@ -8,6 +8,7 @@ interface Props {
       hero: string;
       excerpt: string;
       featured?: boolean;
+      heroPosition?: string;
     };
   };
 }
@@ -23,6 +24,7 @@ const { tour } = Astro.props;
       width={1920}
       height={1080}
       class="w-full h-full object-cover"
+      style={{ objectPosition: tour.data.heroPosition || 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />
