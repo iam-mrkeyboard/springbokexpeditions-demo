@@ -352,7 +352,6 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
     'northern-circuit-classic',
     'signature-northern-circuit',
     'calving-migration-safari',
-    'great-migration-6day',
     'birding-safari',
     'cultural-tanzania',
     'mara-river-crossing',
@@ -385,7 +384,6 @@ export const CATEGORY_TOURS: Record<TourCategory, string[]> = {
   ],
   migration: [
     'mara-river-crossing',
-    'great-migration-6day',
     'calving-migration-safari',
     'western-serengeti-grumeti',
     'signature-northern-circuit',
