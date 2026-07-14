@@ -90,7 +90,7 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <a href="#" class="card card-hover p-7 group block">
+        <a href="#" class="card card-hover p-7 group block" aria-label="Learn more about our expertly curated safaris">
           <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
             <Compass size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
@@ -101,7 +101,7 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
             <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
           </span>
         </a>
-        <a href="#" class="card card-hover p-7 group block">
+        <a href="#" class="card card-hover p-7 group block" aria-label="Learn more about our local expertise">
           <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
             <Users size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
@@ -112,7 +112,7 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
             <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
           </span>
         </a>
-        <a href="#" class="card card-hover p-7 group block">
+        <a href="#" class="card card-hover p-7 group block" aria-label="Learn more about our sustainable and ethical travel promises">
           <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
             <Sparkles size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
@@ -123,7 +123,7 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
             <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
           </span>
         </a>
-        <a href="#" class="card card-hover p-7 group block">
+        <a href="#" class="card card-hover p-7 group block" aria-label="Learn more about our personalized travel services">
           <div class="w-14 h-14 rounded-2xl bg-savannah-100 flex items-center justify-center mb-5 group-hover:bg-savannah-500 transition-colors">
             <Sparkles size={26} class="text-savannah-700 group-hover:text-white transition-colors" />
           </div>
@@ -260,36 +260,8 @@ const featuredTours = tours.filter((t) => t.data.featured).slice(0, 3);
             </a>
           ))}
         </div>
-        <div class="text-center">
-          <a href="/contact" class="btn btn-primary">
-            <Calendar size={16} />
-            Plan Your Trip With Us
-            <ArrowRight size={16} />
-          </a>
-        </div>
       </div>
     </section>
   )}
 
-  <!-- Contact CTA -->
-  <section class="py-16 md:py-20 bg-dusk-50 section-lazy">
-    <div class="container-content text-center">
-      <h2 class="text-display-sm md:text-display-md font-display font-medium text-safari-900 mb-4">
-        Got a question? Want to design your trip?
-      </h2>
-      <p class="text-lg text-dusk-600 max-w-2xl mx-auto mb-8">
-        Send us a message, or chat on WhatsApp. We reply to every enquiry - usually within a few hours.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/contact" class="btn btn-primary">
-          <MapPin size={16} />
-          Contact Us
-        </a>
-        <a href="/tours" class="btn btn-outline">
-          Browse All Safaris
-          <ArrowRight size={16} />
-        </a>
-      </div>
-    </div>
-  </section>
 </PublicLayout>
