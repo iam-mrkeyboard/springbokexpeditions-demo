@@ -14,12 +14,13 @@ interface Props {
 }
 
 const { tour } = Astro.props;
+const heroUrl = tour.data.hero ? tour.data.hero.replace(/w=800/g, 'w=1920') : '';
 ---
 
-<section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] flex items-end overflow-hidden bg-safari-900 text-white">
+<section class="relative h-[55vh] min-h-[420px] md:h-[65vh] md:min-h-[520px] lg:h-[70vh] lg:min-h-[580px] flex items-end overflow-hidden bg-safari-900 text-white">
   <div class="absolute inset-0 z-0">
     <Image
-      src={tour.data.hero}
+      src={heroUrl}
       alt={tour.data.title}
       width={1920}
       height={1080}
