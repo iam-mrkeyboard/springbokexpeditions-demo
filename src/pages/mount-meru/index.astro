@@ -54,18 +54,19 @@ const gallery = [
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[90vh] min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
       src="https://res.cloudinary.com/drhl0yu7y/image/upload/v1762857871/meru/mount_meru_d0q59d.jpg"
       alt="Mount Meru rises above the savanna at golden hour"
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/40 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+    <!-- Single gradient overlay for readability and image vividness -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-20 md:pb-24 pt-32">
       <div class="max-w-3xl">
@@ -79,30 +80,6 @@ const gallery = [
         <p class="text-lg md:text-xl text-dusk-100/90 max-w-2xl leading-relaxed font-light mb-0">
           Standing quietly in Kilimanjaro’s shadow, Mount Meru is a 4,566m volcano of lush rainforest, open moorland, and one of the most dramatic summit ridges in Africa. It is the perfect warm-up for Kili - and an unforgettable adventure in its own right.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Trust strip -->
-  <section class="bg-safari-900 text-white border-t border-white/10">
-    <div class="container-content py-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">4,566m</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Socialist Peak</p>
-        </div>
-        <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">4 days</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Momella Route</p>
-        </div>
-        <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">2nd</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Highest in Tanzania</p>
-        </div>
-        <div>
-          <p class="font-display text-3xl md:text-4xl text-savannah-300">Arusha NP</p>
-          <p class="text-xs uppercase tracking-[0.18em] text-dusk-300 mt-1">Wildlife-rich slopes</p>
-        </div>
       </div>
     </div>
   </section>
@@ -239,7 +216,7 @@ const gallery = [
     <div class="container-content relative z-10">
       <div class="text-center max-w-2xl mx-auto mb-12">
         <p class="eyebrow text-savannah-300 mb-3">The Scenery</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-4">
+        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight text-white mb-4">
           Every section of Meru tells its own story.
         </h2>
         <p class="text-dusk-200 text-lg">
@@ -595,29 +572,7 @@ const gallery = [
     </div>
   </section>
 
-  <!-- Final CTA -->
-  <section class="section bg-safari-900 text-white">
-    <div class="container-content">
-      <div class="max-w-3xl mx-auto text-center">
-        <p class="eyebrow text-savannah-300 mb-3">Start planning</p>
-        <h2 class="text-display-sm md:text-display-md font-display font-medium tracking-tight mb-5">
-          Ready to climb Mount Meru?
-        </h2>
-        <p class="text-lg text-dusk-100/90 mb-8">
-          All treks are private and fully customized. Tell us your dates, group size, and whether you want to combine Meru with Kilimanjaro or a safari - we’ll send a full quote within 24 hours.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="/contact?subject=mount-meru" class="btn btn-primary px-8 py-3.5">
-            Get a custom quote
-            <ArrowRight size={16} />
-          </a>
-          <a href="/trekking/4-day-mount-meru-trekking" class="btn btn-outline-light px-8 py-3.5 border-white/30 hover:bg-white hover:text-safari-900">
-            See the 4-day itinerary
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- JSON-LD -->
   <script is:inline type="application/ld+json" set:html={JSON.stringify(withPublisher({
