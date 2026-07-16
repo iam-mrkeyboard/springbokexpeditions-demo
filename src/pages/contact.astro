@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '@/layouts/PublicLayout.astro';
-import { Mail, Phone, MapPin, MessageCircle, Clock, Send, Calendar, Heart, Compass, Check } from '@lucide/astro';
+import { Mail, Phone, MapPin, MessageCircle, Clock, Send, Calendar, Heart, Compass, Check, ArrowRight } from '@lucide/astro';
 import { Image } from 'astro:assets';
 
 const contactMethods = [
@@ -90,21 +90,20 @@ const faqs = [
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[70vh] min-h-[500px] md:h-[80vh] md:min-h-[600px] lg:h-[85vh] lg:min-h-[650px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <div class="absolute inset-0 z-0">
       <Image
-        src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=1920&q=80&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1781646292614-f52922f93198?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="Mount Kilimanjaro at sunset"
         width={1920}
         height={1080}
-        class="w-full h-full object-cover scale-105"
+        class="w-full h-full object-cover"
+        style={{ objectPosition: 'center 30%' }}
         loading="eager"
         fetchpriority="high"
       />
-      <!-- Dark overlay to ensure top navigation and breadcrumb legibility -->
-      <div class="absolute inset-0 bg-safari-950/35"></div>
-      <!-- Gradient overlay to enhance text legibility at the bottom -->
-      <div class="absolute inset-0 bg-gradient-to-t from-safari-900/95 via-safari-900/50 to-transparent"></div>
+      <!-- Single gradient overlay for readability and image vividness -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15"></div>
     </div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
@@ -165,11 +164,28 @@ const faqs = [
         <!-- Form -->
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl p-7 md:p-10 border border-dusk-100 shadow-soft">
+            <!-- Custom trip planner banner -->
+            <div class="bg-safari-50 border border-safari-100 rounded-xl p-5 mb-8 flex items-start gap-4 shadow-sm">
+              <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 mt-0.5">
+                <Compass size={20} />
+              </span>
+              <div>
+                <h4 class="font-display font-medium text-safari-900 text-base mb-1">Planning a custom Tanzania trip?</h4>
+                <p class="text-sm text-dusk-600 leading-relaxed mb-3">
+                  Instead of a general message, use our step-by-step trip planner. You'll be able to select your dream destinations, activities, group size, and budget for a tailor-made proposal.
+                </p>
+                <a href="/plan-my-trip" class="inline-flex items-center gap-1 text-sm font-semibold text-safari-700 hover:text-safari-950 transition-colors">
+                  Open Custom Trip Planner
+                  <ArrowRight size={14} />
+                </a>
+              </div>
+            </div>
+
             <h2 class="text-display-sm font-display font-medium text-safari-900 mb-2">
-              Send us a message
+              Send a general inquiry
             </h2>
             <p class="text-dusk-600 mb-8">
-              Fill in what you know - even rough ideas are useful. The more you tell us, the more useful our first reply can be.
+              For general questions, booking updates, partnerships, or administrative support, send us a message below.
             </p>
 
             <form id="contact-form" class="space-y-5">
@@ -234,58 +250,8 @@ const faqs = [
               </div>
 
               <div>
-                <label for="trip-type" class="block text-sm font-medium text-safari-900 mb-1.5">
-                  What kind of trip?
-                </label>
-                <select
-                  id="trip-type"
-                  name="tripType"
-                  class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
-                >
-                  <option value="">Not sure yet - help me decide</option>
-                  <option value="wildlife-safari">Wildlife safari</option>
-                  <option value="kilimanjaro">Kilimanjaro climb</option>
-                  <option value="meru">Mount Meru climb</option>
-                  <option value="zanzibar">Zanzibar holiday</option>
-                  <option value="mixed">Mixed itinerary (safari + beach or safari + climb)</option>
-                  <option value="cultural">Cultural / community-based tour</option>
-                  <option value="day-trip">Day trip (already in Tanzania)</option>
-                  <option value="other">Something else</option>
-                </select>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                  <label for="travelers" class="block text-sm font-medium text-safari-900 mb-1.5">
-                    How many travelers?
-                  </label>
-                  <input
-                    type="number"
-                    id="travelers"
-                    name="travelers"
-                    min="1"
-                    max="50"
-                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
-                    placeholder="2"
-                  />
-                </div>
-                <div>
-                  <label for="when" class="block text-sm font-medium text-safari-900 mb-1.5">
-                    When are you thinking?
-                  </label>
-                  <input
-                    type="text"
-                    id="when"
-                    name="when"
-                    class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition"
-                    placeholder="July 2026, or 'flexible'"
-                  />
-                </div>
-              </div>
-
-              <div>
                 <label for="message" class="block text-sm font-medium text-safari-900 mb-1.5">
-                  Tell us more <span class="text-sunset-500">*</span>
+                  How can we help you? <span class="text-sunset-500">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -293,7 +259,7 @@ const faqs = [
                   required
                   rows="5"
                   class="w-full px-4 py-2.5 bg-dusk-50 border border-dusk-200 rounded-lg text-dusk-900 focus:outline-none focus:ring-2 focus:ring-savannah-500 focus:border-transparent transition resize-y"
-                  placeholder="What do you want to see? Any must-dos? Budget range? Travel style (luxury, mid-range, adventurous)?"
+                  placeholder="Tell us what you need support with..."
                 ></textarea>
               </div>
 

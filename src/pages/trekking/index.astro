@@ -77,18 +77,19 @@ const whyTrek = [
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
       src="https://images.pexels.com/photos/10804209/pexels-photo-10804209.jpeg?auto=compress&cs=tinysrgb&w=1920"
       alt="Mount Kilimanjaro summit at sunrise"
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <!-- Single gradient overlay for readability and image vividness -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
