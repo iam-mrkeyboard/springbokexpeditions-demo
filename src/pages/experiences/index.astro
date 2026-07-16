@@ -96,13 +96,14 @@ const faqs = [
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
       src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1920&q=80&auto=format&fit=crop"
       alt="Tanzania safari at sunset"
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />

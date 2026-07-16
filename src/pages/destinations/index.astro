@@ -29,13 +29,14 @@ for (const r of regions.slice(1)) {
   transparentHeader={true}
 >
   <!-- Hero -->
-  <section class="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-safari-900 text-white">
+  <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] w-full overflow-hidden bg-safari-900 text-white">
     <Image
       src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=1920&q=80&auto=format&fit=crop"
       alt="Tanzania Serengeti plains at sunset"
       width={1920}
       height={1080}
-      class="absolute inset-0 w-full h-full object-cover scale-105"
+      class="absolute inset-0 w-full h-full object-cover"
+      style={{ objectPosition: 'center 30%' }}
       loading="eager"
       fetchpriority="high"
     />
@@ -44,7 +45,7 @@ for (const r of regions.slice(1)) {
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-12 sm:pb-20 pt-36 sm:pt-32">
       <div class="max-w-3xl">
-        <p class="eyebrow text-savannah-300 text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-[0.18em] leading-relaxed mb-3">6 national parks · 2 mountains · 1 island archipelago</p>
+        <p class="eyebrow text-savannah-300 text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-[0.18em] leading-relaxed mb-3">5 national parks · 2 mountains · 1 beach</p>
 
         <h1 class="font-display text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-display-lg font-medium tracking-tight text-white mb-4 sm:mb-6">
           Where will<br />
