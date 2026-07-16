@@ -105,24 +105,6 @@ const heroUrl = exp.data.hero ? exp.data.hero.replace(/w=800/g, 'w=1920') : '';
     </div>
   </section>
 
-  <section class="bg-safari-900 text-white border-b border-white/10">
-    <div class="container-content">
-      <div class="grid grid-cols-2 md:grid-cols-3 divide-x divide-white/10">
-        <div class="px-4 md:px-6 py-5 md:py-6 border-l-0">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Duration</p>
-          <p class="font-display text-xl md:text-2xl text-white">{exp.data.durationDays} days</p>
-        </div>
-        <div class="px-4 md:px-6 py-5 md:py-6">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Best months</p>
-          <p class="text-sm md:text-base text-white">{exp.data.bestMonths.slice(0, 3).join(', ')}{exp.data.bestMonths.length > 3 ? '…' : ''}</p>
-        </div>
-        <div class="px-4 md:px-6 py-5 md:py-6">
-          <p class="text-[10px] uppercase tracking-[0.18em] text-savannah-300/80 mb-1">Group size</p>
-          <p class="text-sm md:text-base text-white">From 2 travellers</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="section bg-dusk-50">
     <div class="container-content">
