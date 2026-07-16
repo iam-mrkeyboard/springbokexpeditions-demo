@@ -82,32 +82,7 @@ const heroUrl = destination.data.hero ? destination.data.hero.replace(/w=800/g, 
     </div>
   </section>
 
-  <section class="bg-safari-700 text-white">
-    <div class="container-content py-5 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
-      <div class="flex items-center gap-2">
-        <MapPin size={16} class="text-savannah-500" />
-        <span class="text-dusk-200">Region:</span>
-        <strong>{destination.data.region}</strong>
-      </div>
-      <div class="flex items-center gap-2">
-        <Sparkles size={16} class="text-savannah-500" />
-        <span class="text-dusk-200">Wildlife:</span>
-        <strong>{destination.data.wildlife.length} key species</strong>
-      </div>
-      <div class="flex items-center gap-2">
-        <Calendar size={16} class="text-savannah-500" />
-        <span class="text-dusk-200">Peak months:</span>
-        <strong>{highMonths.length === 0 ? 'Year-round' : highMonths.map((m) => monthMap[m.month] ?? m.month).join(', ')}</strong>
-      </div>
-      {destination.data.attractions.length > 0 && (
-        <div class="flex items-center gap-2">
-          <Star size={16} class="text-savannah-500" />
-          <span class="text-dusk-200">Highlights:</span>
-          <strong>{destination.data.attractions.length} main attractions</strong>
-        </div>
-      )}
-    </div>
-  </section>
+
 
   <section class="section bg-white">
     <div class="container-content">
