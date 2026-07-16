@@ -77,10 +77,9 @@ const heroUrl = exp.data.hero ? exp.data.hero.replace(/w=800/g, 'w=1920') : '';
       class="absolute inset-0 w-full h-full object-cover"
       style={{ objectPosition: exp.data.heroPosition || 'center 30%' }}
       loading="eager"
-      fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
+    <!-- Single gradient overlay for readability and image vividness -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-16 md:pb-20 pt-32">
       <div class="max-w-3xl">
