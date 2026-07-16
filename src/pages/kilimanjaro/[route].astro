@@ -70,8 +70,8 @@ const heroUrl = route.data.hero ? route.data.hero.replace(/w=800/g, 'w=1920') : 
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-tr from-black/90 via-black/50 to-black/30"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+    <!-- Single gradient overlay for readability and image vividness -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15"></div>
 
     <div class="container-content relative z-10 h-full flex flex-col justify-end pb-20 md:pb-24 pt-32">
       <div class="max-w-3xl">
