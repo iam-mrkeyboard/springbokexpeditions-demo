@@ -170,6 +170,38 @@ const trustCards = [
           <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="destinations">Please select at least one destination.</p>
         </div>
 
+        <!-- Step 2.5: Combination Components (Conditional for Combined Tour) -->
+        <div class="step p-8 md:p-10 hidden" data-step="combination-types" data-required="true" data-label="Combined components" data-field="destinations">
+          <h2 class="font-display text-2xl md:text-3xl text-safari-900 mb-2">What components would you like to combine?</h2>
+          <p class="text-dusk-600 mb-8">Select all the elements you want to include in your customized combined tour.</p>
+          <div class="grid sm:grid-cols-3 gap-3">
+            {[
+              { value: 'safari', label: 'Wildlife Safari', sub: 'National parks & game drives', icon: Compass },
+              { value: 'trekking', label: 'Trekking Climb', sub: 'Kilimanjaro or Mt. Meru climbs', icon: Mountain },
+              { value: 'zanzibar', label: 'Zanzibar Beach', sub: 'Stone Town & beach resort stay', icon: Sun },
+            ].map((o) => (
+              <label class="step-card cursor-pointer group">
+                <input type="checkbox" name="destinations" value={o.value} class="sr-only peer" />
+                <div class="relative p-5 rounded-xl border-2 border-dusk-200 bg-dusk-50 h-full peer-checked:border-safari-600 peer-checked:bg-safari-50 peer-checked:shadow-soft hover:border-savannah-300 transition-all">
+                  <div class="flex flex-col items-start gap-4">
+                    <span class="w-10 h-10 rounded-xl bg-safari-100 text-safari-700 flex items-center justify-center shrink-0 group-hover:bg-safari-600 group-hover:text-white transition-colors">
+                      <o.icon size={20} />
+                    </span>
+                    <div>
+                      <p class="font-display text-lg text-safari-900 leading-tight">{o.label}</p>
+                      <p class="text-xs text-dusk-500 mt-1.5">{o.sub}</p>
+                    </div>
+                  </div>
+                  <div class="card-dot absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-dusk-300 flex items-center justify-center transition-colors">
+                    <span class="check-mark w-2 h-2 rounded-full bg-white opacity-0 transition-opacity"></span>
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+          <p class="field-error text-sm text-sunset-600 mt-3 hidden" data-error="destinations">Please select at least one component to combine.</p>
+        </div>
+
 
 
         <!-- Step 4: Group size -->
@@ -299,10 +331,10 @@ const trustCards = [
           <p class="text-dusk-600 mb-6">This helps us pick the right lodges and camps for you.</p>
           <div class="grid sm:grid-cols-2 gap-3 mb-8">
             {[
-              { value: 'luxury', label: 'Luxury', sub: 'High-end lodges, fly-in camps', icon: Crown },
-              { value: 'mid-range', label: 'Mid-range', sub: 'Comfortable tents & lodges', icon: Star },
-              { value: 'budget', label: 'Budget', sub: 'Simple camping, public sites', icon: Tent },
-              { value: 'mixed', label: 'Mixed', sub: 'A bit of everything', icon: Layers },
+              { value: 'luxury', label: 'Luxury', sub: 'High-end & exclusive accommodation', icon: Crown },
+              { value: 'mid-range', label: 'Mid-range', sub: 'Comfortable and quality accommodation', icon: Star },
+              { value: 'budget', label: 'Budget', sub: 'Simple accommodation with affordable price', icon: Tent },
+              { value: 'mixed', label: 'Flexible', sub: 'A customized mix of different lodging styles', icon: Layers },
             ].map((o) => (
               <label class="step-card cursor-pointer group">
                 <input type="radio" name="accommodation" value={o.value} class="sr-only peer" />
@@ -339,18 +371,15 @@ const trustCards = [
           <p class="text-dusk-600 mb-8">Our team will contact you with your custom itinerary within 24 hours.</p>
 
           <!-- Professional review summary dashboard -->
-          <div id="review-summary" class="bg-gradient-to-br from-safari-900 to-safari-950 text-white rounded-2xl p-6 md:p-8 mb-8 border border-safari-800 shadow-lg relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-            
-            <div class="relative z-10">
-              <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-6">
-                <span class="w-8 h-8 rounded-lg bg-white/10 text-savannah-300 flex items-center justify-center font-display font-bold">
+          <div id="review-summary" class="bg-dusk-100/50 border border-dusk-200 rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
+            <div>
+              <div class="flex items-center gap-3 border-b border-dusk-200 pb-4 mb-6">
+                <span class="w-8 h-8 rounded-lg bg-safari-100 text-safari-800 flex items-center justify-center font-display font-bold">
                   ★
                 </span>
                 <div>
-                  <h3 class="font-display text-lg text-white font-medium">Your Custom Tanzania Profile</h3>
-                  <p class="text-xs text-white/60">Our experts will craft an itinerary based on these choices.</p>
+                  <h3 class="font-display text-lg text-safari-900 font-medium">Your Custom Tanzania Profile</h3>
+                  <p class="text-xs text-dusk-500">Our experts will craft an itinerary based on these choices.</p>
                 </div>
               </div>
               
@@ -500,8 +529,8 @@ const trustCards = [
   function updateActivePath() {
     const tripTypeVal = (document.querySelector('input[name="tripType"]:checked') as HTMLInputElement)?.value;
     
-    if (tripTypeVal === 'safari' || tripTypeVal === 'combined') {
-      activePath = ['trip-type', 'destinations', 'group', 'budget', 'dates', 'accommodation', 'contact'];
+    if (tripTypeVal === 'combined') {
+      activePath = ['trip-type', 'combination-types', 'group', 'budget', 'dates', 'accommodation', 'contact'];
     } else {
       activePath = ['trip-type', 'group', 'budget', 'dates', 'accommodation', 'contact'];
     }
@@ -572,6 +601,10 @@ const trustCards = [
     if (stepId === 'destinations') {
       const checked = step.querySelectorAll('input[type="checkbox"]:checked');
       if (checked.length === 0) { showFieldError('destinations', 'Please select at least one destination.'); return false; }
+    }
+    if (stepId === 'combination-types') {
+      const checked = step.querySelectorAll('input[type="checkbox"]:checked');
+      if (checked.length === 0) { showFieldError('destinations', 'Please select at least one component to combine.'); return false; }
     }
     if (stepId === 'group') {
       const sel = step.querySelector('select[name="adults"]') as HTMLSelectElement;
@@ -679,7 +712,7 @@ const trustCards = [
       '4000-6000': '$4,000–$6,000 / person', '6000-10000': '$6,000–$10,000 / person',
       '10000-plus': '$10,000+ / person', flexible: 'Flexible budget',
       '1-5': '1–5 days', '6-10': '6–10 days', '11-15': '11–15 days', '16-plus': '16+ days',
-      luxury: 'Luxury (High-end)', 'mid-range': 'Mid-range (Comfort)', budget: 'Budget (Camping)', mixed: 'Mixed style',
+      luxury: 'Luxury', 'mid-range': 'Mid-range', budget: 'Budget', mixed: 'Flexible',
     };
 
     const tripTypeVal = (document.querySelector('input[name="tripType"]:checked') as HTMLInputElement)?.value;
@@ -715,28 +748,26 @@ const trustCards = [
     html += `
       <div class="space-y-4">
         <div>
-          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Trip Type</span>
-          <span class="text-savannah-300 font-medium text-base">${labels[tripTypeVal] || 'Not selected'}</span>
+          <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Trip Type</span>
+          <span class="text-safari-800 font-semibold text-base block">${labels[tripTypeVal] || 'Not selected'}</span>
         </div>
     `;
 
     if (selectedDests.length > 0) {
       html += `
         <div>
-          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1.5">Destinations</span>
+          <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1.5">Destinations / Components</span>
           <div class="flex flex-wrap gap-1.5 max-w-xs">
-            ${selectedDests.map(d => `<span class="inline-flex items-center px-2 py-0.5 rounded bg-white/15 text-xs text-white">${d}</span>`).join('')}
+            ${selectedDests.map(d => `<span class="inline-flex items-center px-2 py-0.5 rounded bg-dusk-200 text-xs font-medium text-dusk-800 border border-dusk-300">${d}</span>`).join('')}
           </div>
         </div>
       `;
     }
 
-
-
     html += `
         <div>
-          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Accommodation Preference</span>
-          <span class="text-white font-medium text-sm block">${labels[accommodationVal] || 'Not selected'}</span>
+          <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Accommodation Preference</span>
+          <span class="text-dusk-800 font-medium text-sm block">${labels[accommodationVal] || 'Not selected'}</span>
         </div>
       </div>
     `;
@@ -746,22 +777,22 @@ const trustCards = [
       <div class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Dates</span>
-            <span class="text-white font-medium text-sm block">${datesDisplay || 'Not specified'}</span>
+            <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Dates</span>
+            <span class="text-dusk-800 font-medium text-sm block">${datesDisplay || 'Not specified'}</span>
           </div>
           <div>
-            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Duration</span>
-            <span class="text-white font-medium text-sm block">${labels[durationVal] || 'Not specified'}</span>
+            <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Duration</span>
+            <span class="text-dusk-800 font-medium text-sm block">${labels[durationVal] || 'Not specified'}</span>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Travelers</span>
-            <span class="text-white font-medium text-sm block">${travelersDisplay || 'Not specified'}</span>
+            <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Travelers</span>
+            <span class="text-dusk-800 font-medium text-sm block">${travelersDisplay || 'Not specified'}</span>
           </div>
           <div>
-            <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Budget Per Person</span>
-            <span class="text-white font-medium text-sm block">${labels[budgetVal] || 'Not specified'}</span>
+            <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1">Budget Per Person</span>
+            <span class="text-dusk-800 font-medium text-sm block">${labels[budgetVal] || 'Not specified'}</span>
           </div>
         </div>
     `;
@@ -769,9 +800,9 @@ const trustCards = [
     if (selectedActivities.length > 0) {
       html += `
         <div>
-          <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-1.5">Preferred Activities</span>
+          <span class="text-[10px] uppercase tracking-wider text-dusk-500 block mb-1.5">Preferred Activities</span>
           <div class="flex flex-wrap gap-1 max-w-xs">
-            ${selectedActivities.map(act => `<span class="inline-flex items-center px-2.5 py-0.5 rounded bg-savannah-500/20 text-xs text-savannah-300 font-medium border border-savannah-500/30">${act}</span>`).join('')}
+            ${selectedActivities.map(act => `<span class="inline-flex items-center px-2.5 py-0.5 rounded bg-savannah-50 text-xs text-savannah-800 font-medium border border-savannah-200">${act}</span>`).join('')}
           </div>
         </div>
       `;
