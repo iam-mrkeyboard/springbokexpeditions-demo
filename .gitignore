@@ -6,5 +6,4 @@ node_modules/
 .DS_Store
 .idea/
 src/db/
-src/pages/api/
 src/pages/og/
