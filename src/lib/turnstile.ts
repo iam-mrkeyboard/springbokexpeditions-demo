@@ -1,5 +1,5 @@
 export async function verifyTurnstileToken(token: string, ip?: string): Promise<{ success: boolean; error?: string }> {
-  const secretKey = process.env.TURNSTILE_SECRET_KEY;
+  const secretKey = import.meta.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY;
 
   // If secret key is not set (e.g., local development), bypass verification
   if (!secretKey || secretKey.includes('replace_with_your_secret_key') || secretKey === '') {
