@@ -634,6 +634,7 @@ const budgetOptions = [
         data.adults = adultsVal;
         data.children = childrenVal;
         data.travelers = adultsVal + childrenVal;
+        data.itineraryUrl = window.location.href;
 
         const res = await fetch('/api/enquire', {
           method: 'POST',

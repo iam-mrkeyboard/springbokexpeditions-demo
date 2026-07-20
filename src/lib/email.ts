@@ -13,6 +13,7 @@ export interface EnquiryData {
   email: string;
   phone?: string;
   message?: string;
+  itineraryUrl?: string;
 }
 
 export async function sendEnquiryEmail(data: EnquiryData): Promise<{ success: boolean; messageId?: string }> {
@@ -60,6 +61,13 @@ export async function sendEnquiryEmail(data: EnquiryData): Promise<{ success: bo
               <th style="text-align: left; padding: 12px 8px; color: #8a7a71; font-weight: 500; font-size: 14px; width: 35%; vertical-align: top;">Tour Name</th>
               <td style="text-align: left; padding: 12px 8px; color: #3d2a1d; font-weight: 600; font-size: 15px;">${data.tourTitle}</td>
             </tr>
+            ${data.itineraryUrl ? `
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <th style="text-align: left; padding: 12px 8px; color: #8a7a71; font-weight: 500; font-size: 14px; vertical-align: top;">Itinerary Link</th>
+              <td style="text-align: left; padding: 12px 8px; font-size: 15px;">
+                <a href="${data.itineraryUrl}" style="color: #3d2a1d; text-decoration: underline; font-weight: 600;" target="_blank">${data.itineraryUrl}</a>
+              </td>
+            </tr>` : ''}
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <th style="text-align: left; padding: 12px 8px; color: #8a7a71; font-weight: 500; font-size: 14px; vertical-align: top;">Customer Name</th>
               <td style="text-align: left; padding: 12px 8px; color: #3d2a1d; font-weight: 600; font-size: 15px;">${data.name}</td>
