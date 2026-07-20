@@ -7,7 +7,6 @@ import TourHighlights from '@/components/tours/TourHighlights.astro';
 import TourItinerary from '@/components/tours/TourItinerary.astro';
 import TourIncludes from '@/components/tours/TourIncludes.astro';
 import TourBookingCTA from '@/components/tours/TourBookingCTA.astro';
-import TourGallery from '@/components/tours/TourGallery.astro';
 import { ArrowLeft, MapPin } from '@lucide/astro';
 import { withPublisher } from '@/lib/jsonld';
 import { TOUR_ALTERNATE_DURATIONS } from '@/lib/safari-categories';
@@ -66,10 +65,6 @@ const alternates = TOUR_ALTERNATE_DURATIONS[slug!] || [];
 
           <TourHighlights highlights={tour.data.highlights} />
           <TourItinerary itinerary={tour.data.itinerary} />
-
-          {/* tour.data.gallery.length > 0 && (
-            <TourGallery images={tour.data.gallery} title={tour.data.title} />
-          ) */}
 
           <TourIncludes inclusions={tour.data.inclusions} exclusions={tour.data.exclusions} />
         </div>

@@ -13,7 +13,6 @@ const tourSchema = z.object({
   durationDays: z.number().int().positive(),
   difficulty: z.enum(['easy', 'moderate', 'challenging', 'strenuous']).optional(),
   hero: z.string(),
-  gallery: z.array(z.string()).optional().default([]),
   highlights: z.array(z.string()),
   itinerary: z.array(z.object({
     day: z.number().int().positive(),
@@ -44,7 +43,6 @@ const destinationSchema = z.object({
   region: z.string(),
   summary: z.string(),
   hero: z.string(),
-  gallery: z.array(z.string()).optional().default([]),
   wildlife: z.array(z.object({
     name: z.string(),
     fact: z.string(),
