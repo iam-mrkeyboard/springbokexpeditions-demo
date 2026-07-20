@@ -1,6 +1,6 @@
-import type { LocalImageService } from 'astro';
+import type { ExternalImageService } from 'astro';
 
-const service: LocalImageService = {
+const service: ExternalImageService = {
   validateOptions(options) {
     return options;
   },
