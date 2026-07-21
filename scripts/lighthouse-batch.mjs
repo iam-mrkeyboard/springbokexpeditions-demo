@@ -2,23 +2,23 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
+const PORT = process.env.PORT || '4321';
 const PAGES = [
-  ['home', 'http://127.0.0.1:4321/'],
-  ['tours-hub', 'http://127.0.0.1:4321/tours'],
-  ['tour-detail', 'http://127.0.0.1:4321/tours/signature-northern-circuit'],
-  ['dest-hub', 'http://127.0.0.1:4321/destinations'],
-  ['dest-detail', 'http://127.0.0.1:4321/destinations/serengeti-national-park'],
-  ['kilimanjaro', 'http://127.0.0.1:4321/kilimanjaro'],
-  ['kili-detail', 'http://127.0.0.1:4321/kilimanjaro/lemosho'],
-  ['zanzibar', 'http://127.0.0.1:4321/zanzibar'],
-  ['zanzibar-detail', 'http://127.0.0.1:4321/zanzibar/nungwi'],
-  ['experiences', 'http://127.0.0.1:4321/experiences'],
-  ['blog', 'http://127.0.0.1:4321/blog'],
-  ['blog-detail', 'http://127.0.0.1:4321/blog/best-time-to-visit-tanzania'],
-  ['contact', 'http://127.0.0.1:4321/contact'],
-  ['travel-info', 'http://127.0.0.1:4321/travel-info'],
-  ['gallery', 'http://127.0.0.1:4321/gallery'],
-  ['about', 'http://127.0.0.1:4321/about'],
+  ['home', `http://127.0.0.1:${PORT}/`],
+  ['tours-hub', `http://127.0.0.1:${PORT}/tours`],
+  ['tour-detail', `http://127.0.0.1:${PORT}/tours/signature-northern-circuit`],
+  ['dest-hub', `http://127.0.0.1:${PORT}/destinations`],
+  ['dest-detail', `http://127.0.0.1:${PORT}/destinations/serengeti-national-park`],
+  ['kilimanjaro', `http://127.0.0.1:${PORT}/kilimanjaro`],
+  ['kili-detail', `http://127.0.0.1:${PORT}/kilimanjaro/lemosho`],
+  ['zanzibar', `http://127.0.0.1:${PORT}/zanzibar`],
+  ['zanzibar-detail', `http://127.0.0.1:${PORT}/zanzibar/nungwi`],
+  ['experiences', `http://127.0.0.1:${PORT}/experiences`],
+  ['blog', `http://127.0.0.1:${PORT}/blog`],
+  ['blog-detail', `http://127.0.0.1:${PORT}/blog/best-time-to-visit-tanzania`],
+  ['contact', `http://127.0.0.1:${PORT}/contact`],
+  ['travel-info', `http://127.0.0.1:${PORT}/travel-info`],
+  ['about', `http://127.0.0.1:${PORT}/about`],
 ];
 
 const results = [];
