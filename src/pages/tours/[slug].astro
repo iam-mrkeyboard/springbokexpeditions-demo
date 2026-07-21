@@ -26,7 +26,6 @@ const alternates = TOUR_ALTERNATE_DURATIONS[slug!] || [];
 <PublicLayout
   title={tour.data.seo?.title || tour.data.title}
   description={tour.data.seo?.description || tour.data.excerpt}
-  ogImage={tour.id === 'signature-northern-circuit' ? '/og/tours/signature-northern-circuit.png' : undefined}
   transparentHeader={true}
 >
   <TourHero tour={tour} />

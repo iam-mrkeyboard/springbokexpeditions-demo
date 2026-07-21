@@ -34,10 +34,9 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'Stone Town',
     tagline: 'UNESCO old town — narrow alleys, carved doors, and the old slave market',
     description: 'Stone Town is the cultural heart of Zanzibar, a UNESCO World Heritage site of coral-rag buildings, intricately carved wooden doors, and a labyrinth of narrow alleys. Spend a day (or two) wandering the old quarter, visiting the former slave market, the Sultan\'s Palace, and the Old Fort, then eat dinner on the waterfront as the sun goes down over the Indian Ocean.',
-    hero: 'https://images.unsplash.com/photo-1505881502353-a1986add3762?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1601275253872-8470e23f0a96?w=1920&q=80&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1505881502353-a1986add3762?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['History', 'Architecture', 'Culture', 'Food', 'Photography', 'Sundowners'],
     highlights: [
@@ -66,10 +65,10 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'North Coast',
     tagline: 'The northwest tip — sunset beach, dhow building, and lively evenings',
     description: 'Nungwi sits at the very northwest tip of Zanzibar, with a wide sandy beach that doesn\'t disappear at high tide (a rare thing on the east coast). It\'s the most developed of the beach villages, with a long stretch of resorts, restaurants, and beach bars, and it\'s the best place on the island to watch the sun set into the Indian Ocean.',
-    hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['Sunsets', 'Beach bars', 'Swimming', 'Diving', 'Snorkeling', 'Lively atmosphere'],
     highlights: [
@@ -98,10 +97,10 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'North Coast',
     tagline: 'The calm, no-tide beach just south of Nungwi',
     description: 'Kendwa is a small village just south of Nungwi, with the same wide white-sand beach and the same lack of tidal flat. Quieter and a bit more upmarket than Nungwi, Kendwa is where most of Zanzibar\'s high-end beach resorts are clustered. The shallow water, swaying palms, and gentle breezes make it the most popular honeymoon beach on the island.',
-    hero: 'https://images.unsplash.com/photo-1559666126-84f389727b9a?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1559666126-84f389727b9a?w=1920&q=80&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['Honeymoons', 'Luxury resorts', 'Calm swimming', 'Romance', 'Beach relaxation'],
     highlights: [
@@ -130,9 +129,9 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'Northeast Coast',
     tagline: 'Quiet diving base on the doorstep of Mnemba Atoll',
     description: 'Matemwe is a string of small fishing villages along Zanzibar\'s northeast coast, looking out over the turquoise shallows that mark the edge of Mnemba Atoll. The diving and snorkeling here are the best on the island — Mnemba is a marine conservation area with year-round visibility, coral gardens, and regular dolphin and turtle encounters.',
-    hero: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['Diving', 'Snorkeling', 'Quiet beaches', 'Marine life', 'Mnemba Atoll'],
     highlights: [
@@ -161,9 +160,9 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'East Coast',
     tagline: 'Kitesurfing capital of East Africa',
     description: 'Paje is a small beach village on Zanzibar\'s east coast, famous throughout the kitesurfing world for its reliable side-shore winds from December to March and again from June to September. If you\'ve never kitesurfed, this is the place to learn. If you have, you already know about Paje.',
-    hero: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['Kitesurfing', 'Windsurfing', 'Beach bars', 'Young travellers', 'Backpackers'],
     highlights: [
@@ -192,9 +191,9 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'East Coast',
     tagline: 'Authentic fishing village with a quiet, community feel',
     description: 'Jambiani is what Paje was ten years ago — a working fishing village on Zanzibar\'s southeast coast, with a beautiful long beach, a few small guesthouses, and a strong sense of community. The pace is slower, the seaweed farms are still working, and the evenings are quiet. A good choice for travellers who want a real slice of Zanzibar life without the kitesurfing crowds.',
-    hero: 'https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=1920&q=80&auto=format&fit=crop',
+      'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     ],
     bestFor: ['Quiet beach', 'Authentic culture', 'Seaweed farms', 'Community tourism', 'Slow travel'],
     highlights: [
@@ -223,7 +222,7 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'Inland',
     tagline: 'Zanzibar\'s only national park — home of the red colobus monkey',
     description: 'Jozani-Chwaka Bay National Park is Zanzibar\'s only national park, a 50 km² reserve of coral-rag forest, mangrove boardwalk, and swamp. The star attraction is the Zanzibar red colobus monkey, found nowhere else on Earth. A 45-minute guided walk through the forest is a half-day must-do for any first-time visitor to the island.',
-    hero: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [],
     bestFor: ['Wildlife', 'Nature walks', 'Photography', 'Conservation', 'Family-friendly'],
     highlights: [
@@ -252,7 +251,7 @@ export const zanzibarAreas: ZanzibarArea[] = [
     region: 'West Coast',
     tagline: 'A 30-minute boat ride — giant tortoises and clear shallows',
     description: 'Prison Island (Changuu Island) sits 5 km northwest of Stone Town, a 30-minute dhow ride from the Zanzibar waterfront. The island\'s 19th-century "prison" was never actually used as one — the British built it as a quarantine station for yellow fever cases, then abandoned it. Today the main attractions are the 100+-year-old giant Aldabra tortoises and a small sandy beach for swimming and snorkeling.',
-    hero: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80&auto=format&fit=crop',
+    hero: 'https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554919/springbokexpeditions/images/photo-1505881502353-a1986add3762.jpg',
     gallery: [],
     bestFor: ['Half-day trip', 'Giant tortoises', 'Snorkeling', 'History', 'Family-friendly'],
     highlights: [

@@ -27,7 +27,7 @@ export const siteInfo = {
     instagram: 'https://instagram.com/springbokexpeditions',
     tripadvisor: 'https://tripadvisor.com/springbokexpeditions',
   },
-  defaultOgImage: '/og/default.png',
+  defaultOgImage: '/og/default.jpg',
   themeColor: '#1F3D2B',
   brand: {
     safariGreen: '#1F3D2B',

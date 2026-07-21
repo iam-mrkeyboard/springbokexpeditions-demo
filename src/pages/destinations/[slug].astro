@@ -52,7 +52,6 @@ const heroUrl = destination.data.hero ? destination.data.hero.replace(/w=800/g, 
 <PublicLayout
   title={destination.data.seo?.title || `${destination.data.name} | Tanzania Destination`}
   description={destination.data.seo?.description || destination.data.summary}
-  ogImage={destination.id === 'serengeti-national-park' ? '/og/destinations/serengeti-national-park.png' : undefined}
   transparentHeader={true}
 >
   <section class="relative h-[65vh] min-h-[460px] md:h-[80vh] md:min-h-[600px] lg:h-screen lg:min-h-[750px] overflow-hidden bg-safari-900 text-white">
