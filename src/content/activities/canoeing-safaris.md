@@ -8,7 +8,7 @@ description: |
   Unlike standard game drives, a canoeing safari allows you to experience nature from a quiet, water-level angle. You will drift silently past herds of waterbucks, bushbucks, and giraffes standing on the banks, and watch birds dive for fish.
   
   Led by an experienced canoeing guide, you will paddle sturdy, two-person canoes on calm waters, ensuring a relaxing and peaceful wildlife excursion.
-hero: https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80
+hero: https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554925/springbokexpeditions/images/photo-1507525428034-b723cf961d3e.jpg
 icon: Ship
 bestMonths: ['January', 'February', 'June', 'July', 'August', 'September', 'October', 'December']
 duration: 2-3 hours

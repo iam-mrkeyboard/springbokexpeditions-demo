@@ -8,7 +8,7 @@ description: |
   Unlike standard game drives, a walking safari engages all your senses. You will smell crushed wild herbs, touch trees, listen to animal warning calls, and learn how to read footprints in the sand to figure out which predator passed by just hours earlier.
   
   This is a safe and highly regulated activity. We walk in small groups at a comfortable pace, keeping a safe distance from larger mammals while learning about the intricate local ecosystem.
-hero: https://images.unsplash.com/photo-1634462151395-51b11a780114?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+hero: https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554934/springbokexpeditions/images/photo-1634462151395-51b11a780114.jpg
 icon: Trees
 bestMonths: ['June', 'July', 'August', 'September', 'October']
 duration: 2-4 hours

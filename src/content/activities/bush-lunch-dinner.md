@@ -8,7 +8,7 @@ description: |
   Your private table will be set in the middle of the savannah, complete with fine linens, silverware, and comfortable chairs. A dedicated chef and service team will prepare a multi-course gourmet meal right on site, featuring fresh Tanzanian ingredients and international culinary styles.
   
   Surrounded by the sights and sounds of the wild, this exclusive experience is perfect for honeymoons, anniversaries, or celebrating the final night of your Tanzanian safari.
-hero: https://serengetinationalparksafaris.com/wp-content/uploads/2023/03/adumu-safaris-gnu-migration-camp-ndutu-bush-dinner.jpg
+hero: https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784555365/springbokexpeditions/images/MR-Bush-Dinner.webp
 icon: UtensilsCrossed
 bestMonths: ['June', 'July', 'August', 'September', 'October', 'December', 'January', 'February']
 duration: 2-3 hours

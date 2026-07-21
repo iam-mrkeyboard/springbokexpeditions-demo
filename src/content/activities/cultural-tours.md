@@ -8,7 +8,7 @@ description: |
   Walk with Hadzabe bushmen - one of the last hunter-gatherer tribes in Africa - as they forage and hunt using hand-carved bows. Visit an authentic Maasai boma to learn about their pastoralist lifestyle, traditional dances, and cattle herding. Observe Datoga blacksmiths shaping scrap metal into arrows and jewelry using ancient furnace techniques.
   
   These excursions are organized respectfully with tribal elders, promoting cultural exchange and supporting local schools and healthcare initiatives.
-hero: https://images.pexels.com/photos/12592433/pexels-photo-12592433.jpeg?auto=compress&cs=tinysrgb&w=1600
+hero: https://res.cloudinary.com/wqmnkfgf/image/upload/q_auto,f_auto/v1784554928/springbokexpeditions/images/pexels-photo-12592433.jpg
 icon: Users
 bestMonths: ['January', 'February', 'June', 'July', 'August', 'September', 'October']
 duration: Half day
